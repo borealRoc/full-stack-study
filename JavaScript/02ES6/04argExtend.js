@@ -20,4 +20,4 @@ console.log(obj3) //{ a: 1, b: 2 }
 // 2.2 扩展数组
 // eg: 统计一个HTML页面有多少种标签
 const nodes = [...document.querySelectorAll('*')].map(v => v.tagName)
-const results = new Set(nodes).size
+const result = new Set(nodes).size
