@@ -18,12 +18,12 @@ document.onclick = () => {
     const arr = [1, 2]
     arr.show = () => alert(this)
     arr.show() //[object Window]
-} 
+}
 document.onclick = function () {
     const arr = [1, 2]
     arr.show = () => alert(this)
     arr.show() //[object HTMLDocument]
-} 
+}
 const obj = {
     a: 1,
     b: 2,
@@ -44,5 +44,26 @@ const obj = {
         }, 100)
     }
 }
-
 // 4.2、this指向恒定，即使用bind,也无法改变箭头函数的this
+window.name = 'sun'
+window.age = 20
+const per = {
+    name: 'xu',
+    age: 17
+}
+const obj = {
+    name: 'liu',
+    age: 18,
+    showName() {
+        console.log(this.name) //'liu'
+    },
+    showPerName() {
+        obj.showName.bind(per)() //'xu'
+    },
+    showAge: () => {
+        console.log(this.age) // 20
+    },
+    showPerAge: () => {
+        obj.showAge.bind(per)() //20
+    },
+}
