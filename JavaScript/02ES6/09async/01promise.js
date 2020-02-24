@@ -49,3 +49,4 @@ Promise.race([p2, p3]).then(result => {
 }).catch(error => {
     console.log(error)  // 执行结果是'failed',因为它获得比较快
 })
+
