@@ -40,7 +40,7 @@ const obj = {
     },
     showC: function () {
         setTimeout(() => {
-            console.log(this.c)
+            console.log(this.c) //3
         }, 100)
     }
 }
