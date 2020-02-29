@@ -5,7 +5,7 @@ const show = (a = 1,b = 2, c = 3) => console.log(a, b, c)
 show(4) //4, 2, 3
 
 // 1.2 2、剩余参数：剩余参数的...必须放在最后
-const add = (a, b, ...more) => more.reduce((m,n) => m + n) + a + b
+const add = (a, b, ...more) => more.reduce((m,n) => m + n) + a + b //more是数组
 add(1, 2, 3, 4, 5) //15
 
 // 2. 扩展符号...
