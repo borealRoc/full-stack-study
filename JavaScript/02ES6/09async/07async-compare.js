@@ -1,6 +1,13 @@
 // 回调地狱的解决方式：Promise、generator和async/await的对比
 
-// 1、普通异步方式
+// 1、同步方式
+// 优点：简单明了
+// 缺点：性能差, 而且不能保证结果返回顺序
+const data1 = $.ajax({ url: 'url1' })
+const data2 = $.ajax({ url: 'url2' })
+const data3 = $.ajax({ url: 'url3' })
+
+// 2、普通异步方式
 // 优点：性能好
 // 缺点：多重嵌套,书写复杂
 $.ajax({
@@ -32,13 +39,6 @@ $.ajax({
         console.log('请求1报错')
     }
 })
-
-// 2、同步方式
-// 优点：简单明了
-// 缺点：性能差, 而且不能保证结果返回顺序
-const data1 = $.ajax({ url: 'url1' })
-const data2 = $.ajax({ url: 'url2' })
-const data3 = $.ajax({ url: 'url3' })
 
 // 3、Promise对象
 // 优点：相比普通异步，书写稍微简单
