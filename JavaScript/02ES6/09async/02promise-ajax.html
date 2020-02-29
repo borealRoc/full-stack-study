@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./generatorTest/jquery.js"></script>
+</head>
+
+<body>
+    <script>
+        $(function () {
+            // promise配合ajax使用
+            const path1 = '././generatorTest/1.txt';
+            const path2 = '././generatorTest/2.txt';
+            const path3 = '././generatorTest/3.txt';
+
+            const req1 = $.ajax({ url: path1, dataType: 'json' })
+            req1.then(data1 => {
+                console.log('req1', data1) //req1 {a: 3, b: 15}
+                if (data1.a + data1.b < 10) {
+                    const req2 = $.ajax({ url: path2, dataType: 'json' })
+                    req2.then(data2 => console.log(`req2`, data2), err => console.log(err))
+                } else {
+                    const req3 = $.ajax({ url: path3, dataType: 'json' })
+                    req3.then(data3 => console.log(`req3`, data3), err => console.log(err)) //{name: "xu", age: 18}
+                }
+            }, err => console.log(err))
+        })
+
+    </script>
+</body>
+
+</html>
