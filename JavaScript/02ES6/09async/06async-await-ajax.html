@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./generatorTest/jquery.js"></script>
+</head>
+
+<body>
+    <script>
+        $(function () {
+            // asycn + await配合ajax使用
+            const path1 = '././generatorTest/1.txt';
+            const path2 = '././generatorTest/2.txt';
+            const path3 = '././generatorTest/3.txt';
+
+            (async () => {
+                let data1 = await $.ajax({ url: path1, dataType: 'json' })
+                console.log(data1); //{"a": 3, "b": 5}
+                if (data1.a + data1.b < 10) {
+                    let data2 = await $.ajax({ url: path2, dataType: 'json' })
+                    console.log(data2); // [12, 5, 8, 3]
+                } else {
+                    let data3 = await $.ajax({ url: path3, dataType: 'json' })
+                    console.log(data3); //{"name": "blue", "age": 18}
+                }
+            })()
+        })
+
+    </script>
+</body>
+
+</html>
