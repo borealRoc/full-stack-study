@@ -1,0 +1,16 @@
+{
+  "name": "javascript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "02ES6/09async/08promise-theory.js",
+  "scripts": {
+    "test": "promises-aplus-tests 02ES6/09async/08promise-theory.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jquery": "^3.4.1",
+    "promises-aplus-tests": "^2.1.2"
+  }
+}
