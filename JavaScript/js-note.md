@@ -3,3 +3,4 @@
 3. JavaScript运行机制  
 <http://www.ruanyifeng.com/blog/2014/10/event-loop.html>  
 <https://juejin.im/post/59e85eebf265da430d571f89>
+4. 手写Promise<https://juejin.im/post/5c41297cf265da613356d4ec#heading-5>
