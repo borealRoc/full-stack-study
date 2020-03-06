@@ -13,8 +13,8 @@
 // 3.1 进入整体代码(宏任务)后，开始第一次循环。
 // 3.2 接着执行所有的微任务。
 // 3.3 然后再次从宏任务开始，找到其中一个任务队列执行完毕，再执行所有的微任务
-console.log('1');
 
+console.log('1');
 setTimeout(function() {
     console.log('2');
     process.nextTick(function() {
@@ -36,7 +36,6 @@ new Promise(function(resolve) {
 }).then(function() {
     console.log('8')
 })
-
 setTimeout(function() {
     console.log('9');
     process.nextTick(function() {
