@@ -17,14 +17,14 @@ http.createServer((req, res) => {
         // 1. 动词为get/post/head
         // 2. 没有自定义请求头
         // 3. Content-Type是application/x- www-form-urlencoded，multipart/form-data或text/plain之一
-        res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
+        res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500") //允许所有设置为：'*'
         // 如果要携带cookie信息，则请求变为credential请求
         res.setHeader("Access-Control-Allow-Credentials", "true")
         res.end(JSON.stringify([{name: 'xu', age: 17}]))
     } else if (method === 'OPTIONS' && url === '/user') {
         // preflight请求，需要响应浏览器发出的options请求(预检请求)，并根据情况设置响应头
         res.writeHead(200, {
-            "Access-Control-Allow-Origin": "http://127.0.0.1:5500",
+            "Access-Control-Allow-Origin": "http://127.0.0.1:5500", //允许所有设置为：'*'
             "Access-Control-Allow-Headers": "X-Token,Content-Type",
             "Access-Control-Allow-Methods": "GET,POST,PUT",
             // 如果要携带cookie信息，则请求变为credential请求

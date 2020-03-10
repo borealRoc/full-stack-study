@@ -14,7 +14,7 @@
     <script>
         const _name = document.getElementById('name'),
               _age = document.getElementById('age');
-        axios.post('http://192.168.1.101:3000/user', {foo: 'bar'}, {
+        axios.post('http://192.168.1.101:3000/user', {foo: 'post请求传给服务器的数据'}, {
             headers: {
                 'X-token': 'token'
             },
