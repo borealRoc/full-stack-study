@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>socket.io实现双向通信</title>
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div id="time"></div>
+    <script>
+        const _time = document.getElementById('time')
+        const socket = io.connect('ws://localhost:3000/')
+        // socket.emit 发送
+        socket.emit('sendMsgFromClient', 1, 2, 3)
+        // socket.on 接收
+        socket.on('sendMsgFromServer', res => {
+            _time.innerHTML = res
+        })
+    </script>
+</body>
+</html>
