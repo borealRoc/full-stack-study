@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用CORS实现跨域</title>
+    <!-- 为什么这里可以引用到CDN上的axios.js,因为<script>的src属性不跨越，这也是JSONP的原理 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>使用CORS实现跨域</h1>
+    <h2>我是<span id="name"></span>，我今年<psan id="age"></psan>岁</h2>
+    <script>
+        const _name = document.getElementById('name'),
+              _age = document.getElementById('age');
+        axios.post('http://192.168.1.101:3000/user', {foo: 'bar'}, {
+            headers: {
+                'X-token': 'token'
+            },
+            withCredentials:true
+        })
+        .then(res => res.data)
+        .then(users => {
+            _name.innerText = users[0].name
+            _age.innerText = users[0].age
+        })
+    </script>
+</body>
+</html> 
