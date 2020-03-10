@@ -1,9 +1,6 @@
-// 用来发送https请求
-const originRequest = require("request");
-// 类似服务端jquery
-const cheerio = require("cheerio");
-// 解码
-const iconv = require("iconv-lite");
+const originRequest = require("request") // 用来发送https请求
+const cheerio = require("cheerio") // 类似服务端jquery
+const iconv = require("iconv-lite") // 解码
 
 const request = (url, callback) => {
     const opts = {
