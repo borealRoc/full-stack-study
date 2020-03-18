@@ -1,6 +1,6 @@
 <template>
   <div class="course-cart-comp">
-    <h4>课程购物车</h4>
+    <h4>{{courseCartTitle}}</h4>
     <table v-if="courseCarts.length > 0">
       <thead>
         <tr>
@@ -42,6 +42,7 @@
 <script>
 export default {
   name: "CourseCart",
+  inject: ['courseCartTitle'],
   props: ["courseCarts"],
   methods: {
     minus(index) {

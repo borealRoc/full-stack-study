@@ -17,16 +17,17 @@
           </dl>
           <dl>
             <dt>1.3 兄弟组件</dt>
-            <dd><router-link to="/course">1.3.1 通过共同的父组件，用事件把数据传给父组件，再油父组件传给子组件</router-link></dd>
-            <dd>1.3.2 通过共同的祖辈组件搭桥，$parent或$root</dd>
+            <dd><router-link to="/course">1.3.1 通过共同的父组件，用事件把数据传给父组件，再由父组件传给子组件</router-link></dd>
+            <dd><router-link to="/course">1.3.2 通过共同的祖辈组件搭桥，$parent或$root</router-link></dd>
+            <dd>1.3.3 上面两种方式本质上是一样的，但方式一比较容易好[容易理解]</dd>
           </dl>
           <dl>
             <dt>1.4 祖先和后代之间</dt>
-            <dd>1.4.1 provide/inject：能够实现祖先给后代传值</dd>
+            <dd><router-link to="/course">1.4.1 provide/inject：能够实现祖先给后代传值</router-link></dd>
           </dl>
           <dl>
             <dt>1.5 任意两个组件之间</dt>
-            <dd>1.5.1 事件总线：创建一个Bus类负责事件派发、监听和回调管理</dd>
+            <dd><router-link to="/course">1.5.1 事件总线：创建一个Bus类负责事件派发、监听和回调管理</router-link></dd>
             <dd>1.5.2 Vuex</dd>
           </dl>
         </li>
@@ -65,17 +66,19 @@ export default {
 .com-pratice-ctn {
   display: flex;
 }
-.com-lists {
-  flex: 1;
-}
+.com-lists,
 .com-ctt {
-  flex: 2;
+  flex: 1;
+  padding-left: 20px;
 }
 h1 {
   color: red;
 }
 h2 {
   color: green;
+}
+ul {
+  list-style: none;
 }
 dt {
   color: blue;
@@ -86,8 +89,5 @@ dd {
 }
 dl {
   line-height: 2;
-}
-.com-ctt {
-  padding-left: 20px;
 }
 </style>

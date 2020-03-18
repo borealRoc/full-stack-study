@@ -12,9 +12,20 @@ export default {
   components: {
     ComPratice
   },
+  provide() {
+    return {
+      addCourseTitle: "新增课程",
+      courseListsTitle: "课程列表",
+      courseCartTitle: "课程购物车"
+    };
+  },
   mounted() {
     this.$refs.ComPratice.course = "VUE"
     this.$children[0].title = "组件化实践"
+    // 测试总线模式$bus,接收AddCourse.vue传过来的数据
+    this.$bus.$on("$busTest", arg => {
+      console.log(arg)
+    })
   }
 };
 </script>
@@ -25,7 +36,6 @@ export default {
   margin: 0;
 }
 a {
-  text-decoration: none;
-  color: #111;;
+  color: #111;
 }
 </style>

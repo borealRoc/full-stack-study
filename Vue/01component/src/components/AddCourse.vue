@@ -1,6 +1,6 @@
 <template>
   <div class="add-course-comp">
-    <h4>新增课程</h4>
+    <h4>{{addCourseTitle}}</h4>
     <div class="course-item">
       <label>课程名称:</label>
       <input type="text" placeholder="请输入课程名称" v-model="courseItem.name" />
@@ -16,6 +16,7 @@
 <script>
 export default {
   name: "AddCourse",
+  inject: ['addCourseTitle'],
   data() {
     return {
       courseItem: {
@@ -32,7 +33,9 @@ export default {
       // 兄弟组件通信方式二：
       // 通过共同的祖辈组件搭桥，$parent或$root
       if (this.courseItem.name && this.courseItem.price) {
-        this.$parent.$emit("addToLists", this.courseItem);
+        this.$parent.$emit("addToLists", this.courseItem)
+        // 测试总线模式$bus,给App.vue传数据
+        this.$bus.$emit('$busTest', this.courseItem.name)
         this.courseItem.name = ""
         this.courseItem.price = ""
       } else {

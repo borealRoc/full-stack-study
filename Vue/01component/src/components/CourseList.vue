@@ -1,6 +1,6 @@
 <template>
     <div class="course-lists-comp">
-        <h4>课程列表</h4>
+        <h4>{{courseListsTitle}}</h4>
         <table>
             <thead>
                 <th>课程名称</th>
@@ -21,6 +21,7 @@
 <script>
     export default {
         name: 'CourseList',
+        inject: ['courseListsTitle'],
         props: ['courseLists'],
         methods: {
             addToCart(index) {
