@@ -24,4 +24,8 @@ export default {
   padding: 0;
   margin: 0;
 }
+a {
+  text-decoration: none;
+  color: #111;;
+}
 </style>

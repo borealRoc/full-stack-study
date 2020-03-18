@@ -8,8 +8,8 @@
           <dl>
             <dt>1.1 父组件 => 子组件</dt>
             <dd><router-link to="/course">1.1.1 属性props</router-link></dd>
-            <dd><router-link to="/course">1.1.2 引用refs -- [不建议使用]</router-link></dd>
-            <dd><router-link to="/course">1.1.3 子组件chidren -- [不建议使用]</router-link></dd>
+            <dd><router-link to="/course">1.1.2 引用refs -- [不建议使用,相当于在子组件直接更改Prop]</router-link></dd>
+            <dd><router-link to="/course">1.1.3 子组件chidren -- [不建议使用,相当于在子组件直接更改Prop]</router-link></dd>
           </dl>
           <dl>
             <dt>1.2 子组件 => 父组件</dt>
