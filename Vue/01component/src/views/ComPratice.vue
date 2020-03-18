@@ -28,7 +28,7 @@
           <dl>
             <dt>1.5 任意两个组件之间</dt>
             <dd><router-link to="/course">1.5.1 事件总线：创建一个Bus类负责事件派发、监听和回调管理</router-link></dd>
-            <dd>1.5.2 Vuex</dd>
+            <dd>1.5.2 Vuex: 创建唯一的全局数据管理者store，通过它管理数据并通知组件状态变更</dd>
           </dl>
         </li>
         <li class="com-list">
