@@ -1,19 +1,19 @@
 <template>
   <div class="com-pratice">
-    <h1 class="com-pratice-hd">Vue组件化实践</h1>
+    <h1 class="com-pratice-hd">{{course}}{{title}}</h1>
     <div class="com-pratice-ctn">
       <ul class="com-lists">
         <li class="com-list">
           <h2>1. 组件传值、通信</h2>
           <dl>
             <dt>1.1 父组件 => 子组件</dt>
-            <dd>1.1.1 属性props</dd>
-            <dd>1.1.2 引用refs</dd>
-            <dd>1.1.3 子组件chidren</dd>
+            <dd><router-link to="/course">1.1.1 属性props</router-link></dd>
+            <dd><router-link to="/course">1.1.2 引用refs -- [不建议使用]</router-link></dd>
+            <dd><router-link to="/course">1.1.3 子组件chidren -- [不建议使用]</router-link></dd>
           </dl>
           <dl>
             <dt>1.2 子组件 => 父组件</dt>
-            <dd>1.2.1 自定义事件</dd>
+            <dd><router-link to="/course">1.2.1 自定义事件</router-link></dd>
           </dl>
           <dl>
             <dt>1.3 兄弟组件</dt>
@@ -39,7 +39,7 @@
         </li>
       </ul>
       <div class="com-ctt">
-        
+        <router-view></router-view>
       </div>
     </div>
   </div>
@@ -49,7 +49,8 @@
 export default {
   name: "ComPratice",
   props: {
-    msg: String
+    title: String,
+    course: String,
   }
 };
 </script>
@@ -84,5 +85,8 @@ dd {
 }
 dl {
   line-height: 2;
+}
+.com-ctt {
+  padding-left: 20px;
 }
 </style>

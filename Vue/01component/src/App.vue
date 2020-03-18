@@ -1,18 +1,22 @@
 <template>
   <div id="app">
-    <ComPratice msg="Welcome to Your Vue.js App"/>
+    <ComPratice course="vue" title="组件化" ref="ComPratice" />
   </div>
 </template>
 
 <script>
-import ComPratice from './components/ComPratice.vue'
+import ComPratice from "./views/ComPratice.vue";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
     ComPratice
+  },
+  mounted() {
+    this.$refs.ComPratice.course = "VUE"
+    this.$children[0].title = "组件化实践"
   }
-}
+};
 </script>
 
 <style>
