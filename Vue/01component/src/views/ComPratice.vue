@@ -17,7 +17,8 @@
           </dl>
           <dl>
             <dt>1.3 兄弟组件</dt>
-            <dd>1.3.1 通过共同的祖辈组件搭桥，$parent或$root</dd>
+            <dd><router-link to="/course">1.3.1 通过共同的父组件，用事件把数据传给父组件，再油父组件传给子组件</router-link></dd>
+            <dd>1.3.2 通过共同的祖辈组件搭桥，$parent或$root</dd>
           </dl>
           <dl>
             <dt>1.4 祖先和后代之间</dt>

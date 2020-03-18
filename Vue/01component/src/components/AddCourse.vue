@@ -15,22 +15,31 @@
 
 <script>
 export default {
-    name: 'AddCourse',
-    data() {
-        return {
-            courseItem: {
-                name: '',
-                price: null
-            }
-        }
-    },
-    methods: {
-        addToLists() {
-            this.$emit('addToLists', this.courseItem)
-            this.courseItem.name = ''
-            this.courseItem.price = ''
-        }
-    },
+  name: "AddCourse",
+  data() {
+    return {
+      courseItem: {
+        name: "",
+        price: null
+      }
+    };
+  },
+  methods: {
+    addToLists() {
+      // 兄弟组件通信方式一：
+      // 通过共同的父组件，用事件把数据传给父组件，再油父组件传给子组件
+      // this.$emit('addToLists', this.courseItem)
+      // 兄弟组件通信方式二：
+      // 通过共同的祖辈组件搭桥，$parent或$root
+      if (this.courseItem.name && this.courseItem.price) {
+        this.$parent.$emit("addToLists", this.courseItem);
+        this.courseItem.name = ""
+        this.courseItem.price = ""
+      } else {
+        alert('请输入完整的课程名称和价格');
+      }
+    }
+  }
 };
 </script>
 

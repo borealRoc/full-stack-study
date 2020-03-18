@@ -1,5 +1,6 @@
 <template>
   <div class="course-view">
+    <!-- <AddCourse @addToLists="addToLists" /> -->
     <AddCourse @addToLists="addToLists" />
     <CourseList :courseLists="courseLists" @addToCart="addToCart" />
     <CourseCart
@@ -21,6 +22,9 @@ export default {
     AddCourse,
     CourseList,
     CourseCart
+  },
+  mounted () {
+    this.$on('addToLists', this.addToLists)
   },
   data() {
     return {
