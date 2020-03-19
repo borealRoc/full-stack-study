@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import AddCourse from "../components/AddCourse.vue";
-import CourseList from "../components/CourseList.vue";
-import CourseCart from "../components/CourseCart.vue";
+import AddCourse from "../components/courseCart/AddCourse.vue";
+import CourseList from "../components/courseCart/CourseList.vue";
+import CourseCart from "../components/courseCart/CourseCart.vue";
 
 export default {
   name: "Course",
