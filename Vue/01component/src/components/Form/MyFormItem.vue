@@ -10,6 +10,7 @@
 <script>
 import Schema from "async-validator";
 export default {
+  name: "MyFormItem",
   inject: ["form"],
   props: {
     label: {
@@ -49,7 +50,7 @@ export default {
         } else {
           this.errMes = "";
         }
-      })
+      });
     }
   }
 };
