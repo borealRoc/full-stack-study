@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import PopupSlot from "../components/PopupSlot.vue";
+import PopupSlot from "../components/Slot/PopupSlot.vue"
 export default {
   name: "Popup",
   components: {
