@@ -38,4 +38,13 @@ export default {
 a {
   color: #111;
 }
+ul {
+  list-style: none;
+}
+.demo-title {
+  margin-bottom: 20px;
+  font-size: 20px;
+  text-align: center;
+  color: #e00000;
+}
 </style>

@@ -1,7 +1,9 @@
 <template>
   <div class="course-view">
+    <h3 class="demo-title">组件传值通讯--购物车实例</h3>
     <!-- <AddCourse @addToLists="addToLists" /> -->
-    <AddCourse @addToLists="addToLists" />
+    <!-- AddCourse组件通过$parent搭桥，所以不需要在这个地方监听事件@addToLists -->
+    <AddCourse />
     <CourseList :courseLists="courseLists" @addToCart="addToCart" />
     <CourseCart
       :courseCarts="courseCarts"

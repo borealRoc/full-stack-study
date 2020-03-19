@@ -35,9 +35,9 @@
           <h2>2. 插槽</h2>
           <dl>
             <dt>2.1 插入内容</dt>
-            <dd>2.1.1 匿名插槽</dd>
-            <dd>2.1.2 具名插槽</dd>
-            <dd>2.1.3 作用域插槽</dd>
+            <dd><router-link to="/popup">2.1.1 匿名插槽</router-link></dd>
+            <dd><router-link to="/popup">2.1.2 具名插槽</router-link></dd>
+            <dd><router-link to="/popup">2.1.3 作用域插槽</router-link></dd>
           </dl>
         </li>
       </ul>
