@@ -1,3 +1,4 @@
+// sequelize表关联
 (async () => {
     const Sequelize = require("sequelize");
     // 建立连接
