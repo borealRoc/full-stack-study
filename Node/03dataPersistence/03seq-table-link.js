@@ -8,21 +8,24 @@
     })
 
     // 1:N关系
-    const Player = sequelize.define('player', { name: Sequelize.STRING });
-    const Team = sequelize.define('team', { name: Sequelize.STRING });
+    // 1. 创建表
+    const Player = sequelize.define('player', { name: Sequelize.STRING })
+    const Team = sequelize.define('team', { name: Sequelize.STRING })
+    // 2. 建立表关系
     Player.belongsTo(Team); // 1端建立关系
     Team.hasMany(Player); // N端建立关系
-    // 同步数据库，force: true则会删除已存在表
+    // 3. 同步数据库
     sequelize.sync({ force: true }).then(async () => {
         await Team.create({ name: '火箭' });
-        await Player.bulkCreate([{ name: '哈登', teamId: 1 }, { name: '保罗', teamId: 1 }]);
+        await Player.bulkCreate([{ name: '哈登', teamId: 1 }, { name: '保罗', teamId: 1 }])
+        await Team.create({ name: '勇士' })
+        await Player.bulkCreate([{ name: '库里', teamId: 2 }, { name: '汤普森', teamId: 2}])
 
-        // 1端关联查询  
+        // 4 1端关联查询  
         const players = await Player.findAll({ include: [Team] });
         console.log(JSON.stringify(players, null, 2));
-
-        // N端关联查询
-        const team = await Team.findOne({ where: { name: '火箭' }, include: [Player] });
+        // 5 N端关联查询
+        const team = await Team.findOne({ where: { name: '勇士' }, include: [Player] });
         console.log(JSON.stringify(team, null, 2));
     })
 
