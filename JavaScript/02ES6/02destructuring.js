@@ -6,7 +6,7 @@ console.log(a, b) //1, 2
 console.log(c, d) //3, 4
 
 // 2、右边必须合法的东西
-let {e, f} = {5, 6}  //SyntaxError: Unexpected token ,
+// let {e, f} = {5, 6}  //SyntaxError: Unexpected token ,
 
 // 3、声明和赋值必须同时完成
 let [h, i]
