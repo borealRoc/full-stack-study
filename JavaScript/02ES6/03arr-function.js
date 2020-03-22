@@ -12,7 +12,6 @@ showArgLength(1, 2, 3) //Uncaught ReferenceError: arguments is not defined
 // 4.1、什么叫所在的环境
 // 4.1.1、没有定义时，一般是指window
 document.onclick = () => alert(this) //[object Window]
-
 // 4.2.2、有定义时，定义在谁身上，this就指定谁
 document.onclick = () => {
     const arr = [1, 2]
@@ -44,6 +43,7 @@ const obj = {
         }, 100)
     }
 }
+
 // 4.2、this指向恒定，即使用bind,也无法改变箭头函数的this
 window.name = 'sun'
 window.age = 20
