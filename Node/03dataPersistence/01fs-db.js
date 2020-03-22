@@ -1,6 +1,6 @@
 // 实现⼀个⽂件系统读写数据库
 const fs = require('fs')
-const fsDBFile = './fsDB.json'
+const fsDBFile = "./fsDB.json"
 
 const get = key => {
     fs.readFile(fsDBFile, (err, data) => {
