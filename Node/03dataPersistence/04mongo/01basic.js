@@ -21,16 +21,13 @@
         price: 20.1
     })
     console.log('添加文档', JSON.stringify(ret))
-
     // 6. 查询文档
     ret = await fruits.findOne()
     console.log('查询文档:', ret)
-
     // 7. 更新文档
     ret = await fruits.updateOne({ name: '芒果' },
         { $set: { name: '香蕉', price: 2000 } })
     console.log('更新文档', JSON.stringify(ret.result))
-
     // 8. 删除文档
     ret = await fruits.deleteOne({ name: '芒果' })
     await fruits.deleteMany()
