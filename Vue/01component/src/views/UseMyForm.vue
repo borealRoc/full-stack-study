@@ -18,6 +18,7 @@
 import MyForm from "@/components/Form/MyForm.vue";
 import MyFormItem from "@/components/Form/MyFormItem.vue";
 import MyInput from "@/components/Form/MyInput.vue";
+import MyPopup from "@/components/popup/MyPopup.vue";
 
 export default {
   name: "UseMyForm",
@@ -39,11 +40,11 @@ export default {
     login() {
       // 全局校验
       this.$refs["myForm"].validate(isValid => {
-        if (isValid) {
-          alert("登录成功");
-        } else {
-          alert("登录不成功");
-        }
+        const notice = this.$create(MyPopup, {
+          message: isValid ? "登录成功" : "登录失败",
+          duration: 2000
+        })
+        notice.show()
       });
     }
   }
