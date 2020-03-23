@@ -1,3 +1,4 @@
+// 动态组件实例的创建
 import Vue from 'vue'
 
 function create(Component, props) {

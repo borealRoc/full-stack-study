@@ -69,7 +69,7 @@
             <dd>
               <router-link to="/useMyForm">3.1.1 模仿Element-UI设计Form表单组件</router-link>
             </dd>
-            <dd>3.1.2 具名插槽</dd>
+            <dd><router-link to="/useMyForm">3.1.2 动态组件实例的创建--弹窗组件</router-link></dd>
             <dd>3.1.3 作用域插槽</dd>
           </dl>
         </li>
