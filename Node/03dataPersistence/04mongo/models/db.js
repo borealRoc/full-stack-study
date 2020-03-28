@@ -9,6 +9,7 @@ class Mongodb {
         // 1. 创建客户端
         this.client = new MongoClient(conf.url, {
             useNewUrlParser: true,
+            useUnifiedTopology: true,
         })
         // 2. 创建连接
         this.client.connect(err => {
@@ -18,9 +19,9 @@ class Mongodb {
         })
     }
     // 3. 创建数据库dbName和集合colName
-    col(dbName = conf.dbName, colName){
-        return this.client.db(dbName).collection(colName)
-    }
+    col(colName, dbName = conf.dbName) {
+        return this.client.db(dbName).collection(colName);
+      }
     once(event,cb){
         this.emmiter.once(event,cb)
     }

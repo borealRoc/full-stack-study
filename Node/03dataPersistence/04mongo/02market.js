@@ -1,7 +1,7 @@
 const mongodb = require('./models/db')
 
 mongodb.once('connect', async () => {
-    const col = mongodb.col('market')
+    const col = mongodb.col('markets')
     // 删除已存在
     await col.deleteMany()
     const data = new Array(100).fill().map((v, i) => {
@@ -9,5 +9,5 @@ mongodb.once('connect', async () => {
     })
     // 插入
     await col.insertMany(data)
-    console.log("插入测试数据成功")
+    console.log("插入数据成功")
 })
