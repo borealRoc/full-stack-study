@@ -21,7 +21,6 @@ class Mongodb {
     col(dbName = conf.dbName, colName){
         return this.client.db(dbName).collection(colName)
     }
-
     once(event,cb){
         this.emmiter.once(event,cb)
     }
