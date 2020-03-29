@@ -4,7 +4,7 @@ const path = require("path")
 const mongo = require("./models/db")
 
 app.get("/", (req, res) => {
-    res.sendFile(path.resolve("./03market.html"))
+    res.sendFile(path.resolve("./market.html"))
 })
 
 app.get("/api/list", async (req, res) => {
