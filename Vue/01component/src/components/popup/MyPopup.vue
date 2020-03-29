@@ -58,7 +58,7 @@ export default {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 400px;
+    width: 600px;
     padding: 20px;
     transform: translate(-50%, -50%);
     background: rgba($color: #000000, $alpha: 0.8);

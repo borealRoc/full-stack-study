@@ -69,7 +69,7 @@
             <dd>
               <router-link to="/useMyForm">3.1.1 模仿Element-UI设计Form表单组件</router-link>
             </dd>
-            <dd><router-link to="/useMyForm">3.1.2 动态组件实例的创建--弹窗组件</router-link></dd>
+            <dd @click="showDialog">3.1.2 动态组件实例的创建--弹窗组件</dd>
             <dd>3.1.3 作用域插槽</dd>
           </dl>
         </li>
@@ -82,11 +82,22 @@
 </template>
 
 <script>
+import MyPopup from "@/components/popup/MyPopup.vue";
+
 export default {
   name: "ComPratice",
   props: {
     title: String,
     course: String
+  },
+  methods: {
+    showDialog() {
+      const notice = this.$create(MyPopup, {
+        message: '动态组件实例的创建--弹窗组件',
+        duration: 2000
+      });
+      notice.show();
+    }
   }
 };
 </script>
