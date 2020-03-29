@@ -25,10 +25,14 @@
     ret = await fruits.findOne()
     console.log('查询文档:', ret)
     // 7. 更新文档
-    ret = await fruits.updateOne({ name: '芒果' },
-        { $set: { name: '香蕉', price: 2000 } })
+    ret = await fruits.updateOne({ name: '芒果' },{ $set: { name: '香蕉', price: 2000 } })
     console.log('更新文档', JSON.stringify(ret.result))
     // 8. 删除文档
+    // 8.1 删除1条
     ret = await fruits.deleteOne({ name: '芒果' })
+    // 8.2 删除多条
     await fruits.deleteMany()
+
+    // 9 关闭连接
+    client.close()
 })()
