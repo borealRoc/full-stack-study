@@ -20,8 +20,8 @@ export default {
     };
   },
   mounted() {
-    this.$refs.ComPratice.course = "VUE"
-    this.$children[0].title = "组件化实践"
+    // this.$refs.ComPratice.course = "VUE"
+    // this.$children[0].title = "组件化实践"
     // 测试总线模式$bus,接收AddCourse.vue传过来的数据
     this.$bus.$on("$busTest", arg => {
       console.log(arg)

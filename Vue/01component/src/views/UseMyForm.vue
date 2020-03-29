@@ -1,9 +1,15 @@
 <template>
   <div class="use-myform-view">
     <MyForm :model="model" :rules="rules" ref="myForm">
-      <MyFormItem label="用户名" prop="username">
-        <MyInput v-model="model.username" placeholder="请输入用户名"></MyInput>
-      </MyFormItem>
+      <!-- 嵌套干扰组件，验证MyForm的findChild("MyFormItem", this) -->
+      <Interfer>
+        <MyFormItem label="用户名" prop="username">
+          <!-- 嵌套干扰组件，验证MyInput的findParent("MyFormItem", this) -->
+          <Interfer>
+            <MyInput v-model="model.username" placeholder="请输入用户名"></MyInput>
+          </Interfer>
+        </MyFormItem>
+      </Interfer>
       <MyFormItem label="密码" prop="password">
         <MyInput v-model="model.password" type="password" placeholder="请输入密码"></MyInput>
       </MyFormItem>
@@ -19,13 +25,15 @@ import MyForm from "@/components/Form/MyForm.vue";
 import MyFormItem from "@/components/Form/MyFormItem.vue";
 import MyInput from "@/components/Form/MyInput.vue";
 import MyPopup from "@/components/popup/MyPopup.vue";
+import Interfer from "@/components/Interfer.vue";
 
 export default {
   name: "UseMyForm",
   components: {
     MyForm,
     MyFormItem,
-    MyInput
+    MyInput,
+    Interfer
   },
   data() {
     return {
@@ -43,8 +51,8 @@ export default {
         const notice = this.$create(MyPopup, {
           message: isValid ? "登录成功" : "登录失败",
           duration: 2000
-        })
-        notice.show()
+        });
+        notice.show();
       });
     }
   }
