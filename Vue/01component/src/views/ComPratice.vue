@@ -67,10 +67,10 @@
           <dl>
             <dt>3.1 组件设计</dt>
             <dd>
-              <router-link to="/useMyForm">3.1.1 模仿Element-UI设计Form表单组件</router-link>
+              <router-link to="/useMyForm">3.1.1 组件传值，通信和插槽综合运用：模仿Element-UI设计Form表单组件</router-link>
             </dd>
-            <dd @click="showDialog">3.1.2 动态组件实例的创建--弹窗组件</dd>
-            <dd>3.1.3 作用域插槽</dd>
+            <dd @click="showDialog">3.1.2 动态组件实例的创建：设计一个Dialog组件</dd>
+            <dd><router-link to="/UseTree">3.1.3 递归组件: 设计一个Tree组件</router-link></dd>
           </dl>
         </li>
       </ul>

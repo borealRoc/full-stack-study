@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Course from '../views/Course'
 import UseMyForm from '../views/UseMyForm'
+import UseTree from '../views/UseTree'
 
 Vue.use(VueRouter)
 
@@ -10,7 +11,7 @@ const routes = [
     path: '/course',
     name: 'course',
     component: Course
-  },  
+  },
   {
     path: '/popup',
     name: 'Popup',
@@ -23,6 +24,11 @@ const routes = [
     path: '/useMyForm',
     name: 'UseMyForm',
     component: UseMyForm,
+  },
+  {
+    path: '/UseTree',
+    name: 'UseTree',
+    component: UseTree,
   }
 ]
 
