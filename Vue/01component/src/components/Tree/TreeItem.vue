@@ -45,13 +45,13 @@ export default {
 .tree-item-comp {
   li {
     font-size: 22px;
-    text-indent: 1em;
+    text-indent: 10px;
     li {
       font-size: 18px;
-      text-indent: 2em;
+      text-indent: 20px;
       li {
         font-size: 14px;
-        text-indent: 3em;
+        text-indent: 30px;
       }
     }
   }
