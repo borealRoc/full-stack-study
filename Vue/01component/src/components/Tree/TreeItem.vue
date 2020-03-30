@@ -44,13 +44,21 @@ export default {
 <style lang="scss" scoped>
 .tree-item-comp {
   li {
+    font-size: 22px;
     text-indent: 1em;
     li {
+      font-size: 18px;
       text-indent: 2em;
       li {
+        font-size: 14px;
         text-indent: 3em;
       }
     }
+  }
+}
+.first-tree-item {
+  >.tree-item-hd {
+    font-size: 26px;
   }
 }
 </style>

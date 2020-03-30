@@ -1,7 +1,7 @@
 <template>
   <div class="use-treeitem-view">
     <ul>
-      <tree-item :model="treeData"></tree-item>
+      <tree-item :model="treeData" class="first-tree-item"></tree-item>
     </ul>
   </div>
 </template>
@@ -11,7 +11,7 @@
 import TreeItem from "@/components/Tree/TreeItem";
 
 export default {
-    name: 'UseTree',
+  name: "UseTree",
   components: {
     TreeItem
   },
@@ -76,4 +76,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.use-treeitem-view {
+  width: 400px;
+}
 </style>
