@@ -11,7 +11,7 @@
     - 作用域插槽：父组件获取子组件的数据
 3. 组件设计——自定义组件
     - 3.1 组件传值，通信和插槽综合运用：模仿Element-UI设计Form表单组件
-        - 双向绑定的实现：:value + @input
+        - 双向绑定语法糖的实现：:value="val" + @input = "val=e.target.value"
         - Vue两个新增属性：`v-bind="$attrs"` && `inheritAttrs: false`
         - findParent && findChild的实现
     - 3.2 动态组件实例的创建：设计一个Dialog组件
