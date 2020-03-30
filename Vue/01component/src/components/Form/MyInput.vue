@@ -7,7 +7,8 @@
 </template>
 
 <script>
-import { findParent } from "@/libs/find-target";
+// import { findParent } from "@/libs/find-target";
+import emitter from "@/libs/emitter";
 
 export default {
   name: "MyInput",
@@ -23,13 +24,18 @@ export default {
       default: ""
     }
   },
+  mixins: [emitter],
   methods: {
     inputHandler(e) {
       // 仅派发事件
       this.$emit("input", e.target.value);
       // 通知校验
       // this.$parent.$emit("validate")
-      findParent("MyFormItem", this).$emit("validate");
+      // 优化：确保this.$parent找到"MyFormItem"
+      // 方法一：使用自定义的findParent方法
+      // findParent("MyFormItem", this).$emit("validate");
+      // 方法二：使用mixins + element-ui的emitter中的dispatch方法
+      this.dispatch("ElFormItem", "validate");
     }
   }
 };

@@ -6,6 +6,7 @@
 
 <script> 
 import { findChild } from "@/libs/find-target";
+import emitter from "@/libs/emitter";
 
 export default {
   name: "MyForm",
@@ -23,6 +24,7 @@ export default {
       type: Object
     }
   },
+  mixins: [emitter],
   methods: {
     validate(cb) {
       // 全局校验

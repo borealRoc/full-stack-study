@@ -14,6 +14,7 @@
         - 双向绑定语法糖的实现：:value="val" + @input = "val=e.target.value"
         - Vue两个新增属性：`v-bind="$attrs"` && `inheritAttrs: false`
         - findParent && findChild的实现
+        - element-ui的dispatch && broadcast方法 + mixins
     - 3.2 动态组件实例的创建：设计一个Dialog组件
         - 动态创建组件实例的好处：方便使用，可在任何地方直接调用，不要像文件组件一样得先引入，才能调用
         ```javascriot
@@ -21,7 +22,7 @@
                 const vm = new Vue({
                     render: h => h(Compment, props)
                 }).$mount()
-                document.body.appendChild(vm.$el)
+                document.body.appendChild(vm.$el) 
                 const comp = vm.$children[0]
                 comp.remove = () => {
                     document.body.removeChild(vm.$el)
