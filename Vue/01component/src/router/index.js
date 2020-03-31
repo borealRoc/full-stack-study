@@ -14,7 +14,7 @@ const routes = [
   },
   {
     path: '/popup',
-    name: 'Popup',
+    name: 'popup',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -22,12 +22,12 @@ const routes = [
   },
   {
     path: '/useMyForm',
-    name: 'UseMyForm',
+    name: 'useMyForm',
     component: UseMyForm,
   },
   {
-    path: '/UseTree',
-    name: 'UseTree',
+    path: '/useTree',
+    name: 'useTree',
     component: UseTree,
   }
 ]
