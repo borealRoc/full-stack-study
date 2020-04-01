@@ -1,10 +1,11 @@
 <template>
   <div>
-    <h3>vuex基本用法</h3>
+    <h3 class="demo-title">Vuex基本用法</h3>
     <p>手榴弹扔了{{$store.state.grenade.count}}</p>
     <p>手榴弹还剩{{$store.getters['grenade/left']}}</p>
-    <button @click="Throw">扔一个手榴弹</button>
+    <button @click="Throw">扔一个手榴弹</button><br>
     <button @click="asyncThrow">蓄力扔一个手榴弹</button>
+    <button @click="restore">捡回炸弹</button>
   </div>
 </template>
 
@@ -32,6 +33,9 @@ export default {
         });
         notice.show();
       }
+    },
+    restore() {
+      this.$store.dispatch("grenade/restore")
     }
   }
 };

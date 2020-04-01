@@ -15,6 +15,9 @@ const count = {
     mutations: {
         add(state) {
             state.count += 1
+        },
+        restore(state) {
+            state.count = 0
         }
     },
     // 动作: 业务逻辑[dispatch]
@@ -33,6 +36,9 @@ const count = {
                     resolve(dispatch('add'))
                 }, 1000)
             })
+        },
+        restore({commit}) {
+            commit('restore')
         }
     },
 }

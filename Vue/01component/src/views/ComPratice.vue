@@ -70,7 +70,19 @@
               <router-link to="/useMyForm">3.1.1 组件传值，通信和插槽综合运用：模仿Element-UI设计Form表单组件</router-link>
             </dd>
             <dd @click="showDialog">3.1.2 动态组件实例的创建：设计一个Dialog组件</dd>
-            <dd><router-link to="/UseTree">3.1.3 递归组件: 设计一个Tree组件</router-link></dd>
+            <dd>
+              <router-link to="/useTree">3.1.3 递归组件: 设计一个Tree组件</router-link>
+            </dd>
+          </dl>
+        </li>
+        <li class="com-list">
+          <h2>4. Vuex基本用法</h2>
+          <dl>
+            <dt><router-link to="/vuexBasicUse">4.1 Vuex核心概念</router-link></dt>
+            <dd>4.1.1 state -- 状态: 保存数据</dd>
+            <dd>4.1.2 getters -- state的计算属性</dd>
+            <dd>4.1.3 mutations -- 变更:修改state[commit]</dd>
+            <dd>4.1.4 actions -- 动作: 业务逻辑[dispatch]</dd>
           </dl>
         </li>
       </ul>
@@ -93,7 +105,7 @@ export default {
   methods: {
     showDialog() {
       const notice = this.$create(MyPopup, {
-        message: '动态组件实例的创建--弹窗组件',
+        message: "动态组件实例的创建--弹窗组件",
         duration: 2000
       });
       notice.show();
