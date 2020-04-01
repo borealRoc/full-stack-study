@@ -3,20 +3,24 @@
     <!-- Vue组件化思想与设计 -->
     <!-- <ComPratice course="vue" title="组件化" ref="ComPratice" /> -->
     <!-- vueRouter原理 -->
-    <my-router-link to="/course">Course</my-router-link>
+    <!-- <my-router-link to="/course">Course</my-router-link>
     <my-router-link to="/popup">Popup</my-router-link>
-    <my-router-view />
+    <my-router-view /> -->
+    <!-- vuex基本用法 -->
+    <VuexBasicUse/>
   </div>
 </template>
 
 <script>
 // import ComPratice from "./views/ComPratice.vue";
+import VuexBasicUse from "./views/VuexBasicUse.vue"
 
 export default {
   name: "app",
-  // components: {
-  //   ComPratice
-  // },
+  components: {
+    // ComPratice,
+    VuexBasicUse
+  },
   provide() {
     return {
       addCourseTitle: "新增课程",
