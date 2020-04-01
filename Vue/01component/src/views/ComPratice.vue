@@ -76,7 +76,7 @@
           </dl>
         </li>
         <li class="com-list">
-          <h2>4. Vuex基本用法</h2>
+          <h2>4. Vuex数据管理</h2>
           <dl>
             <dt><router-link to="/vuexBasicUse">4.1 Vuex核心概念</router-link></dt>
             <dd>4.1.1 state -- 状态: 保存数据</dd>

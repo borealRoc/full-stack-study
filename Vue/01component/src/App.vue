@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- Vue组件化思想与设计 -->
-    <ComPratice course="vue" title="组件化" ref="ComPratice" />
+    <ComPratice course="vue" title="核心知识" ref="ComPratice" />
     <!-- vueRouter原理 -->
     <!-- <my-router-link to="/course">Course</my-router-link>
     <my-router-link to="/popup">Popup</my-router-link>
