@@ -26,7 +26,7 @@ const routes = [
     component: UseMyForm,
   },
   {
-    path: '/useTree',
+    path: '/useTree', 
     name: 'useTree',
     component: UseTree,
   }
