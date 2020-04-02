@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
 import './plugins/element.js'
-import router from './router'
-// import router from './router/use-my-router'
+import router from './router/index'
+import store from './store/index'
 import create from './utils/create'
-import store from './store'
+import myRouter from './router/use-my-router'
+import myStore from './store/use-my-vuex'
+
 
 Vue.config.productionTip = false
 
@@ -17,6 +19,8 @@ Vue.prototype.$create = create
 
 new Vue({
   router,
+  myRouter,
   store,
+  myStore,
   render: h => h(App)
 }).$mount('#app')

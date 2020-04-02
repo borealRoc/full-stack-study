@@ -3,7 +3,9 @@ import VueRouter from 'vue-router'
 import Course from '../views/Course'
 import UseMyForm from '../views/UseMyForm'
 import UseTree from '../views/UseTree'
+import UseMyVueRouter from '../views/UseMyVueRouter'
 import VuexBasicUse from "../views/VuexBasicUse.vue"
+import UseMyVuex from '../views/UseMyVuex'
 
 Vue.use(VueRouter)
 
@@ -32,9 +34,19 @@ const routes = [
     component: UseTree,
   },
   {
+    path: '/useMyVueRouter', 
+    name: 'useMyVueRouter',
+    component: UseMyVueRouter,
+  },
+  {
     path: '/vuexBasicUse', 
     name: 'vuexBasicUse',
     component: VuexBasicUse,
+  },
+  {
+    path: '/useMyVuex', 
+    name: 'useMyVuex',
+    component: UseMyVuex,
   }
 ]
 

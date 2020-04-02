@@ -1,21 +1,16 @@
 <template>
   <div id="app">
-    <!-- Vue组件化思想与设计 -->
-    <ComPratice course="vue" title="核心知识" ref="ComPratice" />
-    <!-- vueRouter原理 -->
-    <!-- <my-router-link to="/course">Course</my-router-link>
-    <my-router-link to="/popup">Popup</my-router-link>
-    <my-router-view /> -->
+    <VueCore course="vue" title="核心知识" ref="ComPratice" />
   </div>
 </template>
 
 <script>
-import ComPratice from "./views/ComPratice.vue";
+import VueCore from "./views/VueCore.vue";
 
 export default {
   name: "app",
   components: {
-    ComPratice
+    VueCore
   },
   provide() {
     return {

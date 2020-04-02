@@ -81,8 +81,8 @@ MyVueRouter.install = function (_Vue) {
             // 这样我们就实现了Vue扩展
             // this是谁？ Vue组件实例
             // 但是这里只希望根组件执行一次
-            if (this.$options.router) {
-                this.$options.router.init()
+            if (this.$options.myRouter) {
+                this.$options.myRouter.init()
             }
         }
     })

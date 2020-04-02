@@ -9,6 +9,6 @@ Vue.use(MyVueRouter);
 export default new MyVueRouter({
   routes: [
       { path: "/course", component: Course }, 
-      { path: "/popup", component: Popup }
+      { path: "/popup", component: Popup },
   ]
 });
