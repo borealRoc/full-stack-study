@@ -1,6 +1,6 @@
 let Vue
 
-function install (_Vue) {
+function install(_Vue) {
     Vue = _Vue
     Vue.mixin({
         beforeCreate() {
@@ -14,10 +14,10 @@ function install (_Vue) {
 
 class MyStore {
     // {
-        // state: {count: 1},
-        // getters: {left(state) {return 10 - count}},
-        // mutations: {add(state) {state.count += 1}},
-        // actions: {add({state, getters, commit, dispatch}) {commit('add)}}
+    // state: {count: 1},
+    // getters: {left(state) {return 10 - count}},
+    // mutations: {add(state) {state.count += 1}},
+    // actions: {add({state, getters, commit, dispatch}) {commit('add)}}
     // }
     constructor(opts = {}) {
         this.$opts = opts
@@ -50,10 +50,9 @@ class MyStore {
     dispatch = (type, arg) => {
         this.actions[type](
             // dispatch的参数是ctx({state, getters, commit, dispatch})
-            {state: this.state, getters: this.getters, commit: this.commit},
-            arg
+            { commit: this.commit, state: this.state, getters: this.getters }, arg
         )
     }
 }
 
-export default {MyStore, install}
+export default { MyStore, install }
