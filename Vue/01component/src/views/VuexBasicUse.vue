@@ -16,6 +16,7 @@ export default {
   methods: {
     async Throw() {
       const result = await this.$store.dispatch("grenade/add");
+      console.log('result', result)
       if (!result) {
         const notice = this.$create(MyPopup, {
           message: "没手榴弹了,别扔了",

@@ -30,6 +30,13 @@ export default new MyVuex.MyStore({
             }
             return false
         },
+        myAsyncAdd({dispatch}) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve(dispatch('myAdd'))
+                }, 1000)
+            })
+        },
         myRestore({commit}) {
             commit('myRestore')
         }

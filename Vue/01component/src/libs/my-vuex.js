@@ -47,12 +47,8 @@ class MyStore {
         this.mutations[type](this.state, arg)
     }
     // 触发actions，需要实现dispatch
-    dispatch = (type, arg) => {
-        this.actions[type](
-            // dispatch的参数是ctx({state, getters, commit, dispatch})
-            { commit: this.commit, state: this.state, getters: this.getters }, arg
-        )
-    }
+    dispatch = (type, arg) => this.actions[type]({ commit: this.commit, state: this.state, getters: this.getters, dispatch: this.dispatch }, arg)
+
 }
 
 export default { MyStore, install }
