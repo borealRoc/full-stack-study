@@ -24,7 +24,7 @@ export default {
   name: "Popup",
   components: {
     PopupSlot
-  }
+  },
 };
 </script>
 

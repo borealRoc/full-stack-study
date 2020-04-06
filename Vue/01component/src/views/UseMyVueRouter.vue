@@ -1,7 +1,7 @@
 <template>
   <div class="my-router-view">
     <my-router-link to="/course">Course</my-router-link>
-    <my-router-link to="/popup">Popup</my-router-link>
+    <my-router-link to="/popup/test">Popup</my-router-link>
     <my-router-view />
   </div>
 </template>
