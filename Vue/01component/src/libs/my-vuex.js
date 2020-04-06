@@ -26,9 +26,9 @@ class MyStore {
             data: this.$opts.state
         })
         // 初始化getters, mutations和actions
+        this.$opts.getters && this.handlerGetters(this.$opts.getters)
         this.mutations = this.$opts.mutations || {}
         this.actions = this.$opts.actions || {}
-        this.$opts.getters && this.handlerGetters(this.$opts.getters)
     }
     handlerGetters(getters) {
         this.getters = {}
