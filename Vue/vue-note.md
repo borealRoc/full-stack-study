@@ -55,6 +55,7 @@
             - 以`Vue.use(VueRouter)`的方式使用
         - 1.3.2 routes选项解析：生成一个map，把hash和component映射起来
             - 嵌套路由如何实现？
+            - 官方通过`matched[deepth]`来找到嵌套路由中需要渲染的组件
         - 1.3.3 监控url上hash变化，响应hash变化，获取并渲染对应组件
             - 在VueRouter引入new Vue,把hash作为data选项中的属性，让Vue的响应式去根据hash的变化渲染对应的component
         - 1.3.4 实现两个全局组件：`<router-link>`和`<router-view>`
@@ -70,3 +71,40 @@
         - commit的参数是state
         - dispatch的参数是ctx({state, getters, commit, dispatch})
     - 1.4 把store选项混入到Vue原型上
+# Vue
+1. vue1.0[没有虚拟dom和diff算法]的原理
+    - 1.1 Observer：通过`Object.definePrototye({get(Dep.target && Dep.add(Dep.target)), set(Dep.notify(Watcher => Watcher.update()))})`拦截data中的所有属性
+    - 1.2 Dep: 一个data中的key对应一个dep
+    - 1.3 Watcher: 一个页面中对data的key的引用对应一个Watcher[一个Dep数组可能有多个同名的Watcher]
+        ```javascript
+        class Watcher {
+            constructor(vm, key, cb) {
+            this.vm = vm;
+            this.key = key;
+            this.cb = cb;
+            
+            Dep.target = this;
+            this.vm[this.key];// 添加watcher到dep
+            Dep.target = null;
+            }
+            update() {
+                this.cb.call(this.vm, this.vm[this.key])
+            }
+        }
+        ```
+       
+    - 1.4 Compile
+        - 解析[编译]指令，初始化视图(update)
+        - 订阅数据变化，update通过`new Watcher()`绑定了更新函数
+            - 所以如果数据有变化，会触发Observer中的set()的`watcher.update()`,然后就会触发Watcher类中的update方法，然后就会执行Watcher类中的update方法传入的回调函数cb[eg: `textUpdater() node.textContent = value`, `htmlUpdater() node.innerHTML = value`...],
+        ```javascript
+            update(node, vm, exp, dir) {
+                let updatrFn = this[dir + "Updater"];
+                updatrFn && updatrFn(node, vm[exp]);
+                // 依赖收集
+                new Watcher(vm, exp, function(value) {
+                    updatrFn && updatrFn(node, value)
+                });
+            }
+        ```
+2. vue2.0的原理
