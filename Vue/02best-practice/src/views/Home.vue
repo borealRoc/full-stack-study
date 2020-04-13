@@ -1,18 +1,25 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- svg基本用法 -->
+    <!-- <svg>
+      <use xlink:href="#icon-vue" />
+    </svg> -->
+    <!-- svg全局组件用法 -->
+    <Icon icon-class="vue" class-name="svg-vue"/>
+    <h1>This is an home page</h1>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
-}
+  name: "Home",
+};
 </script>
+
+<style scoped>
+.svg-vue {
+  font-size: 60px;
+}
+</style>
