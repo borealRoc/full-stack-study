@@ -143,3 +143,12 @@
     - 2.1 生命周期
     - 2.2 响应式原理
     - 2.3 虚拟DOM和Diff算法
+# vue最佳实践
+1. 项目配置--vue.config.js
+    - webpack-chiin[链式操作]: 修改webpack配置
+2. 项目结构
+3. 权限控制
+    - 路由分为两种：constantRoutes 和 asyncRoutes
+3. UI库
+    - PC：element-ui
+    - Mobile: cube-ui
