@@ -1,4 +1,4 @@
-const port = 1010
+const port = 7070
 const title = 'vue项目最佳实践'
 
 const path = require('path')
@@ -8,7 +8,7 @@ const resolve = dir => path.join(__dirname, dir)
 module.exports = {
     publicPath: '/best-practice',
     devServer: {
-        port
+        port,
     },
     configureWebpack: {
         name: title

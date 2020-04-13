@@ -20,6 +20,6 @@ export default {
 
 <style scoped>
 .svg-vue {
-  font-size: 60px;
+  color: #e00000;
 }
 </style>
