@@ -19,6 +19,9 @@ export const constRoutes = [
         path: "home",
         component: () => import(/* webpackChunkName: "home" */ "@/views/Home.vue"),
         name: "home",
+        meta: {
+          roles: ['admin']
+        }
       }
     ]
   }
