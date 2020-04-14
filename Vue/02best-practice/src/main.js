@@ -2,10 +2,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-// 图标自动导入
-import "@/icons/";
+import './plugins/element.js'
+import "./permission"
 
 Vue.config.productionTip = false
+
+// 图标自动导入`
+import "@/icons/";
 
 new Vue({
   router,

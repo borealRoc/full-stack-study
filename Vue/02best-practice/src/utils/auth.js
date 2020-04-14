@@ -1,5 +1,7 @@
 import Cookies from "js-cookie";
 
+const Token = 'token'
+
 export function getToken() {
   return Cookies.get("token");
 }
@@ -9,5 +11,5 @@ export function setToken(token) {
 }
 
 export function removeToken() {
-  return Cookies.remove("token");
+  return Cookies.remove(Token);
 }
