@@ -18,7 +18,10 @@
     "@vue/cli-plugin-router": "^4.3.0",
     "@vue/cli-plugin-vuex": "^4.3.0",
     "@vue/cli-service": "^4.3.0",
-    "vue-template-compiler": "^2.6.11"
+    "svg-sprite-loader": "^4.2.5",
+    "vue-template-compiler": "^2.6.11",
+    "node-sass": "^4.13.1",
+    "sass-loader": "^8.0.2"
   },
   "browserslist": [
     "> 1%",
