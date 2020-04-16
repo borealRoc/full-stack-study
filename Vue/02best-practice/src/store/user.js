@@ -11,29 +11,41 @@ const mutations = {
 }
 
 const actions = {
-    // 获取令牌
+    // 获取并设置令牌
     login({ commit }, userInfo) {
-        const { username } = userInfo
-        if (username === 'admin' || username === 'xusp') {
-            commit('SET_TOKEN', username)
-            setToken(username)
-            return true
-        } else {
-            return false
-        }
+        const { username } = userInfo;
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (username === "admin" || username === "xusp") {
+                    commit("SET_TOKEN", username);
+                    setToken(username);
+                    resolve();
+                } else {
+                    reject("用户名、密码错误");
+                }
+            }, 200);
+        });
     },
-    // 根据令牌获取用户角色
+
+    // 获取并设置用户角色
     getInfo({ commit, state }) {
-        const roles = state.token === 'admin' ? ['admin'] : ['editor']
-        console.log('user.js -- roles', roles)
-        commit('SET_ROLES', roles)
-        return roles
+        return new Promise(resolve => {
+            setTimeout(() => {
+                const roles = state.token === "admin" ? ["admin"] : ["editor"];
+                commit("SET_ROLES", roles);
+                resolve({ roles });
+            }, 200);
+        });
     },
+
     // 注销用户
     resetToken({ commit }) {
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', '')
-        removeToken()
+        return new Promise(resolve => {
+            commit("SET_TOKEN", "");
+            commit("SET_ROLES", []);
+            removeToken();
+            resolve();
+        });
     }
 }
 

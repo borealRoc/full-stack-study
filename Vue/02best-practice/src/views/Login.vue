@@ -22,24 +22,23 @@ export default {
   },
   methods: {
     async login() {
-      const ret = await this.$store.dispatch("user/login", {
-        username: this.username
-      });
-      console.log("login.vue-ret", ret);
-      if (ret) {
-        const { redirect = "/" } = this.$route.query;
-        console.log("redirect", redirect);
-        this.$router.push(redirect);
-      } else {
-        this.$message("有错误了...");
+      try {
+        await this.$store.dispatch("user/login", { username: this.username })
+        const { redirect = "/" } = this.$route.query
+        this.$router.push(redirect)
+      } catch (error) {
+        this.$message.error(error)
       }
     },
     async logout() {
-      await this.$store.dispatch("user/resetToken");
-      this.$message("注销成功...");
+      await this.$store.dispatch("user/resetToken")
+      this.$message({
+        message: "注销成功",
+        type: success
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
