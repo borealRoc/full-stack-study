@@ -17,7 +17,21 @@ const asyncRoutes = [
                 },
             }
         ]
-    }
+    },
+    {
+        path: '/news',
+        component: () => import(/* webpackChunkName: "news" */ "@/views/News.vue"),
+        meta: {
+            roles: ['admin']
+        }
+    },
+    {
+        path: '/contact',
+        component: () => import(/* webpackChunkName: "news" */ "@/views/Contact.vue"),
+        meta: {
+            roles: ['editor']
+        }
+    },
 ]
 
 export default asyncRoutes

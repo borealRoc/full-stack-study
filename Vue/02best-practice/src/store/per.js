@@ -9,6 +9,7 @@ import constRoutes from '@/router/const-routes'
 const hasPer = (roles, route) => {
     // 如果当前路由有roles字段则需判断用户访问权限
     if (route.meta && route.meta.roles) {
+        console.log('hasPer-roles', roles, route.meta.roles)
         // 若用户拥有的角色中有被包含在待判定路由角色表中的则拥有访问权
         return roles.some(role => route.meta.roles.includes(role))
     } else {

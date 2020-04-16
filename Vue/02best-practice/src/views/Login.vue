@@ -2,10 +2,13 @@
   <div class="login-comp">
     <svg-icon icon-name="login" svg-class="svg-login" />
     <h1>This is login page.</h1>
-    <div class="login-ctn">
+    <div class="has-login-ctn" v-if="$store.state.user.token">
+      <h2>欢迎你，{{$store.state.user.token}}</h2>
+      <el-button @click="logout">注销</el-button>
+    </div>
+    <div class="login-ctn" v-else>
       <input type="text" placeholder="请输入用户名" v-model="username" />
       <el-button type="primary" @click="login">登录</el-button>
-      <el-button @click="logout">注销</el-button>
     </div>
   </div>
 </template>
@@ -22,9 +25,10 @@ export default {
       const ret = await this.$store.dispatch("user/login", {
         username: this.username
       });
+      console.log("login.vue-ret", ret);
       if (ret) {
         const { redirect = "/" } = this.$route.query;
-        console.log('redirect', redirect) 
+        console.log("redirect", redirect);
         this.$router.push(redirect);
       } else {
         this.$message("有错误了...");

@@ -25,6 +25,7 @@ const actions = {
     // 根据令牌获取用户角色
     getInfo({ commit, state }) {
         const roles = state.token === 'admin' ? ['admin'] : ['editor']
+        console.log('user.js -- roles', roles)
         commit('SET_ROLES', roles)
         return roles
     },
