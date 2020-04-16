@@ -6,7 +6,7 @@ import constRoutes from '@/router/const-routes'
  * @roles 用户拥有角色
  * @route 待判定路由
  */
-function hasPermission(roles, route) {
+function hasPer(roles, route) {
     // 如果当前路由有roles字段则需判断用户访问权限
     if (route.meta && route.meta.roles) {
         // 若用户拥有的角色中有被包含在待判定路由角色表中的则拥有访问权
@@ -22,22 +22,18 @@ function hasPermission(roles, route) {
  * @roles 用户拥有角色
  */
 function filterAsyncRoutes(routes, roles) {
-    const res = [];
-
+    const ret = []
     routes.forEach(route => {
-        // 复制一份
-        const tmp = { ...route };
-        // 如果用户有访问权则加入结果路由表
-        if (hasPermission(roles, tmp)) {
+        const tmp = { ...route }
+        if (hasPer(roles, tmp)) {
             // 如果存在子路由则递归过滤之
             if (tmp.children) {
-                tmp.children = filterAsyncRoutes(tmp.children, roles);
+                tmp.children = filterAsyncRoutes(tmp.children, roles)
             }
-            res.push(tmp);
+            ret.push(tmp)
         }
-    });
-
-    return res;
+    })
+    return ret
 }
 
 const state = {
