@@ -30,7 +30,7 @@ router.beforeEach(async (to, from, next) => {
             } catch (error) {
                 // 出错需重置令牌并重新登录（令牌过期、网络错误等原因）
                 await store.dispatch("user/resetToken")
-                Message.error(error)
+                console.log(error)
                 next(`/login?redirect=${to.path}`)
             }
         }

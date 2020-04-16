@@ -8,7 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
     user,
-    per
+    per,
   },
   getters: {
     roles: state => state.user.roles

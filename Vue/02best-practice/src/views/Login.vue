@@ -23,22 +23,27 @@ export default {
   methods: {
     async login() {
       try {
-        await this.$store.dispatch("user/login", { username: this.username })
-        const { redirect = "/" } = this.$route.query
-        this.$router.push(redirect)
+        await this.$store.dispatch("user/login", { username: this.username });
+        const { redirect = "/" } = this.$route.query;
+        this.$router.push(
+          redirect,
+          onComplete => {},
+          onAbort => {}
+        );
       } catch (error) {
-        this.$message.error(error)
+        this.$message.error(error);
       }
     },
     async logout() {
-      await this.$store.dispatch("user/resetToken")
+      await this.$store.dispatch("user/resetToken");
       this.$message({
         message: "注销成功",
-        type: success
-      })
+        type: "success",
+        duration: 1000
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
