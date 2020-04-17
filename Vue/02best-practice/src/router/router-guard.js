@@ -23,6 +23,7 @@ router.beforeEach(async (to, from, next) => {
                 console.log('router-guard rolse', roles)
                 // 根据当前用户角色动态生成路由
                 const accessRoutes = await store.dispatch('per/generateRoutes', roles)
+                console.log('accessRoutes', accessRoutes)
                 // 然后把动态路由添加至完整路由
                 router.addRoutes(accessRoutes)
                 // 继续路由切换，确保addRoutes完成
