@@ -149,7 +149,14 @@
 2. 项目结构
 3. 权限控制
     - 路由分为两种：constantRoutes 和 asyncRoutes
-3. UI库
+    - 导航菜单根据权限动态显示
+    - 按钮级别权限：自定义指令
+4. 数据交互
+    - 请求拦截: 把本地保存的token发给服务器
+    - 响应拦截: 请求错误处理
+    - 本地mock
+    - easy-mock
+4. UI库
     - PC：element-ui
     - Mobile: cube-ui
 # vue-cli
