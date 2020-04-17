@@ -1,30 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-      <router-link to="/about">About</router-link>
-      <router-link to="/news">News</router-link>
-      <router-link to="/contact">Contact</router-link>
-      <router-link to="/login">Login</router-link>
-      <!-- <ul class="nav-link">
-        <li v-per="['admin','editor']">
-          <router-link to="/">Home</router-link>
-        </li>
-        <li v-per="['admin','editor']">
-          <router-link to="/about">About</router-link>
-        </li>
-        <li v-per="['admin']">
-          <router-link to="/news">News</router-link>
-        </li>
-        <li v-per="['editor']">
-          <router-link to="/contact">Contact</router-link>
-        </li>
-        <li v-per="['admin','editor']">
-          <router-link to="/login">Login</router-link>
-        </li>
-      </ul> -->
-    </div>
-    <router-view />
+    <router-view></router-view>
   </div>
 </template>
 <script>
@@ -45,6 +21,7 @@ export default {};
 }
 
 ul {
+  padding: 0;
   list-style: none;
 }
 

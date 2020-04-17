@@ -1,6 +1,6 @@
 <template>
   <div class="login-comp">
-    <svg-icon icon-name="login" svg-class="svg-login" />
+    <!-- <svg-icon icon-name="login" svg-class="svg-login" /> -->
     <h1>This is login page.</h1>
     <div class="has-login-ctn" v-if="$store.state.user.token">
       <h2>欢迎你，{{$store.state.user.token}}</h2>

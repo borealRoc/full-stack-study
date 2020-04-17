@@ -45,6 +45,7 @@ const mutations = {
     SET_ROUTES: (state, routes) => {
         state.addedRoutes = routes
         state.fullRoutes = constRoutes.concat(routes)
+        console.log('fullRoutes', state.fullRoutes)
     }
 }
 
