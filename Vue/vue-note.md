@@ -147,6 +147,15 @@
 1. 项目配置--vue.config.js
     - webpack-chiin[链式操作]: 修改webpack配置
 2. 项目结构
+    - src
+        - /api: 前端请求
+        - /directive: 自定义指令
+        - /icons: 图标文件
+        - /layout: 布局文件
+        - /store: 模块化[user, per]
+        - /utils: 全局公共方法[eg: axios请求方法封装]
+        - .env.development: 后端接口公共路径
+        - vue.config.js: vue-cli的webpack拓展
 3. 权限控制
     - 路由分为两种：constantRoutes 和 asyncRoutes
     - 导航菜单根据权限动态显示
@@ -170,7 +179,7 @@
       }
     },
     ```
-4. UI库
+5. UI库
     - PC：element-ui
     - Mobile: cube-ui
 # vue-cli
