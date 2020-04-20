@@ -152,10 +152,24 @@
     - 导航菜单根据权限动态显示
     - 按钮级别权限：自定义指令
 4. 数据交互
-    - 请求拦截: 把本地保存的token发给服务器
-    - 响应拦截: 请求错误处理
-    - 本地mock
-    - easy-mock
+    - 请求拦截: 把本地保存的token发给服务器 --> 服务器验证浏览器传过来的token
+    - 响应拦截: 服务器对有异常[普通异常和token异常登]的请求返回错误信息 --> 浏览器接收异常
+    - 本地mock: 修改vue.config.js，给devServer添加相关代码
+    - 线上mock: esay-mock<https://easy-mock.com/>
+    - 解决跨域[代理]
+    ```javascript
+    proxy: {
+      // 代理 /dev-api/user/login 到 http://127.0.0.1:3000/user/login
+      [process.env.VUE_APP_BASE_API]: {
+        target: `http://127.0.0.1:3000/`,
+        changeOrigin: true,
+        pathRewrite: {
+            // /dev-api/user/login  => /user/login
+            ["^" + process.env.VUE_APP_BASE_API]: ""  
+        }
+      }
+    },
+    ```
 4. UI库
     - PC：element-ui
     - Mobile: cube-ui
