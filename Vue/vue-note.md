@@ -154,8 +154,8 @@
         - /layout: 布局文件
         - /store: 模块化[user, per]
         - /utils: 全局公共方法[eg: axios请求方法封装]
-        - .env.development: 后端接口公共路径
-        - vue.config.js: vue-cli的webpack拓展
+    - .env.development: 后端接口公共路径
+    - vue.config.js: vue-cli的webpack拓展
 3. 权限控制
     - 路由分为两种：constantRoutes 和 asyncRoutes
     - 导航菜单根据权限动态显示
@@ -182,6 +182,10 @@
 5. UI库
     - PC：element-ui
     - Mobile: cube-ui
+6. 测试
+    - 黑盒测试[E2E端到端]：根据测试用例测试功能
+    - 白盒测试[Unit单元测试]: 针对内部核心逻辑写测试代码
+        - 在vue中，unit测试推荐用Mocha+Chai或者Jest，e2e测试推荐用cypress   
 # vue-cli
 1. 安装：npm install -g @vue/cli
 2. 快速原型开发：npm install -g @vue/cli-service-global
