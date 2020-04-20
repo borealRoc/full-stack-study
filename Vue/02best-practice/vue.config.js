@@ -1,7 +1,7 @@
 const port = 7080
 const title = 'vue最佳实践'
- // post参数转换
-const bodyParser = require("body-parser")
+// post参数转换
+const body = require('body-parser')
 
 const path = require('path')
 const resolve = dir => path.join(__dirname, dir)
@@ -11,10 +11,16 @@ module.exports = {
     devServer: {
         port,
         before: app => {
-            app.use(bodyParser.json()); // 处理post参数
+            // 处理post参数
+            app.use(body.json());
+            app.use(
+                body.urlencoded({
+                    extended: true
+                }));
 
             app.post("/dev-api/user/login", (req, res) => {
                 const { username } = req.body;
+                console.log('req.body', req.body)
 
                 if (username === "admin" || username === "xusp") {
                     res.json({

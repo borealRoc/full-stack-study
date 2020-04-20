@@ -14,7 +14,8 @@ const mutations = {
 const actions = {
     // 获取并设置令牌
     login({ commit }, userInfo) {
-        const { username } = userInfo;
+
+        // const { username } = userInfo;
         // return new Promise((resolve, reject) => {
         //     setTimeout(() => {
         //         if (username === "admin" || username === "xusp") {
@@ -26,7 +27,7 @@ const actions = {
         //         }
         //     }, 200);
         // });
-        return login(username).then((res) => {
+        return login(userInfo).then((res) => {
             commit("SET_TOKEN", res.data)
             setToken(res.data)
         });
