@@ -40,7 +40,7 @@ module.exports = {
   */
   plugins: [
     '@/plugins/element-ui',
-    "@/plugins/interceptor"
+    "@/plugins/interceptor",
   ],
   /*
   ** Nuxt.js dev-modules
