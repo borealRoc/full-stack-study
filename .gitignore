@@ -1,11 +1,23 @@
+<<<<<<< HEAD
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 # Logs
 /logs
+=======
+# Logs
+logs
+>>>>>>> 980a87ba9109b936842e3df624681077e648949e
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+<<<<<<< HEAD
+=======
+lerna-debug.log*
+.vscode
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+>>>>>>> 980a87ba9109b936842e3df624681077e648949e
 
 # Runtime data
 pids
@@ -18,11 +30,19 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+<<<<<<< HEAD
+=======
+*.lcov
+>>>>>>> 980a87ba9109b936842e3df624681077e648949e
 
 # nyc test coverage
 .nyc_output
 
+<<<<<<< HEAD
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
+=======
+# Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
+>>>>>>> 980a87ba9109b936842e3df624681077e648949e
 .grunt
 
 # Bower dependency directory (https://bower.io/)
@@ -41,12 +61,27 @@ jspm_packages/
 # TypeScript v1 declaration files
 typings/
 
+<<<<<<< HEAD
+=======
+# TypeScript cache
+*.tsbuildinfo
+
+>>>>>>> 980a87ba9109b936842e3df624681077e648949e
 # Optional npm cache directory
 .npm
 
 # Optional eslint cache
 .eslintcache
 
+<<<<<<< HEAD
+=======
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+>>>>>>> 980a87ba9109b936842e3df624681077e648949e
 # Optional REPL history
 .node_repl_history
 
@@ -58,10 +93,15 @@ typings/
 
 # dotenv environment variables file
 .env
+<<<<<<< HEAD
+=======
+.env.test
+>>>>>>> 980a87ba9109b936842e3df624681077e648949e
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
+<<<<<<< HEAD
 # next.js build output
 .next
 
@@ -71,10 +111,26 @@ typings/
 # Nuxt generate
 dist
 
+=======
+# Next.js build output
+.next
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Gatsby files
+.cache/
+# Comment in the public line in if your project uses Gatsby and *not* Next.js
+# https://nextjs.org/blog/next-9-1#public-directory-support
+# public
+
+>>>>>>> 980a87ba9109b936842e3df624681077e648949e
 # vuepress build output
 .vuepress/dist
 
 # Serverless directories
+<<<<<<< HEAD
 .serverless
 
 # IDE / Editor
@@ -88,3 +144,15 @@ sw.*
 
 # Vim swap files
 *.swp
+=======
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+>>>>>>> 980a87ba9109b936842e3df624681077e648949e

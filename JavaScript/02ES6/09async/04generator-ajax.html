@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="./generatorTest/jquery.js"></script>
+    <script>
+        //这个runner是个函数，参数是一个generator函数
+        function runner(_gen) {
+            return new Promise((resolve, reject) => {
+                var gen = _gen();
+                _next();
+                //runner函数里面封装一个_next()函数用于递归
+                function _next(_last_res) {
+                    //首先res获取next得到的yield的返回值
+                    var res = gen.next(_last_res);
+                    //如果generator没有走完
+                    if (!res.done) {
+                        var obj = res.value;
+                        //如果返回的是promise
+                        if (obj.then) {
+                            //等promise返回数据 递归自己 next(res) 传入promise得到的数据
+                            obj.then((res) => {
+                                _next(res);
+                            }, (err) => {
+                                reject(err);
+                            });
+                        }
+                        //若返回的是generator
+                        else if (typeof obj == 'function') {
+                            if (obj.constructor.toString().startsWith('function GeneratorFunction()')) {
+                                runner(obj).then(res => _next(res), reject);
+                            }
+                            //obj是一个普通函数，就会传这个函数return的值
+                            else {
+                                _next(obj());
+                            }
+                        } else {
+                            _next(obj);
+                        }
+                    } else {
+                        resolve(res.value);
+                    }
+                }
+            });
+        }
+
+        // generator和promise配合使用
+        const url1 = '././generatorTest/1.txt'
+        const url2 = '././generatorTest/2.txt'
+        const url3 = '././generatorTest/3.txt'
+
+        function* show() {
+
+            const data1 = yield $.ajax({ url: url1, dataType: 'json' })
+            console.log(data1)
+
+            if (data1.a + data1.b < 10) {
+                const data2 = yield $.ajax({ url: url2, dataType: 'json' })
+                console.dir(data2);
+            } else {
+                const data3 = yield $.ajax({ url: url3, dataType: 'json' })
+                console.dir(data3);
+            }
+        }
+
+        runner(show)
+    </script>
+</body>
+
+</html>

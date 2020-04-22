@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>测试自己开发的简版Vue框架</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 测试插值 -->
+        <h1>{{name}}</h1>
+        <p>{{name}}</p>
+        <!-- 测试x-text -->
+        <h2 x-text="age"></h2>
+        <!-- 测试x-html -->
+        <h3 x-html="html"></h3>
+        <!-- 测试双向数据绑定x-model -->
+        <input type="text" x-model="name" />
+        <!-- 测试事件 -->
+        <button @click="changeName">呵呵</button>
+    </div>
+    <script src='./compile.js'></script>
+    <script src='./my-vue.js'></script>
+    <script>
+        const app = new XVue({
+            el: '#app',
+            data: {
+                name: "我是name属性",
+                age: 12,
+                html: '<button @click="changeAge">这是一个按钮</button>'
+            },
+            created() {
+                setTimeout(() => {
+                    this.name = 'name属性发生变化了，视图更新'
+                }, 1500)
+            },
+            methods: {
+                changeName() {
+                    this.name = 'name属性又变化了'
+                },
+                changeAge() {
+                    this.age ++
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
