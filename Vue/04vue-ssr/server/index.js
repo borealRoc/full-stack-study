@@ -22,3 +22,6 @@ app.get("/", async (req, res) => {
 app.listen(3000, () => {
     console.log("渲染服务器启动成功！");
 });
+
+// 查看网页源代码
+// <div data-server-rendered="true"><h1>利用fvue-server-rendereroo在服务器渲染Vue文件</h1></div>
