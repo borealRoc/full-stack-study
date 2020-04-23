@@ -17,6 +17,8 @@
     "@vue/cli-plugin-router": "^4.3.0",
     "@vue/cli-plugin-vuex": "^4.3.0",
     "@vue/cli-service": "^4.3.0",
+    "express": "^4.17.1",
+    "vue-server-renderer": "^2.6.11",
     "vue-template-compiler": "^2.6.11"
   },
   "browserslist": [
