@@ -193,7 +193,8 @@
 4. 插件：vue add plugin-demo
 # SSR
 1. 传统jsp vs SPA vs SSR
-2. nuxt-ssr
+    - <https://juejin.im/post/5c9a05eef265da60ec282b28>
+2. nuxt
     - 安装 `npx create-nuxt-app <项目名>`
     - 启动：`npm run dev`
     - 路由
@@ -228,3 +229,4 @@
         - 再启动 Nuxt 服务: `npm start`
         - 静态应用部署, Nuxt.js 可依据路由配置将应用静态化，使得我们可以将应用部署至任何一个静态站点主机服务商: `npm run generate`
 3. vue-ssr
+    - <https://segmentfault.com/a/1190000020249126>
