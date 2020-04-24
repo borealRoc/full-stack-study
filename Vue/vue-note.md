@@ -230,3 +230,4 @@
         - 静态应用部署, Nuxt.js 可依据路由配置将应用静态化，使得我们可以将应用部署至任何一个静态站点主机服务商: `npm run generate`
 3. vue-ssr
     - <https://segmentfault.com/a/1190000020249126>
+# vue-ts
