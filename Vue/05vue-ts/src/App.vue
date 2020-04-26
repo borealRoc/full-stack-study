@@ -1,16 +1,19 @@
 <template>
   <div id="app">
-    <TS-test/>      
+    <Ts-syntax/>
+    <Ts-vue/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import TSTest from './components/TSTest.vue';
+import TsSyntax from './components/TsSyntax.vue';
+import TsVue from './components/TsVue.vue';
 
 @Component({
   components: {
-    TSTest,
+    TsSyntax,
+    TsVue
   },
 })
 export default class App extends Vue {}

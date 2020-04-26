@@ -1,6 +1,6 @@
 <template>
   <div class="ts-test-comp">
-    <h2>TS基础语法及VueTS实战</h2>
+    <h2>TS基础语法</h2>
   </div>
 </template>
 
@@ -155,7 +155,7 @@ console.log(square.shoutout()); //我是blue 面积是4平方厘米
 interface MySelf {
   firstName: string;
   lastName: string;
-  sayHello(): string; //要求以Person接口为数据结构约束的变量必须有sayHello方法
+  sayHello(): string; //要求以MySelf接口为数据结构约束的变量必须有sayHello方法
 }
 // 面向接口编程
 const greeting = (person: MySelf) => person.sayHello();
@@ -170,7 +170,14 @@ console.log("面向接口编程", greeting(user)); //Hello, Xu King
 // 4.3 用接口去强制一个类去符合某种契约
 // 接口描述了类的公共部分，而不是公共和私有两部分。 它不会检查类是否具有某些私有成员
 class Me implements MySelf {
-  constructor(public firstName = "", public lastName = "") {}
+  public public_me = "public_me";
+  private private_me = "private_me";
+  // Type 'Me' is missing the following properties from type 'MySelf': firstName, lastNameVetur(2420)
+  // constructor(public public_me = "", public private_me = "") {}
+  constructor(public firstName = "", public lastName = "") {
+    this.public_me = firstName;
+    this.private_me = lastName;
+  }
   sayHello() {
     return "Hello, " + this.firstName + " " + this.lastName;
   }
@@ -180,15 +187,64 @@ console.log("类实现接口", me.sayHello()); //Hello, __xu__ --shao--
 
 // 5. 泛型
 // 泛型是指在定义函数，接口或类的时候，不预先指定具体的类型， 而在使用的时候再指定类型的一种特性
+// 定义普通接口
+interface Feature {
+  id: number;
+  name: string;
+  version?: string;
+}
 // 定义泛型接口
 interface Result<T> {
   ok: 0 | 1;
   data: T[];
 }
-// 定义泛型函数
+// 定义泛型函数【使用泛型接口】
+function getData<T>(data: T[]): Result<T> {
+  // const data: T[] = [
+  //   { id: 1, name: "类型注解", version: "2.0" },
+  //   { id: 2, name: "编译型语 " },
+  //   { id: 3, version: "3.0" }
+  // ];
+  return { ok: 1, data };
+}
+const data = [
+  { id: 1, name: "类型注解", version: "2.0" },
+  { id: 2, name: "编译型语 " }
+  // { id: 3, version: "3.0" }
+];
+// 使用泛型【使用泛型函数】
+const features = getData<Feature>(data).data;
+console.log("泛型", features);
 
 // 6. 装饰器
+// 装饰器是一种特殊类型的声明，它能够被附加到类声明，方法，属性,访问符或参数上
 // 装饰器实际上是工厂函数，传人一个对象，输出处理后的新对象
+// 6.1 类装饰器
+// 6.1.1 类的构造函数作为其唯一的参数
+// 6.1.2 如果类装饰器返回一个值，它会使用提供的构造函数来替换类的声明
+function class_log1(target: Function) {
+  console.log("target === Foo", target === Foo);
+  target.prototype.log = function() {
+    console.log("this是什么", this);
+  };
+}
+function class_log2(target: Function) {
+  console.log("试试多个装饰器应用于一个声明上");
+}
+@class_log1
+@class_log2
+class Foo {
+  constructor(public bar) {
+    console.log("试试装饰器先执行，还是声明先执行");
+  }
+}
+// 试试多个装饰器应用于一个声明上
+// target === Foo true
+// 试试装饰器先执行，还是声明先执行
+const foo = new Foo("bar");
+foo.log(); //this是什么 Foo {bar: "bar"}
+// 6.2 方法装饰器
+// 6.3 属性装饰器
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
