@@ -6,6 +6,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import { prototype } from "vue/types/umd";
 
 @Component
 export default class HelloWorld extends Vue {
@@ -101,8 +102,8 @@ class Employee extends Person {
     super(public_name, private_name, protected_name);
   }
   sayName2() {
-    // Property 'name2' is private and only accessible within class 'Person'
-    // console.log(this.name2)
+    // Property 'private_name' is private and only accessible within class 'Person'
+    // console.log(this.private_name)
   }
   sayName3() {
     console.log(this.protected_name);
@@ -117,8 +118,7 @@ console.log(Person1.public_name); //public_name
 const Person2 = new Employee("Employee1", "Employee2", "Employee3");
 Person2.sayName3(); //Employee3
 console.log("readonly", Person1.readonly_name); // i am readonly
-// Cannot assign to 'readonly_name' because it is a read-only property.
-// Person1.readonly_name = 'modify readonly'
+// Person1.readonly_name = 'modify readonly' //Cannot assign to 'readonly_name' because it is a read-only property.
 Person1.sayAge(); //static_age 17
 console.log("通过get访问到了Person的私有属性", Person1.privateName); //private_name
 Person1.privateName = "set Person1.privateName2";
@@ -219,32 +219,153 @@ console.log("泛型", features);
 // 6. 装饰器
 // 装饰器是一种特殊类型的声明，它能够被附加到类声明，方法，属性,访问符或参数上
 // 装饰器实际上是工厂函数，传人一个对象，输出处理后的新对象
-// 6.1 类装饰器
-// 6.1.1 类的构造函数作为其唯一的参数
-// 6.1.2 如果类装饰器返回一个值，它会使用提供的构造函数来替换类的声明
-function class_log1(target: Function) {
-  console.log("target === Foo", target === Foo);
-  target.prototype.log = function() {
-    console.log("this是什么", this);
+// 6.1 装饰器组合
+// 6.1.1 由上至下依次对装饰器表达式求值
+// 6.1.2 求值的结果会被当作函数，由下至上依次调用
+function f() {
+  console.log("f(): evaluated");
+  return function(target, propertyKey: string, descriptor: PropertyDescriptor) {
+    console.log("f(): called");
   };
 }
-function class_log2(target: Function) {
-  console.log("试试多个装饰器应用于一个声明上");
+function g() {
+  console.log("g(): evaluated");
+  return function(target, propertyKey: string, descriptor: PropertyDescriptor) {
+    console.log("g(): called");
+  };
 }
-@class_log1
-@class_log2
+class C {
+  @f()
+  @g()
+  method() {}
+}
+// f(): evaluated
+// g(): evaluated
+// g(): called
+// f(): called
+
+// 6.3 类装饰器
+// 6.3.1 类的构造函数作为其唯一的参数
+function ClassDes(target: Function) {
+  console.log("target是：", target);
+  target.prototype.log = function() {
+    console.log("bar是：", this.bar);
+  };
+}
+@ClassDes
 class Foo {
-  constructor(public bar) {
-    console.log("试试装饰器先执行，还是声明先执行");
+  bar = "~~bar~~";
+}
+const foo = new Foo();
+foo.log();
+// target是： ƒ Foo() {}
+// bar是： ~~bar~~
+// 6.3.2 如果类装饰器返回一个值，它会使用提供的构造函数来替换类的声明
+function classDecorator<T extends { new (...args: any[]): {} }>(
+  constructor: T
+) {
+  return class extends constructor {
+    newProperty = "new property";
+    hello = "override";
+  };
+}
+@classDecorator
+class Greeter {
+  property = "property";
+  hello: string;
+  constructor(m: string) {
+    this.hello = m;
   }
 }
-// 试试多个装饰器应用于一个声明上
-// target === Foo true
-// 试试装饰器先执行，还是声明先执行
-const foo = new Foo("bar");
-foo.log(); //this是什么 Foo {bar: "bar"}
-// 6.2 方法装饰器
-// 6.3 属性装饰器
+console.log(new Greeter("world"));
+// _class {property: "property", hello: "override", newProperty: "new property"}
+
+// 6.4 方法装饰器
+// 方法装饰器表达式会在运行时当作函数被调用，传入下列3个参数
+// 6.4.1 对于静态成员来说是类的构造函数，对于实例成员是类的原型对象
+// 6.4.2 成员的名字
+// 6.4.3 成员的属性描述符
+function MethodDds(target: any, name: string, descriptor: any) {
+  console.log("方法装饰器的三个参数分别是", target, name, descriptor);
+  console.log("用方法装饰器修改之前的descriptor.value", descriptor.value);
+  const laterMethod = descriptor.value;
+  descriptor.value = function(val: string) {
+    console.log("用方法装饰器修改之后的descriptor.value", descriptor.value);
+    laterMethod.call(this, val);
+  };
+  return descriptor;
+}
+class Foo2 {
+  foo = "原来的foo值";
+  @MethodDds
+  sayFoo(val: string) {
+    this.foo = val;
+    console.log(this.foo)
+  }
+}
+const foo2 = new Foo2();
+foo2.sayFoo("后来的foo值");
+// 方法装饰器的三个参数分别是 {constructor: ƒ, sayFoo: ƒ} sayFoo {writable: true, enumerable: false, configurable: true, value: ƒ}
+// 用方法装饰器修改之前的descriptor.value ƒ sayFoo(val) {
+//       this.foo = val;
+//       console.log(this.foo);
+//     }
+// 用方法装饰器修改之后的descriptor.value ƒ (val) {
+//     console.log("用方法装饰器修改之后的descriptor.value", descriptor.value);
+//     laterMethod.call(this, val);
+//   }
+// 后来的foo值
+
+// 6.5 访问器装饰器
+// 访问器装饰器表达式会在运行时当作函数被调用，传入下列3个参数
+// 6.5.1 对于静态成员来说是类的构造函数，对于实例成员是类的原型对象
+// 6.5.2 成员的名字
+// 6.5.3 成员的属性描述符
+function getterDes(val: boolean) {
+  return function(target: any, name: string, descriptor: any) {
+    console.log("访问器装饰器的是三个参数是", target, name, descriptor);
+    console.log("访问器装饰器装饰前的descriptor", descriptor);
+    descriptor.configurable = val;
+    console.log("访问器装饰器装饰后的descriptor", descriptor);
+  };
+}
+class Point {
+  private _x: number;
+  constructor(x: number) {
+    this._x = x;
+  }
+  @getterDes(false)
+  get x() {
+    return this._x;
+  }
+}
+const point = new Point(1000);
+console.log(point.x);
+// 访问器装饰器的是三个参数是 {constructor: ƒ} x {set: undefined, enumerable: false, configurable: true, get: ƒ}
+// 访问器装饰器装饰前的descriptor {set: undefined, enumerable: false, configurable: true, get: ƒ}
+// 访问器装饰器装饰后的descriptor {set: undefined, enumerable: false, configurable: false, get: ƒ}
+// 1000
+
+// 6.6 属性装饰器
+// 属性装饰器表达式会在运行时当作函数被调用，传入下列2个参数
+// 6.6.1 对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。
+// 6.6.2 成员的名字
+function propertyDes(target: any, name: string) {
+  console.log("属性装饰器的两个参数是", target, name);
+  console.log("属性装饰器装饰前的target[name]", target[name]);
+  target[name] = "我是在属性装饰器装饰被修改赋值的";
+  console.log("属性装饰器装饰后的target[name]", target[name]);
+}
+class Foo3 {
+  @propertyDes
+  foo3: string;
+}
+const foo3 = new Foo3();
+console.log(foo3.foo3);
+// 属性装饰器的两个参数是 {constructor: ƒ} foo3
+// 属性装饰器装饰前的target[name] undefined
+// 属性装饰器装饰后的target[name] 我是在属性装饰器装饰被修改赋值的
+// 我是在属性装饰器装饰被修改赋值的
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
