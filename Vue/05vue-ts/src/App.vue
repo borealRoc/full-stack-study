@@ -1,22 +1,26 @@
 <template>
   <div id="app">
-    <Ts-syntax/>
-    <Ts-vue/>
+    <Ts-syntax />
+    <Ts-vue title="TSVue" @add-feature="onAddFeature" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import TsSyntax from './components/TsSyntax.vue';
-import TsVue from './components/TsVue.vue';
+import { Component, Vue } from "vue-property-decorator";
+import TsSyntax from "./components/TsSyntax.vue";
+import TsVue, { FeatureInterface } from "./components/TsVue.vue";
 
 @Component({
   components: {
     TsSyntax,
     TsVue
-  },
+  }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  onAddFeature(feature: FeatureInterface) {
+    console.log('监听TsVue组件派发的addFeature事件', feature.name);
+  }
+}
 </script>
 
 <style>
