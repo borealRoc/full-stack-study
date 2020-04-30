@@ -246,18 +246,19 @@ class C {
 
 // 6.3 类装饰器
 // 6.3.1 类的构造函数作为其唯一的参数
-function ClassDes(target: Function) {
+function ClassDes(target: any) {
   console.log("target是：", target);
   target.prototype.log = function() {
     console.log("bar是：", this.bar);
   };
+  
 }
 @ClassDes
 class Foo {
-  bar = "~~bar~~";
+  bar = "~~bar~~"
 }
 const foo = new Foo();
-foo.log();
+foo.log()
 // target是： ƒ Foo() {}
 // bar是： ~~bar~~
 // 6.3.2 如果类装饰器返回一个值，它会使用提供的构造函数来替换类的声明
