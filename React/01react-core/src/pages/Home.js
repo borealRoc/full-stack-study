@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import State from '../components/State'
+import Hook from '../components/Hook'
+import Cart from '../components/Cart'
 
 export default class Home extends Component {
     render() {
@@ -8,7 +10,14 @@ export default class Home extends Component {
                 <ul>
                     <li>
                         <h2>1. 状态管理</h2>
+                        <h3>1.1 class组件状态管理: state && setState</h3>
                         <State />
+                        <h3>1.2 function组件状态管理: hooks[useState和useEffect]</h3>
+                        <Hook />
+                    </li>
+                    <li>
+                        <h2>2. 组件通讯</h2>
+                        <Cart />
                     </li>
                 </ul>
             </div>
