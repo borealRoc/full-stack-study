@@ -24,10 +24,26 @@ export default class Lifecycle extends Component {
         return counter < 5 ? null : { counter: 0 }
     }
 
+    componentDidMount() {
+        const { counter } = this.state
+        console.log('componentDidMount', counter)
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
         const { counter } = nextState
         console.log('执行shouldComponentUpdate', counter)
         return counter !== 4
+    }
+
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        const { counter } = prevState
+        console.log('getSnapshotBeforeUpdate', counter)
+        return 'come from getSnapshotBeforeUpdate'
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const { counter } = prevState
+        console.log('componentDidUpdate', counter, snapshot)
     }
 
     render() {
