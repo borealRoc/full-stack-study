@@ -5,11 +5,12 @@ import Cart from '../components/Cart'
 import Lifecycle from '../components/Lifecycle'
 import Context from '../components/Context'
 import Composition from '../components/Composition'
+import HOC from '../components/HOC'
 
 export default class Home extends Component {
     render() {
         return (
-            <div className="Home">
+            <div className="home">
                 <ul>
                     <li>
                         <h2>1. 状态管理</h2>
@@ -28,13 +29,19 @@ export default class Home extends Component {
                     </li>
                     <li>
                         <h2>4. 跨组件传值 --- Context</h2>
-                        <p>相当于Vue的provide && inject</p>
+                        <h3>相当于Vue的provide && inject</h3>
                         <Context />
                     </li>
                     <li>
                         <h2>5. 组件复合 -- Composition</h2>
-                        <p>相当于Vue的插槽</p>
+                        <h3>相当于Vue的插槽</h3>
                         <Composition/>
+                    </li>
+                    <li>
+                        <h2>6. 高阶组件 -- HOC</h2>
+                        <h3>高阶组件是一个工厂函数，它接收一个组件，并返回另一个组件</h3>
+                        <p>6.1 高阶组件普通写法链式调用</p>
+                        <HOC stage="React高级语法"/>
                     </li>
                 </ul>
             </div>

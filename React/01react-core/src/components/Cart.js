@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 const CourseForm = props => {
     return (
         <div className="course-form">
-            <h2>添加课程：</h2>
+            <h3>添加课程：</h3>
             <input type="text" value={props.good} onChange={e => props.inputGood(e)}></input>
             <button onClick={() => props.addToLists()}>添加课程</button>
         </div>
@@ -13,7 +13,7 @@ const CourseForm = props => {
 const CourseLists = props => {
     return (
         <div className="course-lists">
-            <h2>课程列表：</h2>
+            <h3>课程列表：</h3>
             <ul>
                 {
                     props.goods.map(good => <li key={good.id}>
@@ -31,7 +31,7 @@ const CourseLists = props => {
 const CourseTable = props => {
     return (
         <div className="course-lists">
-            <h2>课程购物车：</h2>
+            <h3>课程购物车：</h3>
             <table>
                 <thead>
                     <tr>

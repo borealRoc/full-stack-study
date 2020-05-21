@@ -39,6 +39,22 @@ ul {
   padding-left: 0;
 }
 
+input {
+  border: solid 1px #ccc;
+  outline: 0;
+}
+
+button {
+  margin: 0 5px;
+  background-color: #ccc;
+  outline: 0;
+  border: 0;
+}
+
+.home {
+  padding: 0 20px;
+}
+
 .slot-ctn {
   box-sizing: border-box;
   border: solid 1px;
