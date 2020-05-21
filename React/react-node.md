@@ -81,7 +81,16 @@
     - V16.3之前的生命周期  
     <img src="./img/v16.3.png">
     - V16.4之后的生命周期  
-    <img src="./img/v16.4.png">
+    <img src="./img/v16.4.png">  
+# react组件化
+1. 组件跨层通信 - context
+    - 创建上下文：`const {Provider, Consumer} = React.createContext()`
+    - 提供者 -- 哪里提供哪里写: `<Provider value={data}>...</Provider>`
+    - 消费者 -- 哪里需要哪里写: `<Consumer>{value => <Comp {...value}/>}</Consumer>`
+2. 组件复合 - composition
+    - 相当于Vue的插槽: slot => props.children
+3. 高阶组件 - HOC
+4. Hooks -- V16.8~
 
 
 
