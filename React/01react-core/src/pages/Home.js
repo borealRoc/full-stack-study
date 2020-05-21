@@ -7,6 +7,7 @@ import Context from '../components/Context'
 import Composition from '../components/Composition'
 import HOC from '../components/HOC'
 import HOCD from '../components/HOCD'
+import Hook from '../components/Hook'
 
 export default class Home extends Component {
     render() {
@@ -45,6 +46,11 @@ export default class Home extends Component {
                         <HOC stage="链式调用" />
                         <p>6.2 高阶组件装饰器写法</p>
                         <HOCD stage="装饰器写法" />
+                    </li>
+                    <li>
+                        <h2>7. Hook</h2>
+                        <h3>在不编写class组件的情况下使用state以及其他的React特性</h3>
+                        <Hook/>
                     </li>
                 </ul>
             </div>
