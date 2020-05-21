@@ -9,28 +9,29 @@ const withName = Comp => {
             console.log('重写组件生命周期')
         }
         render() {
-            return (<Comp {...this.props} name='高阶组件' />)
+            return  (<Comp {...this.props} name='高阶组件' />)
         }
     }
     return NewComp
 }
 const withLog = Comp => {
     console.log('withLog--Comp.name', Comp.name) //NewComp
-    return props => <Comp {...props} />
+    return props => <Comp {...props}/>
 }
 
-class HOC extends Component {
+// 高阶组件装饰器写法
+@withLog
+@withName
+class HOCD extends Component {
     render() {
         return (
             <div>
-                {this.props.stage} -- {this.props.name}
+            {this.props.stage} -- {this.props.name}
             </div>
         );
     }
 }
 
-// 高阶组件链式调用
-export default withLog(withName(HOC))
-
+export default HOCD
 
 

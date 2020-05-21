@@ -6,6 +6,7 @@ import Lifecycle from '../components/Lifecycle'
 import Context from '../components/Context'
 import Composition from '../components/Composition'
 import HOC from '../components/HOC'
+import HOCD from '../components/HOCD'
 
 export default class Home extends Component {
     render() {
@@ -35,13 +36,15 @@ export default class Home extends Component {
                     <li>
                         <h2>5. 组件复合 -- Composition</h2>
                         <h3>相当于Vue的插槽</h3>
-                        <Composition/>
+                        <Composition />
                     </li>
                     <li>
                         <h2>6. 高阶组件 -- HOC</h2>
                         <h3>高阶组件是一个工厂函数，它接收一个组件，并返回另一个组件</h3>
                         <p>6.1 高阶组件普通写法链式调用</p>
-                        <HOC stage="React高级语法"/>
+                        <HOC stage="链式调用" />
+                        <p>6.2 高阶组件装饰器写法</p>
+                        <HOCD stage="装饰器写法" />
                     </li>
                 </ul>
             </div>
