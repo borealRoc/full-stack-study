@@ -4,6 +4,7 @@ import Hook from '../components/Hook'
 import Cart from '../components/Cart'
 import Lifecycle from '../components/Lifecycle'
 import Context from '../components/Context'
+import Composition from '../components/Composition'
 
 export default class Home extends Component {
     render() {
@@ -27,7 +28,13 @@ export default class Home extends Component {
                     </li>
                     <li>
                         <h2>4. 跨组件传值 --- Context</h2>
+                        <p>相当于Vue的provide && inject</p>
                         <Context />
+                    </li>
+                    <li>
+                        <h2>5. 组件复合 -- Composition</h2>
+                        <p>相当于Vue的插槽</p>
+                        <Composition/>
                     </li>
                 </ul>
             </div>
