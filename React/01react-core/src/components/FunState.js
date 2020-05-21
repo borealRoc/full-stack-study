@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-export default function Hook() {
+export default function FunState() {
     const [time, setState] = useState(new Date())
 
     useEffect(() => {

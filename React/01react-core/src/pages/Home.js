@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import State from '../components/State'
-import Hook from '../components/Hook'
+import FunState from '../components/FunState'
 import Cart from '../components/Cart'
 import Lifecycle from '../components/Lifecycle'
 import Context from '../components/Context'
@@ -18,7 +18,7 @@ export default class Home extends Component {
                         <h3>1.1 class组件状态管理: state && setState</h3>
                         <State />
                         <h3>1.2 function组件状态管理: hooks[useState和useEffect]</h3>
-                        <Hook />
+                        <FunState />
                     </li>
                     <li>
                         <h2>2. 组件通讯 -- props和事件（参数）</h2>
