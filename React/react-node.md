@@ -90,7 +90,21 @@
 2. 组件复合 - composition
     - 相当于Vue的插槽: slot => props.children
 3. 高阶组件 - HOC
-4. Hooks -- V16.8~
+    - 高阶组件是一个工厂函数，传入一个组件，返回另一个组件
+    - 装饰器写法：
+4. Hooks[V16.8~]: 在不编写class组件的情况下使用state以及其他的React特性
+    - 状态钩子: useState
+        - 跟class组件中的`this.state`和`this.setState`类似：`const [count, setCount] = useState(0)`等价于class组件中`this.state = {count: 0}, this.setState({count: setCount()})`
+    - 副作用钩子: useEffect
+        - 它跟class组件中的componentDidMount,componentDidUpdate,componentWillUnmount类似
+        - 参数：useEffect(副作用函数，副作用执行依赖项)
+        - 清除工作：有一些副作用是需要清除的，清除工作十分重要，可以防止引起内存泄露
+    - useReducer: 
+    - useContext: 
+    - 自定义Hook: 
+    
+
+
 
 
 
