@@ -1,21 +1,29 @@
 # react 官方脚手架：create-react-app
 1. 安装：npm install -g create-react-app
 2. 创建项目：create-react-app react-core
+3. 修改项目的webpack配置：<https://juejin.im/post/5dedd6c8f265da33d15884bf>
 # react 基础知识
 1. React 和 ReactDOM
     - React负责逻辑控制: 数据 -> VDOM
     - ReactDOM渲染实际DOM: VDOM -> DOM
 2. function组件和class组件
-    - class组件: 通常拥有状态和生命周期，继承于React.Component实现render方法
-    - function组件: 通常无状态，仅关注内容展示，返回渲染结果即可
-    > 从React16.8开始引  hooks，函数组件也能够拥有状态
+    - class组件: 通常拥有状态和生命周期，继承于React.Component, 在render()里面return出模板
+    - function组件: 通常无状态，仅关注内容展示，直接return出渲染结果
+    > React16.8开始引入hooks，函数组件也能够拥有状态
 3. 状态管理
-    - 类组件: state && setState
-        - 维护状态：`this.state({counter: 0})`
+    - class组件: state && setState
+        - 维护状态：`this.state({counter: 0, num: 1})`
         - setState特性
-            - 不能直接修改状态：`this.state.counter += 1 //error`
+            - 不能直接修改状态
+                - `this.state.counter += 1 //error`
+                - `this.setState({counter: this.state.counter + 1}) //right`
             - 批量执行
-            - 异步: setState通常是异步的，因此如果要获取到最新状态值有以下三种方式[为什么等原理部分再回过头来看]
+            ```javascript
+                this.setState({A: 'aaa', B: 'bbb'})
+                this.setState({A: 'aa'})
+                console.log(this.state.A, this.state.B) //'aa' 'bbb'
+            ```
+            - 异步: setState通常是异步的，因此如果要获取到最新状态值有以下三种方式
                 - 传递函数给setState方法
                 ```javascript
                 this.setState((preState, preProps) => ({
@@ -55,24 +63,15 @@
                     console.log(this.state.counter) //2
                 })
                 ```
-                > setState只有在合成事件和钩子函数中是异步的，在原生事件和setTimeout、setInterval中都是同步的
+                > setState只有在合成事件和钩子函数中是异步的，在setState回调函数，原生事件和setTimeout、setInterval中都是同步的？？
     - 函数组件: hooks[useState和useEffect]
-    ```javascript
-    const [time, setState] = useState(new Date())
-    useEffect(() => {
-        const timeId = setInterval(() => {
-            setState(new Date())
-        }, 1000)
-        return () => clearInterval(timeId)
-    })
-    ```
 4. 事件：绑定this的三种方法
     - 构造函数中绑定并覆盖: `this.change = this.change.bind(this)`
     - 方法定义为箭头函数：`change = () => {}`
     - 事件调用中定义为箭头函数: `onChange = {() => this.change()}`
 5. 组件通讯
     - 父传子[props]
-    - 子传父[事件]
+    - 子传父[事件，传参]
     - 跨层级[context]
     - 任意两个组件通讯[redux]
     - 双向数据绑定
@@ -82,26 +81,72 @@
     <img src="./img/v16.3.png">
     - V16.4之后的生命周期  
     <img src="./img/v16.4.png">  
+    - 总结：
+        - `componentWillMount`, `componentWillReceiveProps`和`componentWillUpdate`被`getDerivedStateFromProps`取代
+        - `getDerivedStateFromProps`会在render前，初始挂载和后续更新时被调用
 # react组件化
-1. 组件跨层通信 - context
+1. 纯组件[组件优化技术]
+    - Component不会比较当前和下个状态的props和state。因此，每当shouldComponentUpdate被调用时，组件默认的会重新渲染。优化 ——
+    - Component + shouldComponentUpdate判断是否更新：`shouldComponentUpdate(nextProps, nextState) { return !(nextProps === this.props && nextState === this.state)}`
+        - 缺点：麻烦
+    - PureComponent[V15.3~]
+        - 当props或者state改变时，PureComponent将对props和state进行浅比较，如果一样，则shouldComponentUpdate返回false
+        - 缺点：有使用限制
+            - 确保数据类型是值类型
+            - 如果是引用类型，确保地址不变，同时不应当有深层次的数据变化
+            - 必须是class组件
+    - React.meno()[V16.6~]
+        - React.memo()是一个高阶函数，它与 React.PureComponent类似，但是一个函数组件而非一个类
+    - vue框架内部已经对此做了优化, 开发者不需要考虑该类问题, 只需要关注自己的应用本身就可以了
+2. 组件跨层通信 - context
     - 创建上下文：`const {Provider, Consumer} = React.createContext()`
     - 提供者 -- 哪里提供哪里写: `<Provider value={data}>...</Provider>`
     - 消费者 -- 哪里需要哪里写: `<Consumer>{value => <Comp {...value}/>}</Consumer>`
-2. 组件复合 - composition
+3. 组件复合 - composition
     - 相当于Vue的插槽: slot => props.children
-3. 高阶组件 - HOC
+4. 高阶组件 - HOC
     - 高阶组件是一个工厂函数，传入一个组件，返回另一个组件
-    - 装饰器写法：
-4. Hooks[V16.8~]: 在不编写class组件的情况下使用state以及其他的React特性
+    - 装饰器写法：需要配置 -- `npm i @babel/plugin-proposal-decorators -D`
+5. Hooks[V16.8~]: Hook本质就是JavaScrip 函数，它可以在不编写class组件的情况下使用state 以及其他的React特性
     - 状态钩子: useState
-        - 跟class组件中的`this.state`和`this.setState`类似：`const [count, setCount] = useState(0)`等价于class组件中`this.state = {count: 0}, this.setState({count: setCount()})`
+        - 跟class组件中的`this.state`和`this.setState`类似
+            - `const [count, setCount] = useState(0)`等价于class组件中`this.state = {count: 0}, this.setState({count: setCount()})`
     - 副作用钩子: useEffect
         - 它跟class组件中的componentDidMount,componentDidUpdate,componentWillUnmount类似
         - 参数：useEffect(副作用函数，副作用执行依赖项)
         - 清除工作：有一些副作用是需要清除的，清除工作十分重要，可以防止引起内存泄露
-    - useReducer: 
-    - useContext: 
-    - 自定义Hook: 
+    - useReducer: 等学完redux再回过头来看
+    - useContext: 类似于class组件中的Context
+    - 拓展
+        - Hook规则：<https://zh-hans.reactjs.org/docs/hooks-rules.html>
+        - 自定义Hook
+            - <https://zh-hans.reactjs.org/docs/hooks-custom.html>
+            - <https://juejin.im/post/5df78ba6f265da33d74428f9>
+            - <https://juejin.im/post/5dc953235188250c6c41683e>
+        - 一些牛逼的自定义Hook：<https://github.com/streamich/react-use>
+6. 使用第三方组件
+    - 6.1 antd
+        - 安装：`npm install antd --save`
+        - 按需加载配置：`npm install react-app-rewired customize-cra babel-plugin-import -D`
+        ```javascript
+        //根目录创建config-overrides.js
+        const { override, fixBabelImports, addDecoratorsLegacy } = require("customize-cra");
+        module.exports = override(
+            fixBabelImports("import", {
+                libraryName: "antd",
+                libraryDirectory: "es",
+                style: "css",
+            }),
+            addDecoratorsLegacy(), //配置装饰器
+        );
+        // 修改package.json
+        "scripts": {
+            "start": "react-app-rewired start",
+            "build": "react-app-rewired build",
+            "test": "react-app-rewired test",
+            "eject": "react-app-rewired eject"
+        },
+        ```
     
 
 
