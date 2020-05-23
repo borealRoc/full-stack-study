@@ -1,0 +1,26 @@
+import React, { UseContext, useContext } from 'react'
+const Context = React.createContext()
+const Provider = Context.Provider
+
+const store = {
+    user: '史诗王爵'
+}
+
+export default function UseContextDemo () {
+    return (
+        <div>
+            <Provider value={store}>
+                <Child />
+            </Provider>
+        </div>
+    )
+}
+
+function Child() {
+    const { user } = useContext(Context)
+    return (
+        <div>
+            <p>I am Child. My name "{user}" is from ancestor on <strong>UseContxt</strong>.</p>
+        </div>
+    )
+}

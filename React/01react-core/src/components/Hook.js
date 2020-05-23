@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import UseContextDemo from './UseContext'
 
 // 自定义钩子
 const useAge = () => {
@@ -44,6 +45,7 @@ export default function Hook() {
             <p>使用自定义钩子：{age}</p>
             <AddFruit onAddFruit={item => setFruits([...fruits, item])} />
             <FruitLists fruits={fruits} onSetFruits={delFruit} />
+            <UseContextDemo/>
         </div>
     )
 }
