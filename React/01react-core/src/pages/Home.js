@@ -9,6 +9,7 @@ import HOC from '../components/HOC'
 import HOCD from '../components/HOCD'
 import Hook from '../components/Hook'
 import PureComp from '../components/PureComp'
+import AntdForm from '../components/AntdForm'
 
 export default class Home extends Component {
     render() {
@@ -57,6 +58,10 @@ export default class Home extends Component {
                         <h2>8. PureComponent: 纯组件</h2>
                         <h3>Component不会比较当前和下个状态的props和state。因此，每当shouldComponentUpdate被调用时，组件默认的会重新渲染。优化：使用纯组件</h3>
                         <PureComp/>
+                    </li>
+                    <li>
+                        <h2>9. 使用antd的form组件</h2>
+                        <AntdForm/>
                     </li>
                 </ul>
             </div>
