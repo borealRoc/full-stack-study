@@ -5,10 +5,15 @@ export default class State extends Component {
         super(props)
         this.state = {
             counter: 0,
+            A: 'a',
+            B: 'b',
         }
     }
 
     componentDidMount() {
+        this.setState({A: 'aaa', B: 'bbb'})
+        this.setState({A: 'aa'})
+
         this.setState((preState, preProps) => ({
             counter: preState.counter + 1 //1
         }), () => {
@@ -46,6 +51,8 @@ export default class State extends Component {
     render() {
         return (
             <div>
+                <p>A是{this.state.A}</p>
+                <p>B是{this.state.B}</p>
                 <p>counter是{this.state.counter}</p>
                 <button id="changeCounter">changeCounter</button>
             </div>

@@ -2,11 +2,10 @@ import React, { UseContext, useContext } from 'react'
 const Context = React.createContext()
 const Provider = Context.Provider
 
-const store = {
-    user: '史诗王爵'
-}
-
-export default function UseContextDemo () {
+export default function UseContextDemo() {
+    const store = {
+        user: '史诗王爵'
+    }
     return (
         <div>
             <Provider value={store}>
