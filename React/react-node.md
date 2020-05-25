@@ -12,7 +12,7 @@
     > React16.8开始引入hooks，函数组件也能够拥有状态
 3. 状态管理
     - class组件: state && setState
-        - 维护状态：`this.state({counter: 0, num: 1})`
+        - 维护状态：`this.state = {counter: 0, num: 1}`
         - setState特性
             - 不能直接修改状态
                 - `this.state.counter += 1 //error`
@@ -139,7 +139,9 @@
             }),
             addDecoratorsLegacy(), //配置装饰器
         );
-        // 修改package.json
+        ```
+        ```json
+        // package.json
         "scripts": {
             "start": "react-app-rewired start",
             "build": "react-app-rewired build",
@@ -147,6 +149,16 @@
             "eject": "react-app-rewired eject"
         },
         ```
+    > antd v4 对比 antd v3改动了很多
+7. 自定义组件
+    - 7.1 模仿Antd设计一个表单组件
+        - 高阶组件
+        - `React.cloneElement`API
+        - React表单的双向数据绑定
+        - 单项校验和全局校验
+    - 7.2 弹窗类组件
+        - 方案1[v16之后]: 传送门Portal, 动态挂载React组件
+        - 方案2[v16之前]: 
     
 
 
