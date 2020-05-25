@@ -11,6 +11,7 @@ import Hook from '../components/Hook'
 import PureComp from '../components/PureComp'
 import AntdForm from '../components/AntdFormV4'
 import MyAntdForm from '../components/MyAntdForm'
+import MyDialogTest from '../components/MyDialogTest'
 
 export default class Home extends Component {
     render() {
@@ -68,6 +69,10 @@ export default class Home extends Component {
                         <h2>10. 模仿Antd自定义一个Form表单组件</h2>
                         <h3>运用高阶组件相关知识</h3>
                         <MyAntdForm />
+                    </li>
+                    <li>
+                        <h2>11. 自定义弹窗类组件</h2>
+                        <MyDialogTest/>
                     </li>
                 </ul>
             </div>
