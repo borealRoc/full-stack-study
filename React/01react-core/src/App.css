@@ -64,3 +64,27 @@ button {
   box-sizing: border-box;
   border: solid 1px #e00000;
 }
+
+.form-decorate {
+  padding: 20px;
+  border: solid 2px #e00000;
+}
+
+.my-form-item {
+  position: relative;
+  padding-bottom: 30px;
+}
+
+.my-form-item .my-form-label {
+  line-height: 30px;
+  font-weight: bold;
+}
+
+.my-form-item .errorMes {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 0;
+  font-size: 12px;
+  line-height: 30px;
+  color: #e00000;
+}
