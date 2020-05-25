@@ -6,14 +6,16 @@ const nameRule = {
     required: true,
     message: "please input your name",
 };
+
 const passwordRule = {
     required: true,
     message: "please input your password",
 };
 
-export default class AntdForm extends Component {
+class AntdFormV3 extends Component {
     submit = () => {
         const { getFieldsValue, getFieldValue, validateFields } = this.props.form;
+        // console.log("submit", getFieldValue("password"));
         validateFields((err, values) => {
             if (err) {
                 console.log("err", err);
@@ -40,10 +42,12 @@ export default class AntdForm extends Component {
                         )}
                     </FormItem>
                     <FormItem>
-                        <Button type="primary" onClick={() => this.submit()}>提交</Button>
+                        <Button type="primary" onClick={this.submit}>提交</Button>
                     </FormItem>
                 </Form>
             </div>
         );
     }
 }
+
+export default Form.create()(AntdFormV3)

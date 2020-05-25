@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react'
+import React, { Component } from 'react'
 import State from '../components/State'
 import FunState from '../components/FunState'
 import Cart from '../components/Cart'
@@ -9,7 +9,7 @@ import HOC from '../components/HOC'
 import HOCD from '../components/HOCD'
 import Hook from '../components/Hook'
 import PureComp from '../components/PureComp'
-import AntdForm from '../components/AntdForm'
+import AntdForm from '../components/AntdFormV4'
 
 export default class Home extends Component {
     render() {
@@ -52,16 +52,16 @@ export default class Home extends Component {
                     <li>
                         <h2>7. Hook</h2>
                         <h3>在不编写class组件的情况下使用state以及其他的React特性</h3>
-                        <Hook/>
+                        <Hook />
                     </li>
                     <li>
                         <h2>8. PureComponent: 纯组件</h2>
                         <h3>Component不会比较当前和下个状态的props和state。因此，每当shouldComponentUpdate被调用时，组件默认的会重新渲染。优化：使用纯组件</h3>
-                        <PureComp/>
+                        <PureComp />
                     </li>
                     <li>
                         <h2>9. 使用antd的form组件</h2>
-                        <AntdForm/>
+                        <AntdForm />
                     </li>
                 </ul>
             </div>

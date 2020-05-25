@@ -1,4 +1,4 @@
-import React, { UseContext, useContext } from 'react'
+import React, { useContext } from 'react'
 const Context = React.createContext()
 const Provider = Context.Provider
 
