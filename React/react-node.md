@@ -146,6 +146,8 @@
     - 6.2 弹窗类组件 -- 传送门Portal, 动态挂载React组件
         - 方案1[v16之后]: `createPortal(comp, node)`
         - 方案2[v16之前]: `unmountComponentAtNode`和`unstable_renderSubtreeIntoContainer`
+            - `componentWillUnmount() {unmountComponentAtNode(node)}`
+            - `unstable_renderSubtreeIntoContainer(this, comp, node)`
     - 6.3 树形递归组件
         - 可以直接使用组件的名称，递归调用组件
         - 递归终止条件：hasChildren
