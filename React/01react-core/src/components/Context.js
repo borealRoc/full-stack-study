@@ -20,7 +20,7 @@ function Child(props) {
     )
 }
 
-function Middle(props) {
+function Middle() {
     return (
         <div className="middle-comp">
             {/* 消费者，接收数据 */}
@@ -34,7 +34,7 @@ function Middle(props) {
     )
 }
 
-function Parent(props) {
+function Parent() {
     return (
         <div className="pare-comp">
             <Middle />

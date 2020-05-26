@@ -86,6 +86,7 @@ export default class PureComp extends Component {
         return (
             <div>
                 {/* {this.state.mes.map((item, index) => <List key={index} data={item}/>)} */}
+                {/* PureComponent是浅比较，所以传递的属性不要传引用类型，要传值类型，所以下面传递的参数要解套 */}
                 {/* {this.state.mes.map((item, index) => <List key={index} body={item.body} author={item.author} />)} */}
                 {this.state.mes.map((item, index) => <List key={index} {...item} />)}
             </div>
