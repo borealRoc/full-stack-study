@@ -1,0 +1,41 @@
+.home>ul>li {
+    box-sizing: border-box;
+    padding: 0 20px 20px;
+    margin-bottom: 20px;
+    border-bottom: solid 10px #f2f2f2;
+}
+
+.home>ul>li:last-child {
+    border-bottom: 0;
+}
+
+/* 树形组件 */
+.nodeInner {
+    cursor: pointer;
+}
+
+.children {
+    margin-left: 20px;
+}
+
+.tri {
+    width: 20px;
+    height: 20px;
+    margin-right: 2px;
+    padding-right: 4px;
+}
+
+.tri-close:after,
+.tri-open:after {
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-left: 8px solid black;
+    border-bottom: 6px solid transparent;
+}
+
+.tri-open:after {
+    transform: rotate(90deg);
+}

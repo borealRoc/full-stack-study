@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import "./home.css"
 import State from '../components/State'
 import FunState from '../components/FunState'
 import Cart from '../components/Cart'
@@ -12,6 +13,7 @@ import PureComp from '../components/PureComp'
 import AntdForm from '../components/AntdFormV4'
 import MyAntdForm from '../components/MyAntdForm'
 import MyDialogTest from '../components/MyDialogTest'
+import Tree from '../components/Tree'
 
 export default class Home extends Component {
     render() {
@@ -72,7 +74,11 @@ export default class Home extends Component {
                     </li>
                     <li>
                         <h2>11. 自定义弹窗类组件</h2>
-                        <MyDialogTest/>
+                        <MyDialogTest />
+                    </li>
+                    <li>
+                        <h2>12. 递归组件之树形组件</h2>
+                        <Tree/>
                     </li>
                 </ul>
             </div>
