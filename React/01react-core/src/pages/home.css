@@ -9,6 +9,10 @@
     border-bottom: 0;
 }
 
+.redux-page {
+    padding: 20px;
+}
+
 /* 树形组件 */
 .nodeInner {
     cursor: pointer;
