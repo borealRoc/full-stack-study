@@ -165,7 +165,19 @@
     - 7.3 React.meno()[V16.6~]
         - React.memo()是一个高阶函数，它与 React.PureComponent类似，但是一个函数组件而非一个类
     - 7.4 vue框架内部已经对此做了优化, 开发者不需要考虑该类问题, 只需要关注自己的应用本身就可以了
-    
+# react全家桶 -- Redux
+1. reducer: reducer是一个纯函数，接收旧的state和action，返回新的state
+    - `(preState, action) => newState`
+2. reduce: 之所以将这样的函数称之为 reducer, 是因为这种函数与被传入`Array.prototype.reduce(reducer, ？initialVal)`里的回调函数属于相同的类型
+    - eg: `const arr = [1,2,3,4]; const reducer = (pre, next) => pre + next; arr.reduce(reducer, 20); //30`
+3. redux: Redux是**JavaScript**应用的状态容器，而不单单是React应用的状态容器
+    - createStore 创建store: `const counterStore = createStore(counter)`
+    - reducer 初始化，修改状态函数：`const counter = (state, action) => {}`
+    - getState 获取状态值: `const count = counterStore.getState()`
+    - dispatch 提交更新: `counterStore.dispatch({type: 'add'})`
+    - subscribe 订阅变更: `counterStore.subscribe(() => this.forceUpdate())`
+4. react-redux
+
 
 
 
