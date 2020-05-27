@@ -1,7 +1,9 @@
 // 状态映射
 export const mapStateToProps = state => {
     return {
-        count: state
+        // count: state
+        // 模块化
+        count: state.counter2
     }
 }
 // 事件映射

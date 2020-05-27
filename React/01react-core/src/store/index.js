@@ -1,9 +1,14 @@
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import logger from 'redux-logger'
 import thunk from 'redux-thunk'
-import { counter } from './counterReducer'
+import { counter1 } from './counterReducer1'
+import { counter2 } from './counterReducer2'
 
-// 使用thunk和logger中间件
-const counterStore = createStore(counter, applyMiddleware(thunk, logger))
+
+const counterStore = createStore(
+    // 模块化：使用多个reducer
+    combineReducers({ counter1, counter2 }),
+    // 使用thunk和logger中间件
+    applyMiddleware(thunk, logger))
 
 export default counterStore
