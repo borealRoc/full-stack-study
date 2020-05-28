@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+    <title>短信验证码</title>
+    <style type="text/css">
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .mes-code {
+            position: relative;
+            padding: 20vw 10vw 0;
+            height: 40px;
+            /* 隐藏.mes-input宽度过长部分 */
+            overflow: hidden;
+        }
+
+        .mes-input {
+            display: block;
+            width: 100vw;
+            height: 100%;
+            padding-left: 3vw;
+            line-height: 40px;
+            outline: 0;
+            border: 0;
+            letter-spacing: 12vw;
+            font-size: 16px;
+        }
+
+        .btm-line {
+            position: absolute;
+            bottom: 0;
+            left: 10vw;
+            right: 10vw;
+        }
+
+        .line {
+            float: left;
+            height: 1px;
+            width: 10vw;
+            margin-right: 4vw;
+            background-color: #ccc;
+        }
+
+        .line.active {
+            background-color: #e00000;
+        }
+
+        .line:last-child {
+            margin-right: 0;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="mes-code">
+
+        <input class="mes-input" type="text" maxlength="6" />
+        <ul class="btm-line">
+            <li class="line"></li>
+            <li class="line"></li>
+            <li class="line"></li>
+            <li class="line"></li>
+            <li class="line"></li>
+            <li class="line"></li>
+        </ul>
+        
+    </div>
+</body>
+<script type="text/javascript">
+    $(function () {
+        var _mesInput = $(".mes-input");
+        var _line = $(".line");
+        _mesInput.on("input", function () {
+            var mesInputVal = _mesInput.val()
+            var mesInputValLen = mesInputVal.length;
+            _line.slice(0, mesInputValLen).each(function (index, item) {
+                $(item).addClass('active');
+            })
+            _line.slice(mesInputValLen, 6).each(function (index, item) {
+                $(item).removeClass('active');
+            })
+        })
+    })
+</script>
+
+</html>
