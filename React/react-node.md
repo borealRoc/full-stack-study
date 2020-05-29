@@ -171,13 +171,106 @@
 2. reduce: 之所以将这样的函数称之为 reducer, 是因为这种函数与被传入`Array.prototype.reduce(reducer, ？initialVal)`里的回调函数属于相同的类型
     - eg: `const arr = [1,2,3,4]; const reducer = (pre, next) => pre + next; arr.reduce(reducer, 20); //30`
 3. redux: Redux是**JavaScript**应用的状态容器，而不单单是React应用的状态容器
-    - createStore 创建store: `const counterStore = createStore(counter)`
-    - reducer 初始化，修改状态函数：`const counter = (state, action) => {}`
-    - getState 获取状态值: `const count = counterStore.getState()`
-    - dispatch 提交更新: `counterStore.dispatch({type: 'add'})`
-    - subscribe 订阅变更: `counterStore.subscribe(() => this.forceUpdate())`
-4. react-redux
+    - 创建store
+        - reducer初始化
+        - 利用createStore创建store
+        ```javascript
+        // ./store/redux-counter.js
+        const counter = (state:0, action) => {
+            switch(action.type) {
+                case 'add':
+                    return state + 1;
+                default: 
+                    return state
+            }
+        }
+        export const reduxCounter = createStore(counter)
+        ```
+    - 使用store
+        - getState 获取状态
+        - dispatch 提交更新
+        - subscribe 订阅更新
+        ```javascript
+        // ./pages/redux-test.js
+        import {reduxCounter} from './store/redux-counter.js'
+        export default ReduxTest extends Component {
+            componentDidMount() {
+                reduxCounter.subscribe(() => this.forceUpdate())
+            }
+            add() {
+                reduxCounter.dispatch({type: 'add'})
+            }
+            render() {
+                const count = reduxCounter.getState()
+                //...
+            }
+        }
 
+        ```
+4. react-redux：react-redux是对redux的一层包装，让redux更好服务于React
+    - 4.1 基本用法
+        - 4.1 借助redux 的 createStore 创建store
+        ```javascript
+        // ./store/react-redux-counter.js
+        export const counter = (state:0, action) => {
+            switch(action.type) {
+                case 'add':
+                    return state + 1;
+                default: 
+                    return state
+                }
+            }
+        // ./store/index.js
+        import { createStore } from 'redux'
+        import { counter } from './react-redux-counter.js'
+        export const reactReduxCounter = createStore(counter)
+        ```
+        - 4.2 借助react-redux 的 Provider API 全局提供 store
+        ```javascript
+        // index.js
+        import { store } from './store/index'
+        import { Provider } from 'react-redux'
+        ReactDOM.render(
+            <Provider store = {store}>
+                <App/>
+            </Provider>,
+            document.getElementById('root')
+        )
+        ```
+        - 4.1.3 借助react-redux 的 connect API 获取状态数据
+        ```javascript
+        // ./actions/react-redux-test.js
+        export const add = () => {return {type: 'add'}}
+        // ./pages/react-redux-test.js
+        import { connect } from 'react-redux'
+        import { add } from '../actions/react-redux-test'
+        const mapStateToProps = state => {return {count: state}}
+        const mapDispatchToProps = {add}
+        @connect(mapStateToProps, mapDispatchToProps)
+        export default ReactReduxTest extends Component {
+            render() {
+                const {count, add} = this.props
+            }
+        }
+        ```
+    - 4.2 异步：借助`redux-thunk`中间件
+    ```javascript
+    // ./store/index.js
+    import { applyMiddleware } from 'redux'
+    import thunk from 'redux-thunk'
+    export const reactReduxCounter = createStore(counter, applyMiddleware('thunk'))
+    ```
+    - 4.3 模块化：combineReducers
+    ```javascript
+    // ./store/index.js
+    import { combineReducers } from 'redux'
+    export const reactReduxCounter = createStore(
+        // 模块化：使用多个reducer
+        combineReducers({ counter1, counter2 }),
+        // 使用thunk和logger中间件
+        applyMiddleware(thunk, logger))
+    ```
+    
 
 
 

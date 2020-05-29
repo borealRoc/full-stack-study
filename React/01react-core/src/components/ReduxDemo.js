@@ -4,23 +4,22 @@ import { Button } from 'antd'
 
 export default class ReduxDemo extends Component {
 
-    // componentDidMount() {
-    //     // 订阅redux，在counterStore.getState()变化时重新渲染页面
-    //     counterStore.subscribe(() => {
-    //         this.forceUpdate()
-    //     })
-    // }
+    componentDidMount() {
+        // 订阅redux，在counterStore.getState()变化时重新渲染页面
+        counterStore.subscribe(() => {
+            this.forceUpdate()
+        })
+    }
 
-    // add() {
-    //     counterStore.dispatch({ type: 'add' })
-    // }
-    // minus() {
-    //     counterStore.dispatch({ type: 'minus' })
-    // }
+    add() {
+        counterStore.dispatch({ type: 'c1Add' })
+    }
+    minus() {
+        counterStore.dispatch({ type: 'c1Minus' })
+    }
 
     render() {
         const count = counterStore.getState().counter1
-        console.log('counterStore', counterStore.dispatch)
         return (
             <div>
                 <p>counter from counterStore: {count}</p>

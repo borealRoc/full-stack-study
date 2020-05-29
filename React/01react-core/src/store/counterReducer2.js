@@ -1,8 +1,8 @@
 export const counter2 = (state = 2, action) => {
     switch (action.type) {
-        case 'add':
+        case 'c2Add':
             return state + 1
-        case 'minus':
+        case 'c2Minus':
             return state - 1
         default:
             return state

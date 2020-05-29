@@ -1,23 +1,17 @@
-// 状态映射
-export const mapStateToProps = state => {
+export const add = () => {
     return {
-        // count: state
-        // 模块化
-        count: state.counter2
+        type: 'c2Add'
     }
 }
-// 事件映射
-export const mapDispatchToProps = {
-    add: () => {
-        return { type: 'add' }
-    },
-    minus: () => {
-        return { type: 'minus' }
-    },
-    asyncAdd: () => dispatch => {
-        setTimeout(() => {
-            // 异步结束后，手动执行dispatch
-            dispatch({ type: 'add' })
-        }, 1000)
+export const minus = () => {
+    return {
+        type: 'c2Minus'
     }
+}
+export const asyncAdd = () => dispatch => {
+    setTimeout(() => {
+        dispatch({
+            type: "c2Add",
+        })
+    }, 1000)
 }
