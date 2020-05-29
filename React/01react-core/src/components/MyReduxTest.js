@@ -18,6 +18,14 @@ export default class MyReduxTest extends Component {
         counterStore.dispatch({ type: 'minus' })
     }
 
+    asyncAdd() {
+        counterStore.dispatch(dispatch => {
+            setTimeout(() => {
+                dispatch({ type: 'add' })
+            }, 1000)
+        })
+    }
+
     render() {
         const count = counterStore.getState()
         return (
@@ -25,6 +33,7 @@ export default class MyReduxTest extends Component {
                 <p>counter from counterStore: {count}</p>
                 <Button onClick={() => this.add()}>Add</Button>
                 <Button onClick={() => this.minus()}>Minus</Button>
+                <Button onClick={() => this.asyncAdd()}>AsyncAdd</Button>
             </div>
         )
     }
