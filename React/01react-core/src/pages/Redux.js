@@ -11,7 +11,7 @@ export default class Redux extends Component {
                 <ReduxDemo />
                 <h2>react-redux是对redux的一层包装，让redux更好服务于React</h2>
                 <ReactReduxDemo />
-                <h2>手写简版Redux</h2>
+                <h2>手写简版Redux,redux-logger, redux-thunk</h2>
                 <MyReduxTest />
             </div>
         )
