@@ -4,6 +4,7 @@ import { FruitLists, AddFruit } from './Fruits'
 function fruitReducer(state, action) {
     switch (action.type) {
         case 'init':
+            return action.payload
         case 'replace':
             return action.payload
         case 'add':
