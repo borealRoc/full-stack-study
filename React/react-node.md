@@ -207,9 +207,9 @@
         }
 
         ```
-4. react-redux：react-redux是对redux的一层包装，让redux更好服务于React
+4. react-redux：react-redux是对redux的一层包装，让redux更好服务于React5. 
     - 4.1 基本用法
-        - 4.1 借助redux 的 createStore 创建store
+        - 4.1.1 借助redux 的 createStore 创建store
         ```javascript
         // ./store/react-redux-counter.js
         export const counter = (state:0, action) => {
@@ -270,7 +270,8 @@
         // 使用thunk和logger中间件
         applyMiddleware(thunk, logger))
     ```
-    
+5. redux原理
+6. react-redux原理
 
 
 

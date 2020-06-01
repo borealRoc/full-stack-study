@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Home from './pages/Home';
+// import Home from './pages/Home';
 import Redux from './pages/Redux';
 
 function App() {

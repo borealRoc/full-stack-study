@@ -1,6 +1,7 @@
 export function createStore(reducer, enhancer) {
     // 中间件
     if (enhancer) {
+        // enhancer(createStore)执行后返回的是一个增强的createStore,所以后面再传入reducer
         return enhancer(createStore)(reducer)
     }
 
@@ -15,13 +16,15 @@ export function createStore(reducer, enhancer) {
     function subscribe(cb) {
         subListeners.push(cb)
     }
-    function dispatch(action) {
+    function dispatch(action, cb) {
         currentState = reducer(currentState, action)
         subListeners.forEach(sub => sub())
+        // 这里的回调函数cb是为了执行myLogger中获取next state的回调
+        cb && typeof cb === 'function' && cb()
         return action
     }
-
-    dispatch({ type: 'DODEFAULT' })
+    // 激活reducer(currentState, {type: 'default'})
+    dispatch({ type: 'DOMYREDUXDEFAULT' })
     return {
         getState,
         dispatch,
@@ -29,15 +32,18 @@ export function createStore(reducer, enhancer) {
     }
 }
 
-// 中间件实现，核心任务是实现函数序列执行
+// 实现函数序列执行
 function compose(...fns) {
     if (fns.length === 0) return arg => arg
     if (fns.length === 1) return fns[0]
     return fns.reduce((pre, next) => (...args) => next(pre(...args)))
 }
+
+// 中间件的作用就是扩展createStore原先diapatch的行为，这类似于高阶组件的思想，所以applyMiddleware是一个高阶函数（把一个函数作为参数，返回新函数）
 export function applyMiddleware(...mids) {
     // 返回强化以后的createStore
     return createStore => (...args) => {
+        // ...args是传入createStore的reducer
         // 初始的createStore
         const store = createStore(...args)
         // 初始的dispatch
@@ -49,11 +55,14 @@ export function applyMiddleware(...mids) {
             dispatch: (...args) => dispatch(...args)
         }
         const midChains = mids.map(mid => mid(midAPI))
-        // 经过中间件加强后的dispatch
+        // 经过中间件加强后的dispatch，按顺序执行中间件函数
         dispatch = compose(...midChains)(store.dispatch)
+        // 最终返回createStore原先有的东西和增强后的dispatch
         return {
             ...store,
             dispatch
         }
     }
 }
+
+
