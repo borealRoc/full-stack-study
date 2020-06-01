@@ -102,7 +102,8 @@
         - 它跟class组件中的componentDidMount,componentDidUpdate,componentWillUnmount类似
         - 参数：useEffect(副作用函数，副作用执行依赖项)
         - 清除工作：有一些副作用是需要清除的，清除工作十分重要，可以防止引起内存泄露
-    - useReducer: 
+    - useReducer: 类似于redux
+        - `[fruits, dispatch] = useReducer(fruitsReducer, ['初始化的水果'])`
     - useContext: 类似于class组件中的Context
     - 拓展
         - Hook规则：<https://zh-hans.reactjs.org/docs/hooks-rules.html>
