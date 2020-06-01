@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { FruitLists, AddFruit } from './Fruits'
 import UseContextDemo from './UseContext'
 
 // 自定义钩子
@@ -45,27 +46,8 @@ export default function Hook() {
             <p>使用自定义钩子：{age}</p>
             <AddFruit onAddFruit={item => setFruits([...fruits, item])} />
             <FruitLists fruits={fruits} onSetFruits={delFruit} />
-            <UseContextDemo/>
+            <UseContextDemo />
         </div>
     )
 }
 
-function FruitLists({ fruits, onSetFruits }) {
-    return (
-        <ul>
-            {
-                fruits.map((fruit, index) => <li key={index} onClick={() => onSetFruits(index)}>{fruit}</li>)
-            }
-        </ul>
-    )
-}
-
-function AddFruit({ onAddFruit }) {
-    const [name, setName] = useState('')
-    return (
-        <div>
-            <input type="text" value={name} onChange={e => setName(e.target.value)} />
-            <button onClick={() => onAddFruit(name)}>添加水果</button>
-        </div>
-    )
-}

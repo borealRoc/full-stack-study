@@ -14,6 +14,7 @@ import AntdForm from '../components/AntdFormV4'
 import MyAntdForm from '../components/MyAntdForm'
 import MyDialogTest from '../components/MyDialogTest'
 import Tree from '../components/Tree'
+import UseReducer from '../components/UseReducer'
 
 export default class Home extends Component {
     render() {
@@ -56,7 +57,10 @@ export default class Home extends Component {
                     <li>
                         <h2>7. Hook</h2>
                         <h3>在不编写class组件的情况下使用state以及其他的React特性</h3>
+                        <h4>7.1 以 useSate 方式编写水果组件</h4>
                         <Hook />
+                        <h4>7.2 以 useReducer 方式编写水果组件</h4>
+                        <UseReducer/>
                     </li>
                     <li>
                         <h2>8. PureComponent: 纯组件</h2>
