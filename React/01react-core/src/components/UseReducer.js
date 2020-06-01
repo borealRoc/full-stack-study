@@ -29,7 +29,7 @@ export default function UseReducer() {
         const tem = [...fruits]
         console.log('第一次tem是', tem)
         tem.splice(1, index)
-        console.log('第一次tem是', tem)
+        console.log('第二次tem是', tem)
         dispatch({ type: 'replace', payload: tem })
     }
 
