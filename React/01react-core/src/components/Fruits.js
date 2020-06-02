@@ -2,10 +2,16 @@ import React, { useState } from 'react'
 
 export function FruitLists({ fruits, onSetFruits }) {
 
+    const delCur = delIndex => {
+        const tem = [...fruits]
+        tem.splice(delIndex, 1)
+        onSetFruits(tem)
+    }
+
     return (
         <ul>
             {
-                fruits.map((fruit, index) => <li key={index} onClick={() => onSetFruits(index)}>{fruit}</li>)
+                fruits.map((fruit, index) => <li key={index} onClick={() => delCur(index)}>{fruit}</li>)
             }
         </ul>
     )

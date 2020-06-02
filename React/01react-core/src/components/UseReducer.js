@@ -24,19 +24,10 @@ export default function UseReducer() {
         return () => clearTimeout(timeId)
     }, [])
 
-    const delFruit = index => {
-        console.log('index是', index)
-        const tem = [...fruits]
-        console.log('第一次tem是', tem)
-        tem.splice(1, index)
-        console.log('第二次tem是', tem)
-        dispatch({ type: 'replace', payload: tem })
-    }
-
     return (
         <div>
             <AddFruit onAddFruit={fruit => dispatch({ type: 'add', payload: fruit })} />
-            <FruitLists fruits={fruits} onSetFruits={delFruit} />
+            <FruitLists fruits={fruits} onSetFruits={cur => dispatch({ type: 'replace', payload: cur })} />
         </div>
     )
 }

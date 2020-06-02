@@ -34,18 +34,12 @@ export default function Hook() {
         console.log('第二个参数[]空数组表示没有依赖属性，所以只会执行一次[适合用来发送请求]')
     }, [])
 
-    const delFruit = index => {
-        const temp = [...fruits]
-        temp.splice(index, 1)
-        setFruits(temp)
-    }
-
     return (
         <div>
             <p>现在是：{date.toLocaleTimeString()}</p>
             <p>使用自定义钩子：{age}</p>
             <AddFruit onAddFruit={item => setFruits([...fruits, item])} />
-            <FruitLists fruits={fruits} onSetFruits={delFruit} />
+            <FruitLists fruits={fruits} onSetFruits={cur => setFruits([...cur])} />
             <UseContextDemo />
         </div>
     )
