@@ -3,8 +3,7 @@ import "./home.css"
 import Basic from './Basic'
 import Comp from './Comp'
 import Redux from './Redux'
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom"
-
+import { BrowserRouter, Link, Route } from "react-router-dom"
 
 export default class Home extends Component {
     render() {
@@ -20,6 +19,8 @@ export default class Home extends Component {
                         </nav>
                     </div>
                     <div className="route-modal">
+                        {/* 根路由添加exact，实现精确匹配 */}
+                        {/* <Route path="/" exact component={Redux}></Route> */}
                         <Route path="/basic" component={Basic}></Route>
                         <Route path="/comp" component={Comp}></Route>
                         <Route path="/redux" component={Redux}></Route>

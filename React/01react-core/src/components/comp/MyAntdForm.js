@@ -47,7 +47,9 @@ const MyFormCreate = Comp => {
                         });
                         return true;
                     }
+                    return false
                 }
+                return false
             });
             if (result) {
                 // 校验通过
