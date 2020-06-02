@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import counterStore from '../store/index'
+import counterStore from '../../store/index'
 import { Button } from 'antd'
 
 export default class ReduxDemo extends Component {

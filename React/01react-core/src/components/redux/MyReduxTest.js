@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import counterStore from '../store/myReduxStore'
+import counterStore from '../../store/myReduxStore'
 import { Button } from 'antd'
 
 export default class MyReduxTest extends Component {

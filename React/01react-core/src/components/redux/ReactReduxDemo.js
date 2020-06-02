@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button } from 'antd'
 import { connect } from 'react-redux'
-import { add, minus, asyncAdd } from '../action/ReactReduxDemo'
+import { add, minus, asyncAdd } from '../../action/ReactReduxDemo'
 
 // 写法一
 // @connect(

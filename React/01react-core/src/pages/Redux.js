@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import ReduxDemo from '../components/ReduxDemo'
-import ReactReduxDemo from '../components/ReactReduxDemo'
-import MyReduxTest from '../components/MyReduxTest'
+import ReduxDemo from '../components/redux/ReduxDemo'
+import ReactReduxDemo from '../components/redux/ReactReduxDemo'
+import MyReduxTest from '../components/redux/MyReduxTest'
 
 export default class Redux extends Component {
     render() {

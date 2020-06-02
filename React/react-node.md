@@ -103,8 +103,12 @@
         - 参数：useEffect(副作用函数，副作用执行依赖项)
         - 清除工作：有一些副作用是需要清除的，清除工作十分重要，可以防止引起内存泄露
     - useReducer: 类似于redux
-        - `[fruits, dispatch] = useReducer(fruitsReducer, ['初始化的水果'])`
+        - 定义reducer: `const fruitsReducer = (state, action) => {}`
+        - 使用: `const [fruits, dispatch] = useReducer(fruitsReducer, ['初始化的水果'])`
     - useContext: 类似于class组件中的Context
+        - 借助Context本身和Context.Provider: `const Context = React.createContext()`;`const Provider = Context.Provider`
+        - 定义store: `const store = {user: 'xu'}`
+        - 使用: `<Provider value={store}></Provider>`;`const {user} = useContext(Context)`
     - 拓展
         - Hook规则：<https://zh-hans.reactjs.org/docs/hooks-rules.html>
         - 自定义Hook
@@ -226,7 +230,7 @@
         import { counter } from './react-redux-counter.js'
         export const reactReduxCounter = createStore(counter)
         ```
-        - 4.2 借助react-redux 的 Provider API 全局提供 store
+        - 4.1.2 借助react-redux 的 Provider API 全局提供 store
         ```javascript
         // index.js
         import { store } from './store/index'
@@ -273,6 +277,8 @@
     ```
 5. redux原理
 6. react-redux原理
+# react全家桶 -- react-router
+
 
 
 
