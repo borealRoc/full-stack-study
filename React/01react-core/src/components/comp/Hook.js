@@ -6,9 +6,10 @@ import UseContextDemo from './UseContext'
 const useAge = () => {
     const [age, setAge] = useState(0)
     useEffect(() => {
-        setTimeout(() => {
+        const timeId = setTimeout(() => {
             setAge(20)
         }, 2000)
+        return () => clearTimeout(timeId)
     }, [age])
     return age
 }

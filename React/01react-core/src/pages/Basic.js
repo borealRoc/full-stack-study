@@ -10,6 +10,7 @@ export default class Basic extends Component {
             <div className="basic-page">
                 <ul>
                     <li>
+                        <h2>1 组件状态</h2>
                         <h3>1.1 class组件状态管理: state && setState</h3>
                         <State />
                         <h3>1.2 function组件状态管理: hooks[useState和useEffect]</h3>
