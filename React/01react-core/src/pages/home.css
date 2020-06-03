@@ -16,7 +16,7 @@
     padding: 20px;
 }
 
-.route-modal > div > ul > li {
+.route-modal>div>ul>li {
     padding: 20px 0;
     border-bottom: solid 10px #f2f2f2;
 }
@@ -50,4 +50,27 @@
 
 .tri-open:after {
     transform: rotate(90deg);
+}
+
+.router-page {
+    display: flex;
+}
+
+.router-page .link-ctn {
+    flex: 1;
+}
+
+.router-page .link-ctn a {
+    display: block;
+    padding-left: 20px;
+    margin-bottom: 10px;
+    line-height: 40px;
+    background-color: #f2f2f2;
+}
+
+.router-page .route-ctn {
+    flex: 2;
+    padding-left: 20px;
+    text-align: center;
+    line-height: 40px;
 }
