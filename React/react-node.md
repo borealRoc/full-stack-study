@@ -278,6 +278,27 @@
 5. redux原理
 6. react-redux原理
 # react全家桶 -- react-router
+1. 安装
+    - 1.1 浏览器版本：`npm i react-router-dom -S`
+    - 1.2 Native版本：`npm i react-router-native -S`
+2. 用法
+    - 2.1 基本用法: 
+        - 最外层：`<BrowserRouter>`
+        - 路由链接：`<Link to='/demo'>`
+        - 路由视图渲染：`<Route path='/demo' component={Demo}/>`
+        - 精确匹配：`<Route exact>`
+        - 独占路由：`<Switch> ... </Switch>`
+    - 2.2 动态路由：
+        - <Link to="/detail/123">
+        - <Link to="/detail/456">
+        - <Route path = "/detail/:id">
+    - 2.3 嵌套路由:
+        - <Link to = "/child/child1">
+        - <Link to = "/child/child2">
+        - <Route path = "/child/child1">
+        - <Route path = "/child/child2">
+    - 2.4 404页面: 没有路径，必然匹配，放到最后
+        - <Route component = {() => <div>404</div>}>
 
 
 
