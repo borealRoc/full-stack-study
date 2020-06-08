@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom"
+import { HashRouter, Link, Route, Switch } from "react-router-dom"
 import Dynamicouter from '../components/router/Dynamicouter'
 import ChildsRouter from '../components/router/ChildsRouter'
 import PrivateRoute from '../components/router/PrivateRoute'
@@ -11,7 +11,8 @@ export default class Router extends Component {
         const dynamicID = Math.random()
         return (
             <div className="router-page">
-                <BrowserRouter>
+                {/* hash模式 */}
+                <HashRouter>
                     <div className="link-ctn">
                         <Link to={"/dynamic/" + dynamicID}>动态路由</Link>
                         <Link to="/child">嵌套路由</Link>
@@ -25,7 +26,7 @@ export default class Router extends Component {
                             <PrivateRoute path="/user" component={UserPage}></PrivateRoute>
                         </Switch>
                     </div>
-                </BrowserRouter>
+                </HashRouter>
             </div>
         )
     }

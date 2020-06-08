@@ -289,16 +289,23 @@
         - 精确匹配：`<Route exact>`
         - 独占路由：`<Switch> ... </Switch>`
     - 2.2 动态路由：
-        - <Link to="/detail/123">
-        - <Link to="/detail/456">
-        - <Route path = "/detail/:id">
+        - `<Link to="/detail/123">`
+        - `<Link to="/detail/456">`
+        - `<Route path = "/detail/:id">`
     - 2.3 嵌套路由:
-        - <Link to = "/child/child1">
-        - <Link to = "/child/child2">
-        - <Route path = "/child/child1">
-        - <Route path = "/child/child2">
+        - `<Link to = "/child/child1">`
+        - `<Link to = "/child/child2">`
+        - `<Route path = "/child/child1">`
+        - `<Route path = "/child/child2">`
     - 2.4 404页面: 没有路径，必然匹配，放到最后
-        - <Route component = {() => <div>404</div>}>
+        - `<Route component = {() => <div>404</div>}>`
+    - 2.5 路由守卫
+        - 重定向：`<Redirect to={}/>`
+    - 2.6 BrowserRouter vs HashRouter
+        - BrowserRouter: history模式
+        - HashRouter: hash模式  
+        <img src="./img/hashRouter.png"/>
+
 
 
 
