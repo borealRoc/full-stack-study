@@ -3,12 +3,15 @@ import counterStore from '../../store/index'
 import { Button } from 'antd'
 
 export default class ReduxDemo extends Component {
-
     componentDidMount() {
         // 订阅redux，在counterStore.getState()变化时重新渲染页面
         counterStore.subscribe(() => {
             this.forceUpdate()
         })
+    }
+
+    componentWillUnmount() {
+
     }
 
     add() {
