@@ -305,7 +305,12 @@
         - BrowserRouter: history模式
         - HashRouter: hash模式  
         <img src="./img/hashRouter.png"/>
-
+3. 原理
+    - 3.1 实现 BrowserRouter
+        - 
+    - 3.2 实现 Route
+    - 3.3 实现 Link
+    - Tips: `<></>`相当于Vue的template, 可以给组件一个最外层，但却不会在浏览器渲染
 
 
 

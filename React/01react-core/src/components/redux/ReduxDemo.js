@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import counterStore from '../../store/index'
 import { Button } from 'antd'
 
@@ -9,10 +9,7 @@ export default class ReduxDemo extends Component {
             this.forceUpdate()
         })
     }
-
-    componentWillUnmount() {
-
-    }
+    
 
     add() {
         counterStore.dispatch({ type: 'c1Add' })
@@ -20,7 +17,6 @@ export default class ReduxDemo extends Component {
     minus() {
         counterStore.dispatch({ type: 'c1Minus' })
     }
-
     render() {
         const count = counterStore.getState().counter1
         return (
