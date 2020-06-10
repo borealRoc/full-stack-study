@@ -307,11 +307,19 @@
         <img src="./img/hashRouter.png"/>
 3. 原理
     - 3.1 实现 BrowserRouter
-        - 
+        - 历史记录管理对象history初始化及向下传递
+        - location设为state实现变更监听
     - 3.2 实现 Route
+        - 路由匹配，内容渲染
     - 3.3 实现 Link
+        - 跳转链接：把路径push进history对象
+        - 处理点击事件：阻止a默认的跳转行为
     - Tips: `<></>`相当于Vue的template, 可以给组件一个最外层，但却不会在浏览器渲染
-
+# react项目实践
+1. redux-saga
+2. umi
+3. dva
+4. 移动端cra
 
 
 
