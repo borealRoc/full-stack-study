@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+    <title>单点触摸与拖拽</title>
+    <style type="text/css">
+    * {
+        padding: 0;
+        margin: 0;
+        -webkit-touch-callout: none;
+        -moz-touch-callout: none;
+        -ms-touch-callout: none;
+        touch-callout: none;
+    }
+
+    .box {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        text-align: center;
+        font-size: 40px;
+        font-style: italic;
+        line-height: 100px;
+        color: #fff;
+        /*text-shadow: 5px 5px 5px rgba(0,0,0,0.5);*/
+        text-shadow: 0 0 8px #f80, 0 0 12px #f80;
+        background: #9c84841f;
+    }
+    </style>
+<body>
+    <div id="box" class="box">M</div>
+    <script type="text/javascript">
+    window.onload = () => {
+        let _box = document.getElementById('box');
+        const boxWid = _box.clientWidth;
+        const boxHei = _box.clientWidth;
+        const screenWid = screen.width;
+        const screenHei = screen.height;
+        const maxDisX = screenWid - boxWid;
+        const maxDisY = screenHei - boxHei;
+
+        _box.addEventListener("touchstart", function(e) {
+
+            // 1、获取触摸“相对于盒子”开始点的坐标
+            let x = e.targetTouches[0].clientX - _box.offsetLeft;
+            let y = e.targetTouches[0].clientY - _box.offsetTop;
+
+            // 在拖动过程中实时定位盒子“相对于屏幕”的位置
+            function fnMove(e) {
+                let moveDisX = e.targetTouches[0].clientX - x;
+                let moveDisY = e.targetTouches[0].clientY - y;
+
+                // 限制盒子拖动不要超过浏览器屏幕
+                if (moveDisX < 0) {
+                    moveDisX = 0
+                } else if (moveDisX > maxDisX) {
+                    moveDisX = maxDisX
+                }
+                if (moveDisY < 0) {
+                    moveDisY = 0
+                } else if (moveDisY > maxDisY) {
+                    moveDisY = maxDisY
+                }
+
+                _box.style.left = moveDisX + 'px';
+                _box.style.top = moveDisY + 'px';
+            }
+            _box.addEventListener('touchmove', fnMove, false);
+
+            // 在停止拖动释放盒子时移除定位事件
+            function fnEnd(e) {
+                _box.removeEventListener('touchmove', fnMove, false);
+                _box.removeEventListener('touchend', fnEnd, false);
+            }
+            _box.addEventListener('touchend', fnEnd, false);
+        })
+    }
+    </script>
+</body>
+
+</html>
