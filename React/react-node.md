@@ -5,7 +5,7 @@
     - 3.1 项目 eject
     - 3.2 替换 react-script 包
     - 3.3 使用 react-app-rewired + customize-cra 自定义配置
-        - 3.3.1 安装：`npm i react-app-rewired customize-cra -D`
+        - 3.3.1 安装：`yarn add react-app-rewired customize-cra -D`
         - 3.3.2 修改package.json文件
         ```json
         "scripts": {
@@ -30,6 +30,8 @@
             addDecoratorsLegacy(), 
         );
         ```
+4. 拓展: yarn<https://www.jianshu.com/p/254794d5e741>
+    - Yarn是一个新的 JS 包管理工具 ，它是为了弥补 npm 的一些缺陷而出现的
 # react 基础知识
 1. React 和 ReactDOM
     - React负责逻辑控制: 数据 -> VDOM
