@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Dynamicouter(props) {
+export default function DynamicRouter(props) {
     const { id } = props.match.params
     return (
         <div>

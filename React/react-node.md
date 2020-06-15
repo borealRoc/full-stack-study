@@ -324,7 +324,7 @@
         - 最外层：`<BrowserRouter>`
         - 路由链接：`<Link to='/demo'>`
         - 路由视图渲染：`<Route path='/demo' component={Demo}/>`
-        - 精确匹配：`<Route exact>`
+        - 精确匹配：`<Route exact>`.根路由要添加exact
         - 独占路由：`<Switch> ... </Switch>`
     - 2.2 动态路由：
         - `<Link to="/detail/123">`
@@ -343,6 +343,14 @@
         - BrowserRouter: history模式
         - HashRouter: hash模式  
         <img src="./img/hashRouter.png"/>
+    - 2.7 动态引入 && 基于路由的代码分割
+        - React.lazy: `const Home = lazy(() => import('./Home))`
+        - Suspense: 在Suspense组件中渲染lazy组件，从而实现在加载lazy组件时做到优雅降级(如loading)
+        ```javascript
+        <Suspense fallback={<div>...loading</div>}>
+            <Route path='/home' component = {Home}>
+        </Suspense>
+        ```
 3. 原理
     - 3.1 实现 BrowserRouter
         - 历史记录管理对象history初始化及向下传递
