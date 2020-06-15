@@ -2,6 +2,10 @@
 1. 安装：npm install -g create-react-app
 2. 创建项目：create-react-app react-core
 3. 修改项目的webpack配置：<https://juejin.im/post/5dedd6c8f265da33d15884bf>
+    - 3.1 项目 eject
+    - 3.2 替换 react-script 包
+    - 3.3 使用 react-app-rewired + customize-cra 自定义配置
+        - 安装：`npm i react-app-rewired customize-cra -D`
 # react 基础知识
 1. React 和 ReactDOM
     - React负责逻辑控制: 数据 -> VDOM
