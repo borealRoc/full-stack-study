@@ -15,7 +15,6 @@ const passwordRule = {
 class AntdFormV3 extends Component {
     submit = () => {
         const { getFieldsValue, getFieldValue, validateFields } = this.props.form;
-        console.log("submit", getFieldsValue, getFieldValue("password"))
         validateFields((err, values) => {
             if (err) {
                 console.log("err", err);
@@ -27,7 +26,6 @@ class AntdFormV3 extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        console.log(this.props.form);
         return (
             <div>
                 <Form>

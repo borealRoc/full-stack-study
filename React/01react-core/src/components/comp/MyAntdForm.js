@@ -24,7 +24,6 @@ const MyFormCreate = Comp => {
         // 表单输入项的双向数据绑定
         handleChange = e => {
             const { name, value } = e.target
-            console.log('表单输入项的双向数据绑定', name, value)
             this.setState({
                 [name]: value
             }, () => {
@@ -77,6 +76,7 @@ const MyFormCreate = Comp => {
                     <div className="my-form-label">
                         <label>{label}</label>
                     </div>
+                    {/* 由React.createElement生成的元素不能修改，需要克隆一份再扩展 */}
                     {
                         React.cloneElement(InuptComp, {
                             name: field,

@@ -5,42 +5,36 @@
     - 3.1 项目 eject
     - 3.2 替换 react-script 包
     - 3.3 使用 react-app-rewired + customize-cra 自定义配置
-        - 3.3.1 安装：`yarn add react-app-rewired customize-cra -D`
-        - 3.3.2 修改package.json文件
-        ```json
-        "scripts": {
-            "start": "react-app-rewired start",
-            "build": "react-app-rewired build",
-            "test": "react-app-rewired test --env=jsdom",
-            "eject": "react-scripts eject"
-        },
-        ```
-        - 3.3.3 在项目根目录新建config-overrides.jsz
-        ```javascript
-        const { override, fixBabelImports, addDecoratorsLegacy } = require("customize-cra");
-        module.exports = override(
-            // 配置 antd 按需加载，自动引入
-            fixBabelImports("import", {
-                libraryName: "antd",
-                // antd库的目录：../node_modules/antd/es
-                libraryDirectory: "es",
-                style: "css",
-            }),
-            //配置装饰器
-            addDecoratorsLegacy(), 
-        );
-        ```
 4. 拓展: yarn<https://www.jianshu.com/p/254794d5e741>
     - Yarn是一个新的 JS 包管理工具 ，它是为了弥补 npm 的一些缺陷而出现的
 # react 基础知识
 1. React 和 ReactDOM
-    - React负责逻辑控制: 数据 -> VDOM
-    - ReactDOM渲染实际DOM: VDOM -> DOM
-2. function组件和class组件
+    - React负责逻辑控制: 数据 -> VDOM：`JSX = React.createElement()`
+    - ReactDOM渲染实际DOM: VDOM -> DOM: `ReactDom.render(JSX, #app)`
+2. JSX
+    - 2.1 条件渲染
+        - if 语句
+        - 逻辑与 &&
+        - 三元表达式
+    - 2.2 循环列表 && key
+    - 2.3 元素属性：静态值用双引号，动态值用花括号，class与for要特殊处理
+        - `<div style={{border: "solid 1px"}}></div>`
+        - React样式解决方案
+            - style-components
+            - styled-jsx
+            - classnames
+3. function组件和class组件
     - class组件: 通常拥有状态和生命周期，继承于React.Component, 在render()里面return出模板
     - function组件: 通常无状态，仅关注内容展示，直接return出渲染结果
     > React16.8开始引入hooks，函数组件也能够拥有状态
-3. 状态管理
+    - 组件注意事项
+        - 组件名称必须以大写字母开头，React 会将以小写字母开头的组件视为原生DOM标签
+        - return的内容只有一个根节点，需要一个包裹元素。如果不想额外的嵌套，可以使用下面的方式：
+            - 数组方式：`return [<h1/>, <p/>]`
+            - Fragments: `<React.Fragment><h1/><p/></React.Fragment>`
+            - 短语法：`<><h1/><p/></>`
+        - props 在父组件中指定，一经指定，不再改变。 对于需要改变的数据，使用state。state状态改变，组件会重新调用render方法，渲染UI.
+4. 状态管理
     - class组件: state && setState
         - 维护状态：`this.state = {counter: 0, num: 1}`
         - setState特性
@@ -54,7 +48,7 @@
                 console.log(this.state.A, this.state.B) //'aa' 'bbb'
             ```
             - 异步: setState通常是异步的，因此如果要获取到最新状态值有以下三种方式
-                - 传递函数给setState方法
+                - （1）回调函数
                 ```javascript
                 this.setState((preState, preProps) => ({
                     counter: preState.counter + 1 //1
@@ -67,7 +61,7 @@
                     console.log(this.state.counter) //2
                 })
                 ```
-                - 使用定时器
+                - （2）使用定时器
                 ```javascript
                 setTimeout(() => {
                     this.setState({
@@ -80,7 +74,7 @@
                     console.log(this.state.counter) //2
                 }, 0)
                 ```
-                - 原生事件中修改状态
+                - （3）原生事件中修改状态
                 ```javascript
                 document.getElementById('changeCounter').addEventListener('click', () => {
                     this.setState({
@@ -95,18 +89,18 @@
                 ```
                 > setState只有在合成事件和钩子函数中是异步的，在setState回调函数，原生事件和setTimeout、setInterval中都是同步的？？
     - 函数组件: hooks[useState和useEffect]
-4. 事件：绑定this的三种方法
+5. 事件：绑定this的三种方法
     - 构造函数中绑定并覆盖: `this.change = this.change.bind(this)`
     - 方法定义为箭头函数：`change = () => {}`
     - 事件调用中定义为箭头函数: `onChange = {() => this.change()}`
-5. 组件通讯
-    - 父传子[props]
-    - 子传父[事件，传参]
+6. 组件通讯
+    - 父传子[props]：单向数据流
+    - 子传父[事件，传参]：状态提升
     - 跨层级[context]
     - 任意两个组件通讯[redux]
     - 双向数据绑定
         - 受控组件：`<input type="text">`, `<textarea>` 和 `<select>` 之类的标签都非常相似,它们使用value + onChange事件实现受控组件。文件 `<input type="file"/>` 标签因为它的 value 只读，所以它是 React 中的一个非受控组件
-6. 生命周期
+7. 生命周期
     - V16.3之前的生命周期  
     <img src="./img/v16.3.png">
     - V16.4之后的生命周期  
@@ -146,10 +140,14 @@
             - <https://juejin.im/post/5df78ba6f265da33d74428f9>
             - <https://juejin.im/post/5dc953235188250c6c41683e>
         - 一些牛逼的自定义Hook：<https://github.com/streamich/react-use>
+        - 2020年了，整理了N个实用案例帮你快速迁移到React Hooks<https://juejin.im/post/5d594ea5518825041301bbcb#heading-1>
 5. 使用第三方组件
     - antd
         - 安装：`npm install antd --save`
         - 按需加载配置：`npm install react-app-rewired customize-cra babel-plugin-import -D`
+            - `react-app-rewired`: 一个对cra进行自定义配置的的社区解决方案
+            - `customize-cra`: `react-app-rewired`的依赖
+            - `babel-plugin-import`: 按需加载组件代码和样式的babel插件
         ```javascript
         //根目录创建config-overrides.js
         const { override, fixBabelImports, addDecoratorsLegacy } = require("customize-cra");
@@ -189,7 +187,7 @@
 7. 组件优化技术 -- 纯组件
     - 7.1 shouldComponentUpdate判断
         - Component不会比较当前和下个状态的props和state。因此，每当shouldComponentUpdate被调用时，组件默认的会重新渲染。优化 ——
-        - Component + shouldComponentUpdate判断是否更新：`shouldComponentUpdate(nextProps, nextState) { return !(nextProps === this.props && nextState === this.state)}`
+        - shouldComponentUpdate判断是否更新：`shouldComponentUpdate(nextProps, nextState) { return !(nextProps === this.props && nextState === this.state)}`
         - 缺点：麻烦
     - 7.2 PureComponent[V15.3~]
         - 当props或者state改变时，PureComponent将对props和state进行浅比较，如果一样，则shouldComponentUpdate返回false
@@ -198,7 +196,7 @@
             - 如果是引用类型，确保地址不变，同时不应当有深层次的数据变化
             - 必须是class组件
     - 7.3 React.meno()[V16.6~]
-        - React.memo()是一个高阶函数，它与 React.PureComponent类似，但是一个函数组件而非一个类
+        - React.memo()是一个高阶函数，它与 React.PureComponent类似，但它是一个函数组件而非一个类
     - 7.4 vue框架内部已经对此做了优化, 开发者不需要考虑该类问题, 只需要关注自己的应用本身就可以了
 # react全家桶 -- Redux
 1. reducer: reducer是一个纯函数，接收旧的state和action，返回新的state
@@ -347,16 +345,24 @@
     - Tips: `<></>`相当于Vue的template, 可以给组件一个最外层，但却不会在浏览器渲染
 # react项目实践
 1. redux-saga
-
 2. umi
-
 3. dva
-
 4. 移动端cra
-
-
-
-
+# react VS vue
+## 相同点
+1. 都是用于创建UI[数据->视图]的JS库
+2. 都是用虚拟DOM
+3. 都有独立的路由器和状态管理库插件
+4. vue借鉴react的一些点
+    - 4.1 插槽：slot => 组件复合[props.children]
+    - 4.2 组件跨层通信：provide && inject => Context中的 Provide && Consumer
+## 不同点
+1. 模板：Vue通常用HTML模板[html,css,js分离]，React全是JS
+2. 组件机制：Vue组件分为全局注册和局部注册，react都是通过import，然后直接在任意地方使用
+3. react做的事情很少，很多事情交给社区做；vue很多东西都是内置的，写起来方便一点
+    - Vue比react多了指令系统，让模板可以实现更丰富的功能，而React只能使用JSX
+    - Vue有双向绑定语法糖，React没有
+    - Vue有computed和watch，React中需要自己写逻辑实现
 
 
                 
