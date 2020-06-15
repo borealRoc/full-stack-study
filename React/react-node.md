@@ -240,7 +240,7 @@
         }
 
         ```
-4. react-redux：react-redux是对redux的一层包装，让redux更好服务于React5. 
+4. react-redux：react-redux是对redux的一层包装，让redux更好服务于React. 
     - 4.1 基本用法
         - 4.1.1 借助redux 的 createStore 创建store
         ```javascript
@@ -277,7 +277,9 @@
         // ./pages/react-redux-test.js
         import { connect } from 'react-redux'
         import { add } from '../actions/react-redux-test'
+        // mapStateToProps: 将store中的数据作为props绑定到组件上
         const mapStateToProps = state => {return {count: state}}
+        // mapDispatchToProps: 将dispatch作为props绑定到组件上
         const mapDispatchToProps = {add}
         @connect(mapStateToProps, mapDispatchToProps)
         export default ReactReduxTest extends Component {
@@ -304,6 +306,14 @@
         applyMiddleware(thunk, logger))
     ```
 5. redux原理
+    - 5.1 实现 createStore
+        - 存储状态 state
+        - 获取状态 getState
+        - 更新状态 dispatch
+        - 变更订阅 subscribe
+    - 5.2 实现 applyMiddleware
+        - applyMiddleware是一个高阶函数，它的作用就是扩展createStore原先diapatch的行为
+        - 利用js数组的reduce方法实现函数序列的有序执行
 6. react-redux原理
 # react全家桶 -- react-router
 1. 安装
@@ -356,6 +366,7 @@
 4. vue借鉴react的一些点
     - 4.1 插槽：slot => 组件复合[props.children]
     - 4.2 组件跨层通信：provide && inject => Context中的 Provide && Consumer
+    - 4.3 存储仓库模块化：modules => combineReducers
 ## 不同点
 1. 模板：Vue通常用HTML模板[html,css,js分离]，React全是JS
 2. 组件机制：Vue组件分为全局注册和局部注册，react都是通过import，然后直接在任意地方使用

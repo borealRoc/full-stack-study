@@ -17,14 +17,18 @@ export function createStore(reducer, enhancer) {
         subListeners.push(cb)
     }
     function dispatch(action, cb) {
+        // 更新状态
         currentState = reducer(currentState, action)
+        // 变更通知
         subListeners.forEach(sub => sub())
         // 这里的回调函数cb是为了执行myLogger中获取next state的回调
         cb && typeof cb === 'function' && cb()
+        // 为了实现中间件，所以这里返回action
         return action
     }
+
     // 激活reducer(currentState, {type: 'default'})
-    dispatch({ type: 'DOMYREDUXDEFAULT' })
+    dispatch({ type: 'DOMYREDUXDEFAULT^_^' })
     return {
         getState,
         dispatch,
@@ -51,8 +55,9 @@ export function applyMiddleware(...mids) {
 
         // 让中间件可以获取状态值，派发action
         const midAPI = {
+            // 这里的...args还是上面的reducer
+            dispatch: (...args) => dispatch(...args),
             getState: store.getState,
-            dispatch: (...args) => dispatch(...args)
         }
         const midChains = mids.map(mid => mid(midAPI))
         // 经过中间件加强后的dispatch，按顺序执行中间件函数

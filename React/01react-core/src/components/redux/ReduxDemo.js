@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react'
+import React, { Component } from 'react'
 import counterStore from '../../store/index'
 import { Button } from 'antd'
 
