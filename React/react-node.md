@@ -5,7 +5,31 @@
     - 3.1 项目 eject
     - 3.2 替换 react-script 包
     - 3.3 使用 react-app-rewired + customize-cra 自定义配置
-        - 安装：`npm i react-app-rewired customize-cra -D`
+        - 3.3.1 安装：`npm i react-app-rewired customize-cra -D`
+        - 3.3.2 修改package.json文件
+        ```json
+        "scripts": {
+            "start": "react-app-rewired start",
+            "build": "react-app-rewired build",
+            "test": "react-app-rewired test --env=jsdom",
+            "eject": "react-scripts eject"
+        },
+        ```
+        - 3.3.3 在项目根目录新建config-overrides.js
+        ```javascript
+        const { override, fixBabelImports, addDecoratorsLegacy } = require("customize-cra");
+        module.exports = override(
+            // 配置 antd 按需加载，自动引入
+            fixBabelImports("import", {
+                libraryName: "antd",
+                // antd库的目录：../node_modules/antd/es
+                libraryDirectory: "es",
+                style: "css",
+            }),
+            //配置装饰器
+            addDecoratorsLegacy(), 
+        );
+        ```
 # react 基础知识
 1. React 和 ReactDOM
     - React负责逻辑控制: 数据 -> VDOM
