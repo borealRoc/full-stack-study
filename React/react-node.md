@@ -15,7 +15,7 @@
             "eject": "react-scripts eject"
         },
         ```
-        - 3.3.3 在项目根目录新建config-overrides.js
+        - 3.3.3 在项目根目录新建config-overrides.jsz
         ```javascript
         const { override, fixBabelImports, addDecoratorsLegacy } = require("customize-cra");
         module.exports = override(
