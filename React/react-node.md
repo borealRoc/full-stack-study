@@ -321,10 +321,10 @@
     - 1.2 Native版本：`npm i react-router-native -S`
 2. 用法
     - 2.1 基本用法: 
-        - 最外层：`<BrowserRouter>`
+        - 最外层：`<BrowserRouter>`或`<HashRouter>`
         - 路由链接：`<Link to='/demo'>`
         - 路由视图渲染：`<Route path='/demo' component={Demo}/>`
-        - 精确匹配：`<Route exact>`.根路由要添加exact
+        - 精确匹配：根路由要添加exact `<Route exact path="/">`
         - 独占路由：`<Switch> ... </Switch>`
     - 2.2 动态路由：
         - `<Link to="/detail/123">`
@@ -348,33 +348,31 @@
         - Suspense: 在Suspense组件中渲染lazy组件，从而实现在加载lazy组件时做到优雅降级(如loading)
         ```javascript
         <Suspense fallback={<div>...loading</div>}>
-            <Route path='/home' component = {Home}>
+            <Route path='/home' component = {Home} />
         </Suspense>
         ```
 3. 原理
     - 3.1 实现 BrowserRouter
-        - 历史记录管理对象history初始化及向下传递
-        - location设为state实现变更监听
+        - 历史记录管理对象：`this.history = createBrowserHistory(this.props)`
+        - 页面location设为state实现变更监听：`this.state = {location: this.history.location}`
+        - history和location向下传递: `<RouterProvider value={{history: this.history, location: this.state.location}}>{props.children}</RouterProvider>`
     - 3.2 实现 Route
-        - 路由匹配，内容渲染
+        - 获取 BrowserRouter 提供的 location 属性：`{location} = useContext(RouterContext)`
+        - 路由匹配：`const matchCurrent = props.path === location.pathname`
+        - 组件渲染：`{matchCurrent && React.createElement(props.component)}`
     - 3.3 实现 Link
-        - 跳转链接：把路径push进history对象
-        - 处理点击事件：阻止a默认的跳转行为
-    - Tips: `<></>`相当于Vue的template, 可以给组件一个最外层，但却不会在浏览器渲染
-# react项目实践
-1. redux-saga
-2. umi
-3. dva
-4. 移动端cra
+        - 获取 BrowserRouter 提供的 history 属性: `<RouterConsumer>{({history}) => <a onClick={e => linkHandler(e, history)}>{props.children}</a>}</RouterConsumer>`
+        - 链接跳转：`<a href={props.to}>`
+        - 处理点击事件：阻止a默认的跳转行为, 并把路径push进history对象: `linkHandler = (e, history) => {e.preventDefault(); history.push(props.to)}`
 # react VS vue
 ## 相同点
 1. 都是用于创建UI[数据->视图]的JS库
 2. 都是用虚拟DOM
-3. 都有独立的路由器和状态管理库插件
+3. 都有独立的路由器和状态管理库插件：vue-router + vuex => react-router + react-redux
 4. vue借鉴react的一些点
     - 4.1 插槽：slot => 组件复合[props.children]
     - 4.2 组件跨层通信：provide && inject => Context中的 Provide && Consumer
-    - 4.3 存储仓库模块化：modules => combineReducers
+    - 4.3 状态存储store模块化：modules => combineReducers
 ## 不同点
 1. 模板：Vue通常用HTML模板[html,css,js分离]，React全是JS
 2. 组件机制：Vue组件分为全局注册和局部注册，react都是通过import，然后直接在任意地方使用
@@ -382,6 +380,11 @@
     - Vue比react多了指令系统，让模板可以实现更丰富的功能，而React只能使用JSX
     - Vue有双向绑定语法糖，React没有
     - Vue有computed和watch，React中需要自己写逻辑实现
+# react项目实践
+1. redux-saga
+2. umi
+3. dva
+4. 移动端cra
 
 
                 
