@@ -4,14 +4,47 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 module.exports = {
+    // 1.入口
     entry: './src/index.js',
+
+    // 2.出口
     output: {
         // 输出文件的名字
         filename: 'bundle.js',
         // 输出文件的路径，必须是绝对路径
-        path: path.resolve(__dirname, "build")
+        path: path.resolve(__dirname, "dist")
     },
+
+    // 3.webpack运行环境
     mode: 'development',
+
+    // 4.源代码与打包后的代码的映射关系，通过sourceMap定位到源代码
+    // cheap: 较快，不包含列信息
+    // module: 第三方模块
+    // eval: 速度最快,使 eval包裹模块代码
+    // source-map: 产生.map文件
+    // inline: 将.map作为DataURI嵌入，不单独生成.map文件
+    // 开发环境配置
+    devtool: 'cheap-module-eval-source-map',
+    // 线上环境不推荐开启，如果要开启可以用下面的配置
+    // devtool: 'cheap-module-source-map',
+
+    // 5. WebpackDevServer,启动服务
+    // 5.1 启动服务后，会发现dist目录没有了，这是因为devServer把打包后的模块不会放在dist目录下，而是放到内存中，从而提升速度
+    // 5.2 修改代码【webpack配置除外】自动刷新
+    devServer: {
+        contentBase: "./dist", //服务源文件目录
+        port: 8081, //端口
+        open: true, //启动服务后自动弹出浏览器窗口
+        // 跨域，通过代理的方式
+        proxy: {
+            "/api": {
+                target: "http://localhost:3000"
+            }
+        }
+    },
+
+    // 6. 模块，放所有loader
     module: {
         rules: [
             // 1.处理静态资源模块
@@ -81,6 +114,8 @@ module.exports = {
             }
         ]
     },
+
+    // 7. 插件
     plugins: [
         // htmlwebpackplugin会在打包结束后，自动生成一个html文件，并把打包生成的js,css模块引入到该html中
         new htmlWebpackPlugin({
