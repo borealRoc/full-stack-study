@@ -55,24 +55,28 @@ module.exports = {
                 test: /\.less$/,
                 use: ['style-loader', 'css-loader', 'less-loader'],
             },
-            // 2.3 处理css文件,以及将样式以内部样式的形式插入到index.html的<head>中
+            // 2.3 处理css文件
             {
                 test: /\.css$/,
                 // 使用多个loader用数组，loader从后往前执行
                 use: [
+                    // 样式以内部样式的形式插入到index.html的<head>中
                     // 'style-loader',
+                    // 打包好的样式会生成样式文件
                     MiniCssExtractPlugin.loader,
                     'css-loader',
-                    {
-                        loader: "postcss-loader",
-                        options: {
-                            plugins: [
-                                require("autoprefixer")({
-                                    overrideBrowserslist: ["last 2 versions", ">1%"]
-                                })
-                            ]
-                        }
-                    }
+                    'postcss-loader',
+                    // 把下面postcss-loader的配置抽离到根目录下的postcss.config.js中
+                    // {
+                    //     loader: "postcss-loader",
+                    //     options: {
+                    //         plugins: [
+                    //             require("autoprefixer")({
+                    //                 overrideBrowserslist: ["last 2 versions", ">1%"]
+                    //             })
+                    //         ]
+                    //     }
+                    // }
                 ],
             }
         ]
