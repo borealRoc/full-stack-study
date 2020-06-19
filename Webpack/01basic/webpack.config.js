@@ -22,7 +22,7 @@ module.exports = {
     // 4.源代码与打包后的代码的映射关系，通过sourceMap定位到源代码
     // cheap: 较快，不包含列信息
     // module: 第三方模块
-    // eval: 速度最快,使 eval包裹模块代码
+    // eval: 速度最快,使用eval包裹模块代码
     // source-map: 产生.map文件
     // inline: 将.map作为DataURI嵌入，不单独生成.map文件
     // 开发环境配置
@@ -35,6 +35,7 @@ module.exports = {
     // 5.2 修改代码【webpack配置除外】自动刷新
     devServer: {
         contentBase: "./dist", //服务源文件目录
+        watchContentBase: true,
         port: 8081, //端口
         open: true, //启动服务后自动弹出浏览器窗口
         // 跨域，通过代理的方式
@@ -117,7 +118,35 @@ module.exports = {
                     //     }
                     // }
                 ],
-            }
+            },
+            // 3 babel
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    // options: {
+                    //     presets: ["@babel/preset-env"]
+                    // }
+                    options: {
+                        "presets": [
+                            [
+                                "@babel/preset-env",
+                                {
+                                    "targets": {
+                                        "edge": "17",
+                                        "firefox": "60",
+                                        "chrome": "67",
+                                        "safari": "11.1"
+                                    },
+                                    "corejs": 2,
+                                    "useBuiltIns": "usage"
+                                }
+                            ]
+                        ]
+                    }
+                }
+            },
         ]
     },
 
