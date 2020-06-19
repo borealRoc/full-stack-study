@@ -28,6 +28,14 @@ body {
 
 .flex {
     display: flex;
-    height: 40px;
     align-items: center;
+    font-size: 30px;
+}
+
+.css-hmr:nth-of-type(odd) {
+    background-color: #4227b9;
+}
+
+#number {
+    vertical-align: middle;
 }

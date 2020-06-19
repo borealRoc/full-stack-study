@@ -11,7 +11,17 @@ root.prepend(img)
 
 console.log('hello webpack')
 
-import axios from "axios"
-axios.get("/api/info").then(res => {
-    console.log(res.data)
-});
+// import axios from "axios"
+// axios.get("/api/info").then(res => {
+//     console.log(res.data)
+// });
+
+import './pages/CSSHMRTest.js'
+import number from './pages/JSHMRTest.js'
+number()
+if (module.hot) {
+    module.hot.accept('./pages/JSHMRTest.js', function () {
+        document.getElementById("root").removeChild(document.getElementById("number"))
+        number()
+    })
+}

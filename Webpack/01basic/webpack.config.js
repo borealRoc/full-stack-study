@@ -2,6 +2,7 @@ const path = require('path')
 const htmlWebpackPlugin = require("html-webpack-plugin")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const webpack = require("webpack")
 
 module.exports = {
     // 1.入口
@@ -41,7 +42,12 @@ module.exports = {
             "/api": {
                 target: "http://localhost:3000"
             }
-        }
+        },
+        // 开启热更新
+        // 对于css: 内部css可以HMR，外部css文件无法HMR
+        // 对于js: 无法HRM，需要使用module.hot.accept来观察模块更新，从而更新【麻烦】
+        hot: true, //如果HMR失败，可能会刷新浏览器
+        hotOnly: true, // 如果HMR失败，也不会自动刷新浏览器
     },
 
     // 6. 模块，放所有loader
@@ -128,6 +134,8 @@ module.exports = {
         // 把打包的css模块以文件的形式生成在build文件夹下
         new MiniCssExtractPlugin({
             filename: '[name][chunkhash:6].css'
-        })
+        }),
+        // 开启HMR
+        new webpack.HotModuleReplacementPlugin()
     ]
 }
