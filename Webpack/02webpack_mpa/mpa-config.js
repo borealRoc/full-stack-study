@@ -10,11 +10,11 @@ const setMPA = () => {
     entryFiles.map((item, index) => {
         const match = item.match(/src\/(.*)\/(.*)\.js$/)
         const pageName = match && match[1]
-        
+
         // 多页面通用入口
         entry[pageName] = item
 
-        // 多页面通用插件
+        // 多页面通用模板
         htmlWebpackPlugins.push(
             new htmlWebpackPlugin({
                 title: pageName,
