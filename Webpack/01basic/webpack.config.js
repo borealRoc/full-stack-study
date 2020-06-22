@@ -7,13 +7,23 @@ const webpack = require("webpack")
 module.exports = {
     // 1.入口
     entry: './src/index.js',
+    // 1.1 多入口
+    // entry: {
+    //     lodash: './src/pages/lodash.js',
+    //     index: './src/index.js'
+    // },
 
     // 2.出口
+    // output: {
+    //     // 输出文件的名字
+    //     filename: 'bundle.js',
+    //     // 输出文件的路径，必须是绝对路径
+    //     path: path.resolve(__dirname, "dist")
+    // },
+    // 2.1 多出口
     output: {
-        // 输出文件的名字
-        filename: 'bundle.js',
-        // 输出文件的路径，必须是绝对路径
-        path: path.resolve(__dirname, "dist")
+        path: path.resolve(__dirname, "dist"),
+        filename: "[name].js"
     },
 
     // 3.webpack运行环境
