@@ -5,9 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx webpack",
-    "start": "webpack-dev-server"
+    "dev": "webpack --config ./build/webpack.common.js",
+    "prod": "webpack --env.production --config ./build/webpack.common.js",
+    "server": " webpack-dev-server --config ./build/webpack.common.js"
   },
+  "sideEffects": [
+    "*.css",
+    "@babel/polyfill"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -38,7 +43,8 @@
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "@babel/runtime-corejs2": "^7.10.3"

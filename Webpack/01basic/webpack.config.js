@@ -18,6 +18,7 @@ module.exports = {
 
     // 3.webpack运行环境
     mode: 'development',
+    // mode: 'production',
 
     // 4.源代码与打包后的代码的映射关系，通过sourceMap定位到源代码
     // cheap: 较快，不包含列信息
@@ -49,6 +50,19 @@ module.exports = {
         // 对于js: 无法HRM，需要使用module.hot.accept来观察模块更新，从而更新【麻烦】
         hot: true, //如果HMR失败，可能会刷新浏览器
         hotOnly: true, // 如果HMR失败，也不会自动刷新浏览器
+    },
+
+    // 8. 文件监听
+    // watch: true,
+    // watchOptions: {
+    //     ignored: /node_modules/, //不监听的文件
+    //     aggregateTimeout: 500, //防止重复按键，500毫米内算按键一次
+    //     poll: 1000, //轮询，监测修改的时间(ms)                              
+    // },
+
+    // 9. tree shaking: 按需编译(只支持ES module的引入方式)
+    optimization: {
+        usedExports: true
     },
 
     // 6. 模块，放所有loader
@@ -146,5 +160,5 @@ module.exports = {
         }),
         // 开启HMR
         new webpack.HotModuleReplacementPlugin()
-    ]
+    ],
 }
