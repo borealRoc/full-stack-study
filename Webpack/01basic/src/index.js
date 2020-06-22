@@ -27,4 +27,5 @@
 // }
 
 // import "@babel/polyfill"
-import './pages/babelTest.js'
+import './pages/babelES6Test.js'
+import './pages/babelReactTest.jsx'
