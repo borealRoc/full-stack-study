@@ -1,13 +1,10 @@
-const { entry, htmlWebpackPlugins } = require('./mpa-config')
-const path = require('path')
+const { entry, output, htmlWebpackPlugins } = require('./mpa-config')
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
+
 
 module.exports = {
     entry,
-    output: {
-        path: path.resolve(__dirname, "./dist"),
-        filename: '[name].js'
-    },
+    output,
     mode: 'development',
     plugins: [
         ...htmlWebpackPlugins,
