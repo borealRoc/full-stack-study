@@ -39,6 +39,7 @@
         - css-loader: 处理css文件
         - style-loader: 将样式以内部样式的形式插入到index.html的`<head>`中
         - postcss-laoder: autoprefixer插件可以给css3某些属性自动添加前缀
+        - babel-loader: 编译es6, react, vue...
 5. 插件[plugins]
     - 5.1 定义：在webpack运动到某个阶段的时候，执行某些任务，类似于生命周期的概念
     - 5.2 常用plugins
@@ -62,21 +63,51 @@
         - 对于html：无法HMR, 要使用livereload插件
         - 对于css: 内部css可以HMR，抽离出来的外部css文件无法HMR
         - 对于js: 无法HRM，需要使用module.hot.accept来观察模块更新，从而更新【麻烦】
-# Babel处理ES6
-1. 初步处理：`npm i babel-loader @babel/core @babel/preset-env -D`
-    - 1.1 babel-loader: webpack 与 babel 的通信桥梁
-    - 1.2 babel-core: babel核心 
-    - 1.3 babel/preset-env：把es6转成es5
-    - 上面这3个没办法把Promise等一些特性转换过来 —— 解决：
-2. 方式一：@babel/polyfill `npm i @babel/polyfill -D`
-    - 以全局变量的方式注入进来的。如windows.Promise，它会造成全局对象的污染【】
-    - polyfill默认会把所有特性注入进来[939kib]
-        - 改进：按需注入, 使用useBuiltIns [34.6KiB]
-        - useBuiltIns选项是babel 7的新功能，这个选项告诉babel如何配置@babel/polyfill，它有三个参数可以使用
-            - （1）entry: 需要在webpack的入口文件 import "@babel/polyfill"一次，babel会根据使用情况导入垫片，没有使用的功能不会被导入相应的垫片 
-            - （2）usage: 不需要import，全自动检测，但是要安装@babel/polyfill。 (试验阶段)
-            - （3）false【默认是false】: 如果只是import "@babel/polyfill"，它不会排除掉没有使用的垫片，程序体积会庞大(不推荐)
-    - 当我们开发的是组件库，工具库这些场景的时候，polyfill就不适合 ，因为polyfill是注入到全局变量，window下的，会污染全局环境，所以推荐闭包方式:@babel/plugin-transform-runtime
-3. 方式二：
-# 配置React打包环境
+# Babel
+1. 处理ES6
+    - 1.1 初步处理：`npm i babel-loader @babel/core @babel/preset-env -D`
+        - 1.1 babel-loader: webpack 与 babel 的通信桥梁
+        - 1.2 babel-core: babel核心 
+        - 1.3 babel/preset-env：把es6转成es5
+        - 上面这3个没办法把Promise等一些特性转换过来[34.6Kib] —— 解决：
+    - 1.2 方式一：@babel/polyfill `npm i @babel/polyfill -D`
+        - 以全局变量的方式注入进来的。如windows.Promise，它会造成全局对象的污染
+        - polyfill默认会把所有特性注入进来[939kib]
+            - 改进: 按需注入, 使用useBuiltIns [34.6KiB]
+                - useBuiltIns选项是babel 7的新功能，这个选项告诉babel如何配置@babel/polyfill，它有三个参数可以使用
+                    - （1）entry: 需要在webpack的入口文件 import "@babel/polyfill"一次，babel会根据使用情况导入垫片，没有使用的功能不会被导入相应的垫片 
+                    - （2）usage: 不需要import，全自动检测，但是要安装@babel/polyfill。 (试验阶段)
+                    - （3）false【默认是false】: 如果只是import "@babel/polyfill"，它不会排除掉没有使用的垫片，程序体积会庞大(不推荐)
+                - 注明’targets‘选项，表明需要兼容的浏览器的最低版本，如果浏览器支持这个特性，就无需编译【这个很重要】
+            - 缺点：当我们开发的是组件库，工具库这些场景的时候，polyfill就不适合 ，因为polyfill是注入到全局变量，window下的，会污染全局环境，所以推荐闭包方式:@babel/plugin-transform-runtime
+    - 1.3 方式二：@babel/plugin-transform-runtime： `npm i @babel/plugin-transform-runtime @babel/runtime -D`
+2. 配置React打包环境: `npm i @babel/preset-react -D`
+# 多页面打包通用方案
+1. 使用glob.sync第三方库来匹配路径
+2. entry的key`[name]`, output的`[name]`和htmlWebpackPlugins的`chunks: [name]`这三个name是一一对应的
+# 性能优化
+1. tree Shaking
+    - 只支持处理ES module的引入方式, 检测import的文件，按引用，使用编译
+    - 同时在package.json设置`"sideEffects": ["*.css"]`, 表示不检测css文件的import
+2. development和Production模式区分打包
+    - 借用webpack-merge: `npm i webpack-merge -D`
+    ```javascript
+    // webpack.common.js
+    module.exports = env => {
+        if (env && env.production) {
+            return merge(commonConfig, prodConfig);
+        } else {
+            return merge(commonConfig, devConfig);
+        }
+    }
+    ```
+    ```json
+    {
+        "dev": "webpack --config ./build/webpack.common.js",
+        "prod": "webpack --env.production --config ./build/webpack.common.js",
+    }
+    ```
+3. 代码分割
+    
+
 
