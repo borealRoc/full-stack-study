@@ -17,6 +17,9 @@ const setMPA = () => {
         const pageName = match && match[1]
 
         // 多页面通用入口
+        // entry的key和output的key异议对应，这里为了打包生成的文件多套一层文件夹，所以写成
+        // {'index/index': './src/index/index.js'} 最后打包生成的文件对应也是：
+        // './build/index/index.js'
         let pName = pageName + '/' + pageName
         entry[pName] = item
 
