@@ -9,7 +9,8 @@
     "prod": "webpack --env.production --config ./build/webpack.common.js",
     "server": " webpack-dev-server --config ./build/webpack.common.js",
     "start": " webpack-dev-server --config ./build/webpack.common.js",
-    "common": "npx webpack"
+    "profile": "npx webpack --profile --json > stats.json",
+    "bunnle": "npx webpack"
   },
   "sideEffects": [
     "*.css",
@@ -20,6 +21,7 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.10.2",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-transform-runtime": "^7.10.3",
     "@babel/polyfill": "^7.10.1",
     "@babel/preset-env": "^7.10.2",
@@ -33,6 +35,7 @@
     "express": "^4.17.1",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
+    "jquery": "^3.5.1",
     "less": "^3.11.3",
     "less-loader": "^6.1.1",
     "lodash": "^4.17.15",

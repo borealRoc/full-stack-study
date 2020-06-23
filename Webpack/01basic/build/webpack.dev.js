@@ -31,13 +31,15 @@ const devConfig = {
             name: true, //可以修改生成的文件名
             // 缓存组
             cacheGroups: {
+                // 通过npm install即放到node_modules里面的第三方库都会放在vendors组
                 vendors: {
-                    // filename: 'loadash', //生成的文件名
+                    // filename: 'loadash', //上面设置了name: true, 所以这里可以修改生成的文件名
                     test: /[\\/]node_modules[\\/]/, //引用的模块是不是在node_modules里
                     priority: -10//优先级 数字越大，优先级越高
                 },
+                // 其它的第三方库放在default组
                 default: {
-                    minChunks: 2,
+                    minChunks: 2, 
                     priority: -20,
                     reuseExistingChunk: true
                 }

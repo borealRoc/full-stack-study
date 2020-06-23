@@ -1,12 +1,12 @@
-import './index.css'
-import './index.less'
-import './index.scss'
-import logo from './logo.png'
-var img = new Image()
-img.src = logo //logo其实是路径
-img.classList.add("logo")
-var root = document.getElementById("root")
-root.prepend(img)
+// import './index.css'
+// import './index.less'
+// import './index.scss'
+// import logo from './logo.png'
+// var img = new Image()
+// img.src = logo //logo其实是路径
+// img.classList.add("logo")
+// var root = document.getElementById("root")
+// root.prepend(img)
 
 // import './pages/proxyTest'
 // import './pages/CSSHMRTest'
@@ -22,7 +22,9 @@ root.prepend(img)
 // import "@babel/polyfill"
 // import './pages/babelES6Test.js'
 // import './pages/babelReactTest.jsx'
-import { myAdd } from './pages/treeShakingTest'
-console.log(myAdd(1, 2))
+// import { myAdd } from './pages/treeShakingTest'
+// console.log(myAdd(1, 2))
 
-import './pages/codeSplittingTest'
+// import './pages/codeSplittingTest'
+
+import './pages/dynamicImport'

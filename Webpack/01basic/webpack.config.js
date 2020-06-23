@@ -17,6 +17,7 @@ module.exports = {
     output: {
         // 输出文件的名字
         filename: 'bundle.js',
+        chunkFilename: '[name].bundle.js',
         // 输出文件的路径，必须是绝对路径
         path: path.resolve(__dirname, "dist")
     },
@@ -71,14 +72,14 @@ module.exports = {
     // },
 
     // 9. 优化
-    optimization: {
-        // 9.1 tree shaking: 按需编译(只支持ES module的引入方式)
-        usedExports: true,
-        // 9.2 splitting code: 代码分割 -- webpack自动进行代码分割
-        splitChunks: {
-            chunks: 'all' //默认是支持异步
-        },
-    },
+    // optimization: {
+    //     // 9.1 tree shaking: 按需编译(只支持ES module的引入方式)
+    //     usedExports: true,
+    //     // 9.2 splitting code: 代码分割 -- webpack自动进行代码分割
+    //     splitChunks: {
+    //         chunks: 'all' //默认是支持异步
+    //     },
+    // },
 
     // 6. 模块，放所有loader
     module: {
