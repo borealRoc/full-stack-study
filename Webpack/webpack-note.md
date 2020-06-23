@@ -69,16 +69,15 @@
         - 1.1 babel-loader: webpack 与 babel 的通信桥梁
         - 1.2 babel-core: babel核心 
         - 1.3 babel/preset-env：把es6转成es5
-        - 上面这3个没办法把Promise等一些特性转换过来[34.6Kib] —— 解决：
+        - 上面这3个没办法把Promise等一些特性转换过来 —— 有以下两种方式可以解决：
     - 1.2 方式一：@babel/polyfill `npm i @babel/polyfill -D`
-        - 以全局变量的方式注入进来的。如windows.Promise，它会造成全局对象的污染
-        - polyfill默认会把所有特性注入进来[939kib]
-            - 改进: 按需注入, 使用useBuiltIns [34.6KiB]
+        - polyfill默认会把所有特性注入进来[导致打包后的文件很大]
+            - 改进: 按需注入, 使用useBuiltIns
                 - useBuiltIns选项是babel 7的新功能，这个选项告诉babel如何配置@babel/polyfill，它有三个参数可以使用
                     - （1）entry: 需要在webpack的入口文件 import "@babel/polyfill"一次，babel会根据使用情况导入垫片，没有使用的功能不会被导入相应的垫片 
                     - （2）usage: 不需要import，全自动检测，但是要安装@babel/polyfill。 (试验阶段)
                     - （3）false【默认是false】: 如果只是import "@babel/polyfill"，它不会排除掉没有使用的垫片，程序体积会庞大(不推荐)
-                - 注明’targets‘选项，表明需要兼容的浏览器的最低版本，如果浏览器支持这个特性，就无需编译【这个很重要】
+                - 注明’targets‘选项，表明需要兼容的浏览器的最低版本，如果浏览器支持这个特性，就无需编译[这个很重要]
             - 缺点：当我们开发的是组件库，工具库这些场景的时候，polyfill就不适合 ，因为polyfill是注入到全局变量，window下的，会污染全局环境，所以推荐闭包方式:@babel/plugin-transform-runtime
     - 1.3 方式二：@babel/plugin-transform-runtime： `npm i @babel/plugin-transform-runtime @babel/runtime -D`
 2. 配置React打包环境: `npm i @babel/preset-react -D`
@@ -86,7 +85,7 @@
 1. 使用glob.sync第三方库来匹配路径
 2. entry的key`[name]`, output的`[name]`和htmlWebpackPlugins的`chunks: [name]`这三个name是一一对应的
 # 性能优化
-1. tree Shaking
+1. tree Shaking[摇树]
     - 只支持处理ES module的引入方式, 检测import的文件，按引用，使用编译
     - 同时在package.json设置`"sideEffects": ["*.css"]`, 表示不检测css文件的import
 2. development和Production模式区分打包
@@ -107,7 +106,17 @@
         "prod": "webpack --env.production --config ./build/webpack.common.js",
     }
     ```
-3. 代码分割
-    
+3. code splitting[代码分离]
+    - 3.1 使用场景：代码分离是 webpack 中最引人注目的特性之一。此特性能够把代码分离到不同的 bundle 中，然后可以按需加载或并行加载这些文件。代码分离可以用于获取更小的 bundle，以及控制资源加载优先级，如果使用合理，会极大影响加载时间。
+    - 3.2 方式, 常用的代码分离方法有三种
+        - 3.2.1 入口起点：使用 entry 配置手动地分离代码
+        - 3.2.2 防止重复：使用 SplitChunksPlugin 去重和分离 chunk：`optimization: {splitChunks: {chunks: 'all'}}`
+        - 3.3.3 动态导入：通过模块的内联函数调用来分离代码
+            - 普通动态导入：使用ES6的inport()语法
+            - 预获取/预加载模块[prefetch和preload]
+                - preload chunk 会在父 chunk 加载时，以并行方式开始加载。prefetch chunk 会在父 chunk 加载结束后开始加载
+                - preload chunk 具有中等优先级，并立即下载。prefetch chunk 在浏览器闲置时下载
+    - 3.3 打包分析：在package.json文件的打包命令后面加参数`--profile --json > stats.json`,比如：`"bunnle": "npx webpack --profile --json > stats.json"`
+
 
 
