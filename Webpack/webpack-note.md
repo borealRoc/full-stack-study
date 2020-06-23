@@ -86,6 +86,7 @@
 2. entry的key`[name]`, output的`[name]`和htmlWebpackPlugins的`chunks: [name]`这三个name是一一对应的
 # 性能优化
 1. tree Shaking[摇树]
+    - `optimization: {usedExports: true}`
     - 只支持处理ES module的引入方式, 检测import的文件，按引用，使用编译
     - 同时在package.json设置`"sideEffects": ["*.css"]`, 表示不检测css文件的import
 2. development和Production模式区分打包
