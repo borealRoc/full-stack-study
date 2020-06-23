@@ -25,10 +25,11 @@ const devConfig = {
             chunks: 'all', //所有模块有效[async:异步模块]
             minSize: 30000, //当第三方模块大于30kb
             maxSize: 0, //对模块进行二次分割时使用，不推荐使用
-            minChunks: 1, //打包生成的chunk文件最少有几个chunk引用了这个模块
-            maxInitialRequests: 3, //入口文件同步请求3次 
-            automaticNameDelimiter: '-',
+            minChunks: 1, //打包生成的chunk文件最少有几个chunk引用了这个模块[至少有多个文件引入了lodash]
+            maxInitialRequests: 5, //入口文件同步请求5次【前5个第三方库才进行分割】
+            automaticNameDelimiter: '-', //打包生成的文件名的连接方式[vendors-main.bundle]
             name: true, //可以修改生成的文件名
+            // 缓存组
             cacheGroups: {
                 vendors: {
                     // filename: 'loadash', //生成的文件名
