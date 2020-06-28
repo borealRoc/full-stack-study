@@ -155,19 +155,19 @@ module.exports = class Compiler {
         const bundle = `(function(graph){
             //  1. 解析require
             function require(module){
-                // 1.1 解析模块内部的require, 把相对路径转化成项目下的绝对路径
+                // 1.2 解析模块内部的require, 把相对路径转化成项目下的绝对路径
                 function localrequire(relativePath){
                    return require(graph[module].dependcies[relativePath])
                 }
-                // 1.2 解析exports，将其定义为一个对象
+                // 1.3 解析exports，将其定义为一个对象
                 var exports = {};
-                // 1.3 定义一个自执行函数，用eval的形式执行每个模块的代码
+                // 1.1 定义一个自执行函数，用eval的形式执行每个模块的代码
                 (function(require,exports,code){
                     eval(code)
                 })(localrequire,exports,graph[module].code)
-                return exports;
+                return exports
             }
-            // 2. 执行require
+            // 2. 执行require，打包的第一步就是先解析入口文件
             require('${this.entry}')
           })(${codeStr})`
 

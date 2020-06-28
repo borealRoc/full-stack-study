@@ -118,6 +118,66 @@
                 - preload chunk 会在父 chunk 加载时，以并行方式开始加载。prefetch chunk 会在父 chunk 加载结束后开始加载
                 - preload chunk 具有中等优先级，并立即下载。prefetch chunk 在浏览器闲置时下载
     - 3.3 打包分析：在package.json文件的打包命令后面加参数`--profile --json > stats.json`,比如：`"bunnle": "npx webpack --profile --json > stats.json"`
-
-
+# 原理
+1. 原理简析：实行一个self_require来实现自己的模块化，代码文件以对象传进来，key是路径，value是包裹的代码字符串，并且代码内部的require，都被替换成了self_require
+2. 实现步骤
+    - 2.1 模块分析：读取入口文件，分析代码[包括文件名，依赖模块，代码]
+        - getAst：借助`npm i @babel/parser -D`得到入口文件的一个抽象语法树
+        ```javascript
+        const parser = require("@babel/parser")
+        const content = fs.readFileSync(entry, 'utf-8')
+        const ast = parser.parse(content, {
+            sourceType: 'module'
+        })
+        ```
+        - getDependcies：借助`npm i @babel/traverse -D`遍历入口文件的依赖文件
+        ```javascript
+        const traverse = require("@babel/traverse").default
+        const dependcies = {}
+        traverse(ast, {
+            ImportDeclaration({ node }) {
+                const newPath = "./" + path.join(path.dirname(filename), node.source.value)F
+                dependcies[node.source.value] = newPath
+            }
+        })
+        ```
+        - getCode：借助`npm i @babel/core  @babel/preset-env -D`,把代码处理成浏览器可运行的代码
+        ```javascript
+        const { transformFromAst } = require("@babel/core")
+        const { code } = transformFromAst(ast, null, {
+            presets: ["@babel/preset-env"]
+        })
+        ```
+    - 2.2 遍历依赖模块,分析依赖模块
+    - 经过上面两个步骤得到一个模块信息对象
+    ```javascript
+    this.moduleInfoArr.forEach(item => {
+        moduleInfoObj[item.filename] = {
+            dependcies: item.dependcies,
+            code: item.code
+        }
+    })
+    ```
+    - 2.3 生成代码：`this.file(moduleInfoObj)`
+        - 得到输出目录: `const outputPath = path.join(this.output.path, this.output.filename)`
+        - 解析代码中的require和exports, 并用eval执行代码
+        ```javascript
+        const codeStr = JSON.stringify(moduleInfoObj)
+        const bundle = `(function(graph){
+            function require(module){
+                function localrequire(relativePath){
+                    return require(graph[module].dependcies[relativePath])
+                }
+                var exports = {};
+                (function(require,exports,code){
+                    eval(code)
+                })(localrequire,exports,graph[module].code)
+                return exports
+            }
+            require('${this.entry}')
+        })(${codeStr})`
+        ```
+        - 生成文件: `fs.writeFileSync(outputPath, bundle, 'utf-8')`
+3. 如何编写一个loader
+4. 如何编写一个plugins
 
