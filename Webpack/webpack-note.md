@@ -188,4 +188,19 @@
     - 多个loader：顺序从下到上，从右到左
     - loader的路径问题：`resolveLoader: {module: ['node_modules', './loader]}`
 4. 如何编写一个plugins
-
+    - plugin是一个类, 里面包含一个apply函数，接收一个参数，compiler
+    ```javascript
+    clas DemoWebpackPlugin {
+        constructor(opt) {
+            console.log('opt获取插件参数')
+        }
+        apply(compiler) {
+            // hooks.emit 定义在某个时刻
+            // 异步写法
+            compiler.hooks.emit.tapAsync('DemoWebpackPlugin', (compilation, cb) =>{})
+            // 同步写法
+            compiler.hooks.compile.tap('DemoWebpackPlugin', compilation => {})
+        }
+    }
+    ```
+    
