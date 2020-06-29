@@ -6,5 +6,5 @@ module.exports = function (source) {
     setTimeout(() => {
         const result = source.replace("world", options.name);
         callback(null, result);
-    }, 1000);
+    }, 100);
 };

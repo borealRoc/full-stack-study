@@ -1,4 +1,5 @@
 const path = require('path')
+const CopyrightWebpackPlugin = require("./plugins/copyright-webpack-plugin")
 
 module.exports = {
     entry: './src/index.js',
@@ -46,5 +47,10 @@ module.exports = {
                 ]
             }
         ]
-    }
+    },
+    plugins: [
+        new CopyrightWebpackPlugin({
+            name: '我是插件参数',
+        })
+    ]
 }
