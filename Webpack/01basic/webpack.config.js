@@ -43,7 +43,7 @@ module.exports = {
     // devtool: 'cheap-module-source-map',
 
     // 5. WebpackDevServer,启动服务
-    // 5.1 启动服务后，会发现dist目录没有了，这是因为devServer把打包后的模块不会放在dist目录下，而是放到内存中，从而提升速度
+    // 5.1 启动服务后，会发现dist目录没有了，这是因为devServer打包后的模块不会放在dist目录下，而是放到内存中，从而提升速度
     // 5.2 修改代码【webpack配置除外】自动刷新
     devServer: {
         contentBase: "./dist", //服务源文件目录
@@ -101,7 +101,7 @@ module.exports = {
                         // [ext]: 老资源的文件格式
                         name: '[name]_[hash].[ext]',
                         // 打包后的资源的存放位置
-                        // 'images/'结合上面的output表示存放在 /build/images/
+                        // 'images/'结合上面的output表示存放在 ./dist/images/
                         outputPath: 'images/',
                         // 下面表示小于10kb，转换成base64 
                         limit: 10 * 1024

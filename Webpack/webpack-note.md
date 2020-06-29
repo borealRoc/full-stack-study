@@ -1,13 +1,13 @@
 # 基础语法
 1. 定义：模块打包工具
 2. 安装：推荐局部安装 `npm i webpack webpack-cli -D`
-3. 启动: `npx webpack` npx在项目的node_modules里面查找webpack
+3. 启动: `npx webpack` npx会在项目的node_modules里面查找webpack
 3. 零配置
     - 只定义入口，出口和模式
     - 只能识别js文件
 # 核心概念
 1. 入口[entry]
-    - 1.1 单入口SPA：字符串 `entry: './src/index.js'`
+    - 1.1 单入口：字符串 `entry: './src/index.js'`
     - 1.2 多入口：对象 `entry: {index: '', login: ''}`
 2. 出口[output]
     - 2.1 单出口
@@ -72,15 +72,16 @@
         - 上面这3个没办法把Promise等一些特性转换过来 —— 有以下两种方式可以解决：
     - 1.2 方式一：@babel/polyfill `npm i @babel/polyfill -D`
         - polyfill默认会把所有特性注入进来[导致打包后的文件很大]
-            - 改进: 按需注入, 使用useBuiltIns
-                - useBuiltIns选项是babel 7的新功能，这个选项告诉babel如何配置@babel/polyfill，它有三个参数可以使用
-                    - （1）entry: 需要在webpack的入口文件 import "@babel/polyfill"一次，babel会根据使用情况导入垫片，没有使用的功能不会被导入相应的垫片 
-                    - （2）usage: 不需要import，全自动检测，但是要安装@babel/polyfill。 (试验阶段)
-                    - （3）false【默认是false】: 如果只是import "@babel/polyfill"，它不会排除掉没有使用的垫片，程序体积会庞大(不推荐)
-                - 注明’targets‘选项，表明需要兼容的浏览器的最低版本，如果浏览器支持这个特性，就无需编译[这个很重要]
-            - 缺点：当我们开发的是组件库，工具库这些场景的时候，polyfill就不适合 ，因为polyfill是注入到全局变量，window下的，会污染全局环境，所以推荐闭包方式:@babel/plugin-transform-runtime
+        - 改进: 按需注入, 使用useBuiltIns
+            - useBuiltIns选项是babel 7的新功能，这个选项告诉babel如何配置@babel/polyfill，它有三个参数可以使用
+                - （1）entry: 需要在webpack的入口文件 import "@babel/polyfill"一次，babel会根据使用情况导入垫片，没有使用的功能不会被导入相应的垫片 
+                - （2）usage: 不需要import，全自动检测，但是要安装@babel/polyfill。 (试验阶段)
+                - （3）false【默认是false】: 如果只是import "@babel/polyfill"，它不会排除掉没有使用的垫片，程序体积会庞大(不推荐)
+            - 注明’targets‘选项，表明需要兼容的浏览器的最低版本，如果浏览器支持这个特性，就无需编译[这个很重要]
+        - 缺点：当我们开发的是组件库，工具库这些场景的时候，polyfill就不适合 ，因为polyfill是注入到全局变量，window下的，会污染全局环境，所以推荐闭包方式:@babel/plugin-transform-runtime
     - 1.3 方式二：@babel/plugin-transform-runtime： `npm i @babel/plugin-transform-runtime @babel/runtime -D`
 2. 配置React打包环境: `npm i @babel/preset-react -D`
+
 # 多页面打包通用方案
 1. 使用glob.sync第三方库来匹配路径
 2. entry的key`[name]`, output的`[name]`和htmlWebpackPlugins的`chunks: [name]`这三个name是一一对应的
