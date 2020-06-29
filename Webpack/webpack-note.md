@@ -88,7 +88,7 @@
 # 性能优化
 1. tree Shaking[摇树]
     - `optimization: {usedExports: true}`
-    - 只支持处理ES module的引入方式, 检测import的文件，按引用，使用编译
+    - 只支持处理ES module的引入方式, 检测import的文件，只编译引用部分
     - 同时在package.json设置`"sideEffects": ["*.css"]`, 表示不检测css文件的import
 2. development和Production模式区分打包
     - 借用webpack-merge: `npm i webpack-merge -D`
@@ -111,13 +111,21 @@
 3. code splitting[代码分离]
     - 3.1 使用场景：代码分离是 webpack 中最引人注目的特性之一。此特性能够把代码分离到不同的 bundle 中，然后可以按需加载或并行加载这些文件。代码分离可以用于获取更小的 bundle，以及控制资源加载优先级，如果使用合理，会极大影响加载时间。
     - 3.2 方式, 常用的代码分离方法有三种
-        - 3.2.1 入口起点：使用 entry 配置手动地分离代码
-        - 3.2.2 防止重复：使用 SplitChunksPlugin 去重和分离 chunk：`optimization: {splitChunks: {chunks: 'all'}}`
-        - 3.3.3 动态导入：通过模块的内联函数调用来分离代码
-            - 普通动态导入：使用ES6的inport()语法
-            - 预获取/预加载模块[prefetch和preload]
-                - preload chunk 会在父 chunk 加载时，以并行方式开始加载。prefetch chunk 会在父 chunk 加载结束后开始加载
-                - preload chunk 具有中等优先级，并立即下载。prefetch chunk 在浏览器闲置时下载
+        - (1) 入口起点：使用 entry 配置手动地分离代码
+        - (2) 防止重复：使用 SplitChunksPlugin 去重和分离 chunk：`optimization: {splitChunks: {chunks: 'all'}}`
+        - (3) 动态导入：使用ES6的inport()语法
+        ```javascript
+        document.addEventListener('click', () => {
+            import("./click.js").then(({ default: func }) => { 
+                //需要用到 npm install --save-dev @babel/plugin-syntax-dynamic-import 
+                func()
+            })
+        })
+        ```
+        - (4) 预获取/预加载模块[prefetch和preload]
+            - 在声明 import 时，使用下面的内置指令，可以让 webpack 输出 "resource hint(资源提示)"，来告知浏览器：
+            - preload chunk 会在父 chunk 加载时，以并行方式开始加载。prefetch chunk 会在父 chunk 加载结束后开始加载
+            - preload chunk 具有中等优先级，并立即下载。prefetch chunk 在浏览器闲置时下载
     - 3.3 打包分析：在package.json文件的打包命令后面加参数`--profile --json > stats.json`,比如：`"bunnle": "npx webpack --profile --json > stats.json"`
 # 原理
 1. 原理简析：实行一个self_require来实现自己的模块化，代码文件以对象传进来，key是路径，value是包裹的代码字符串，并且代码内部的require，都被替换成了self_require
