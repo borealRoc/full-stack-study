@@ -179,5 +179,13 @@
         ```
         - 生成文件: `fs.writeFileSync(outputPath, bundle, 'utf-8')`
 3. 如何编写一个loader
+    - `module.exports = function (source) {}`
+    - Loader是一个声明式函数，不能用箭头函数，必须有返回值（处理后的源代码）
+    - source参数表示源代码
+    - this.query: 接收参数
+    - this.callback: 返回多个信息
+    - this.async: 处理异步
+    - 多个loader：顺序从下到上，从右到左
+    - loader的路径问题：`resolveLoader: {module: ['node_modules', './loader]}`
 4. 如何编写一个plugins
 
