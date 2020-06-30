@@ -28,7 +28,7 @@ export default {
   methods: {
     addToLists() {
       // 兄弟组件通信方式一：
-      // 通过共同的父组件，用事件把数据传给父组件，再由父组件传给子组件
+      // 用事件把数据传给共同的父组件，再由父组件传给子组件
       // this.$emit('addToLists', this.courseItem)
       // 兄弟组件通信方式二：
       // 通过共同的祖辈组件搭桥，$parent或$root
