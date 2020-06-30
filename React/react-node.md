@@ -378,6 +378,12 @@
         - 链接跳转：`<a href={props.to}>`
         - 处理点击事件：阻止a默认的跳转行为, 并把路径push进history对象: `linkHandler = (e, history) => {e.preventDefault(); history.push(props.to)}`
 # react-ssr
+1. SSR: server side render 服务端渲染
+2. 服务端渲染 vs 客户端渲染  
+    <img src="./img/ssr.png"/>  
+> 总结：SSR核心优势就是减少请求数量，减少白屏事件，对SEO友好
+3. react-ssr实现思路
+
 # react项目实践
 1. redux-saga
 2. umi
