@@ -39,7 +39,8 @@
         - css-loader: 处理css文件
         - style-loader: 将样式以内部样式的形式插入到index.html的`<head>`中
         - postcss-laoder: autoprefixer插件可以给css3某些属性自动添加前缀
-        - babel-loader: 编译es6, react, vue...
+        - babel-loader: 编译es6, react
+        - 处理.Vue单文件：`npm i vue-loader vue-template-compiler`
 5. 插件[plugins]
     - 5.1 定义：在webpack运动到某个阶段的时候，执行某些任务，类似于生命周期的概念
     - 5.2 常用plugins
@@ -81,7 +82,6 @@
         - 缺点：当我们开发的是组件库，工具库这些场景的时候，polyfill就不适合 ，因为polyfill是注入到全局变量，window下的，会污染全局环境，所以推荐闭包方式:@babel/plugin-transform-runtime
     - 1.3 方式二：@babel/plugin-transform-runtime： `npm i @babel/plugin-transform-runtime @babel/runtime -D`
 2. 配置React打包环境: `npm i @babel/preset-react -D`
-
 # 多页面打包通用方案
 1. 使用glob.sync第三方库来匹配路径
 2. entry的key`[name]`, output的`[name]`和htmlWebpackPlugins的`chunks: [name]`这三个name是一一对应的
@@ -128,7 +128,7 @@
             - preload chunk 具有中等优先级，并立即下载。prefetch chunk 在浏览器闲置时下载
     - 3.3 打包分析：在package.json文件的打包命令后面加参数`--profile --json > stats.json`,比如：`"bunnle": "npx webpack --profile --json > stats.json"`
 # 原理
-1. 原理简析：实行一个self_require来实现自己的模块化，代码文件以对象传进来，key是路径，value是包裹的代码字符串，并且代码内部的require，都被替换成了self_require
+1. 原理简析：实行一个self_require来实现自己的模块化，代码文件以对象传进来，key是路径，value是包裹的代码字符串【用eval执行】，并且代码内部的require，都被替换成了self_require
 2. 实现步骤
     - 2.1 模块分析：读取入口文件，分析代码[包括文件名，依赖模块，代码]
         - getAst：借助`npm i @babel/parser -D`得到入口文件的一个抽象语法树

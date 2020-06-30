@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const webpack = require("webpack")
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
 module.exports = {
     // 1.入口
     entry: './src/index.js',
@@ -149,7 +150,7 @@ module.exports = {
                     // }
                 ],
             },
-            // 3.1 babel处理es6和jsx
+            // 3 babel处理es6和jsx
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
@@ -157,7 +158,7 @@ module.exports = {
                     loader: 'babel-loader',
                 }
             },
-            // 3.2 babel处理Vue单文件
+            // 4 处理.Vue单文件
             {
                 test: /\.vue$/,
                 loader: 'vue-loader'
