@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Ts-syntax />
-    <Ts-vue title="TSVue" @add-feature="onAddFeature" />
+    <!-- <Ts-vue title="TSVue" @add-feature="onAddFeature" /> -->
   </div>
 </template>
 

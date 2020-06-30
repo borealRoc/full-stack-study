@@ -1,4 +1,9 @@
-# Vue的组件机制
+# vue-cli
+1. 安装：npm install -g @vue/cli
+2. 快速原型开发：npm install -g @vue/cli-service-global
+3. 创建项目：vue create vue-demo
+4. 插件：vue add plugin-demo
+# vue的组件机制
 1. vue组件传值、通信的方式
     - 父传子：props
     - 子传父：事件
@@ -14,10 +19,11 @@
         - 双向绑定语法糖的实现：:value="val" + @input = "val=e.target.value"
         - Vue两个新增属性：`v-bind="$attrs"` && `inheritAttrs: false`
         - findParent && findChild的实现
-        - element-ui的dispatch && broadcast方法 + mixins[混入]
+        - element-ui的dispatch && broadcast方法
+        - mixins[混入]
     - 3.2 动态组件实例的创建：设计一个Dialog组件
         - 动态创建组件实例的好处：方便使用，可在任何地方直接调用，不必像文件组件一样得先引入，才能调用
-        ```javascriot
+        ```javascript
             function create(Compment, props) {
                 const vm = new Vue({
                     render: h => h(Compment, props)
@@ -71,7 +77,7 @@
         - commit的参数是state
         - dispatch的参数是ctx({state, getters, commit, dispatch})
     - 1.4 把store选项混入到Vue原型上
-# Vue
+# vue原理
 1. vue1.0[没有虚拟dom和diff算法]的原理
     - 1.1 Observer：劫持监听所有属性
     ```javascript
@@ -208,11 +214,6 @@
     - 黑盒测试[E2E端到端]：根据测试用例测试功能
     - 白盒测试[Unit单元测试]: 针对内部核心逻辑写测试代码
         - 在vue中，unit测试推荐用Mocha+Chai或者Jest，e2e测试推荐用cypress   
-# vue-cli
-1. 安装：npm install -g @vue/cli
-2. 快速原型开发：npm install -g @vue/cli-service-global
-3. 创建项目：vue create vue-demo
-4. 插件：vue add plugin-demo
 # SSR
 1. 传统jsp vs SPA vs SSR
     - <https://juejin.im/post/5c9a05eef265da60ec282b28>
@@ -261,7 +262,7 @@
     - 函数
         - 参数与返回值的类型注解
             - 必传参、有返回值
-            - 可选参加?
+            - 可选参?
             - 无返回值值：void
         - 函数重载
     - 类class
@@ -286,7 +287,7 @@
         - 泛型函数eg：`function getData<T>(data: T[]): Result<T> {}`
         - 使用泛型eg：`getData<Person>()`
     - 装饰器
-        - 装饰器是一种特殊类型的声明，它能够被附加到类声明，方法，属性,访问符或参数上装饰器是一种特殊类型的声明，它能够被附加到类声明，方法，属性,访问符或参数上
+        - 装饰器是一种特殊类型的声明，它能够被附加到类声明，方法，属性,访问符或参数上
         - 装饰器组合
             - 由上至下依次对装饰器表达式求值
             - 求值的结果会被当作函数，由下至上依次调用

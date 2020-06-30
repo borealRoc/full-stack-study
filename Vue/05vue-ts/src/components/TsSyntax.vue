@@ -51,7 +51,7 @@ console.log(sayHello("xu", "shao"));
 // 先声明，再实现
 function info(a: { name: string }): string;
 function info(a: string): object;
-function info(a: { name: string } | string): any {
+function info(a: { name: string } | string): string | object {
   if (typeof a === "object") {
     return a.name;
   }
@@ -88,7 +88,7 @@ class Person {
   sayAge() {
     console.log("static_age", Person.static_age);
   }
-  // 暴露私有属性name2
+  // 暴露私有属性private_name
   get privateName() {
     return this.private_name;
   }
@@ -211,10 +211,14 @@ const data = [
   { id: 1, name: "类型注解", version: "2.0" },
   { id: 2, name: "编译型语 " }
   // { id: 3, version: "3.0" }
-];
+]
 // 使用泛型【使用泛型函数】
 const features = getData<Feature>(data).data;
 console.log("泛型", features);
+// 泛型 
+// [0: {id: 1, name: "类型注解", version: "2.0"},
+// 1: {id: 2, name: "编译型语 "}]
+
 
 // 6. 装饰器
 // 装饰器是一种特殊类型的声明，它能够被附加到类声明，方法，属性,访问符或参数上
@@ -251,13 +255,13 @@ function ClassDes(target: any) {
   target.prototype.log = function() {
     console.log("bar是：", this.bar);
   };
-  
 }
 @ClassDes
 class Foo {
   bar = "~~bar~~"
+  log() {}
 }
-const foo = new Foo();
+const foo = new Foo()
 foo.log()
 // target是： ƒ Foo() {}
 // bar是： ~~bar~~
@@ -292,7 +296,7 @@ function MethodDds(target: any, name: string, descriptor: any) {
   const laterMethod = descriptor.value;
   descriptor.value = function(val: string) {
     console.log("用方法装饰器修改之后的descriptor.value", descriptor.value);
-    laterMethod.call(this, val);
+    laterMethod.call(this, val); 
   };
   return descriptor;
 }
