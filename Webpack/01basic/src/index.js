@@ -27,4 +27,11 @@
 
 // import './pages/codeSplittingTest'
 
-import './pages/dynamicImport'
+// import './pages/dynamicImport'
+
+import Vue from 'vue'
+import App from './pages/babelVueTest.vue'
+
+new Vue({
+    render: h => h(App)
+}).$mount('#root')

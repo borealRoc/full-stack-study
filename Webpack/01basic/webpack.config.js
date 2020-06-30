@@ -3,7 +3,7 @@ const htmlWebpackPlugin = require("html-webpack-plugin")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const webpack = require("webpack")
-
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 module.exports = {
     // 1.入口
     entry: './src/index.js',
@@ -149,7 +149,7 @@ module.exports = {
                     // }
                 ],
             },
-            // 3 babel处理es6和jsx
+            // 3.1 babel处理es6和jsx
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
@@ -157,6 +157,11 @@ module.exports = {
                     loader: 'babel-loader',
                 }
             },
+            // 3.2 babel处理Vue单文件
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            }
         ]
     },
 
@@ -175,6 +180,8 @@ module.exports = {
             filename: '[name][chunkhash:6].css'
         }),
         // 开启HMR
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        // 处理Vue单文件，确保引入这个插件！
+        new VueLoaderPlugin()
     ],
 }
