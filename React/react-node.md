@@ -111,8 +111,15 @@
 # react组件化
 1. 组件跨层通信 - context
     - 创建上下文：`const {Provider, Consumer} = React.createContext()`
-    - 提供者 -- 哪里提供哪里写: `<Provider value={data}>...</Provider>`
-    - 消费者 -- 哪里需要哪里写: `<Consumer>{value => <Comp {...value}/>}</Consumer>`
+    - 提供者 -- 哪里提供哪里写
+    - 消费者 -- 哪里需要哪里写
+    ```javascript
+    <Provider value={data}>
+        <Consumer>
+            {value => <Comp {...value} />}
+        </Consumer>
+    </Provider>
+    ```
 2. 组件复合 - composition
     - 相当于Vue的插槽: slot => props.children
 3. 高阶组件 - HOC
@@ -120,7 +127,7 @@
     - 装饰器写法：需要配置 -- `npm i @babel/plugin-proposal-decorators -D`
 4. Hooks[V16.8~]: Hook本质就是JavaScrip 函数，它可以在不编写class组件的情况下使用state 以及其他的React特性
     - 状态钩子: useState
-        - 跟class组件中的`this.state`和`this.setState`类似
+        - 跟class组件中的`this.state`+`this.setState`类似
             - `const [count, setCount] = useState(0)`等价于class组件中`this.state = {count: 0}, this.setState({count: setCount()})`
     - 副作用钩子: useEffect
         - 它跟class组件中的componentDidMount,componentDidUpdate,componentWillUnmount类似
@@ -130,9 +137,15 @@
         - 定义reducer: `const fruitsReducer = (state, action) => {}`
         - 使用: `const [fruits, dispatch] = useReducer(fruitsReducer, ['初始化的水果'])`
     - useContext: 类似于class组件中的Context
-        - 借助Context本身和Context.Provider: `const Context = React.createContext()`;`const Provider = Context.Provider`
+        - 借助Context本身和Context.Provider: `const Context = React.createContext(); const Provider = Context.Provider`
         - 定义store: `const store = {user: 'xu'}`
-        - 使用: `<Provider value={store}></Provider>`;`const {user} = useContext(Context)`
+        ```javascript
+        <Provider value = {store}>
+            <div>
+                const {user} = useContext(Context)
+            </div>
+        </Provider>
+        ```
     - 拓展
         - Hook规则：<https://zh-hans.reactjs.org/docs/hooks-rules.html>
         - 自定义Hook
@@ -145,7 +158,7 @@
     - antd
         - 安装：`npm install antd --save`
         - 按需加载配置：`npm install react-app-rewired customize-cra babel-plugin-import -D`
-            - `react-app-rewired`: 一个对cra进行自定义配置的的社区解决方案
+            - `react-app-rewired`: 一个对cra项目进行自定义配置的的社区解决方案
             - `customize-cra`: `react-app-rewired`的依赖
             - `babel-plugin-import`: 按需加载组件代码和样式的babel插件
         ```javascript
@@ -204,7 +217,7 @@
 2. reduce: 之所以将这样的函数称之为 reducer, 是因为这种函数与被传入`Array.prototype.reduce(reducer, ？initialVal)`里的回调函数属于相同的类型
     - eg: `const arr = [1,2,3,4]; const reducer = (pre, next) => pre + next; arr.reduce(reducer, 20); //30`
 3. redux: Redux是**JavaScript**应用的状态容器，而不单单是React应用的状态容器
-    - 创建store
+    - 3.1 创建store
         - reducer初始化
         - 利用createStore创建store
         ```javascript
@@ -219,7 +232,7 @@
         }
         export const reduxCounter = createStore(counter)
         ```
-    - 使用store
+    - 3.2 使用store
         - getState 获取状态
         - dispatch 提交更新
         - subscribe 订阅更新
@@ -258,7 +271,7 @@
         import { counter } from './react-redux-counter.js'
         export const reactReduxCounter = createStore(counter)
         ```
-        - 4.1.2 借助react-redux 的 Provider API 全局提供 store
+        - 4.1.2 使用 react-redux 的 Provider API 全局提供 store
         ```javascript
         // index.js
         import { store } from './store/index'
@@ -270,7 +283,7 @@
             document.getElementById('root')
         )
         ```
-        - 4.1.3 借助react-redux 的 connect API 获取状态数据
+        - 4.1.3 使用 react-redux 的 connect API 获取状态数据
         ```javascript
         // ./actions/react-redux-test.js
         export const add = () => {return {type: 'add'}}
@@ -364,6 +377,12 @@
         - 获取 BrowserRouter 提供的 history 属性: `<RouterConsumer>{({history}) => <a onClick={e => linkHandler(e, history)}>{props.children}</a>}</RouterConsumer>`
         - 链接跳转：`<a href={props.to}>`
         - 处理点击事件：阻止a默认的跳转行为, 并把路径push进history对象: `linkHandler = (e, history) => {e.preventDefault(); history.push(props.to)}`
+# react-ssr
+# react项目实践
+1. redux-saga
+2. umi
+3. dva
+4. 移动端cra
 # react VS vue
 ## 相同点
 1. 都是用于创建UI[数据->视图]的JS库
@@ -371,7 +390,7 @@
 3. 都有独立的路由器和状态管理库插件：vue-router + vuex => react-router + react-redux
 4. vue借鉴react的一些点
     - 4.1 插槽：slot => 组件复合[props.children]
-    - 4.2 组件跨层通信：provide && inject => Context中的 Provide && Consumer
+    - 4.2 组件跨层通信：provide && inject => Context中的 Provider && Consumer
     - 4.3 状态存储store模块化：modules => combineReducers
 ## 不同点
 1. 模板：Vue通常用HTML模板[html,css,js分离]，React全是JS
@@ -380,11 +399,7 @@
     - Vue比react多了指令系统，让模板可以实现更丰富的功能，而React只能使用JSX
     - Vue有双向绑定语法糖，React没有
     - Vue有computed和watch，React中需要自己写逻辑实现
-# react项目实践
-1. redux-saga
-2. umi
-3. dva
-4. 移动端cra
+
 
 
                 
