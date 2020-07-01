@@ -1,11 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style type="text/css">
+        .list {
+            color: #ea6542;
+            font-size: 30px;
+        }
+    </style>
 </head>
+<div id="app"></div>
+
 <body>
-    <script src="01complex_true_dom.js"></script>
+    <!-- <script src="01complex_true_dom.js"></script> -->
+    <script src="03build_virtral_dom.js"></script>
+    <script src="04render_virtral_dom.js"></script>
+    <script>
+        // const div = createElement('div', {id: 'app'}, [
+        //     createElement('p', {class: 'item'}, ['节点1'])
+        // ])
+        // <div id="test">
+        //     <p class='item'>子节点</p>
+        // </div>
+        // const vnode = createElement('div', {
+        //     id: 'test'
+        // }, [
+        //     createElement('p', {
+        //         class: 'item'
+        //     }, '节点1')
+        // ])
+        // console.log(JSON.stringify(vnode, null, 2))
+        // {
+        //     "flags": "HTML",
+        //     "tag": "div",
+        //     "data": {
+        //         "id": "test"
+        //     },
+        //     "children": [{
+        //         "flags": "HTML",
+        //         "tag": "p",
+        //         "data": {
+        //             "class": "item"
+        //         },
+        //         "children": {
+        //             "flags": "TEXT",
+        //             "tag": null,
+        //             "data": null,
+        //             "children": "节点1",
+        //             "childFlags": "EMPTY"
+        //         },
+        //         "childFlags": "SINGLE"
+        //     }],
+        //     "childFlags": "MULTIPLE"
+        // }
+        const vnode = createElement('ul', {
+            id: 'lists'
+        }, [
+            createElement('li', {
+                key: 'a',
+                class: 'list'
+            }, '列表1'),
+            createElement('li', {
+                key: 'b',
+                style: {
+                    color: '#e00000',
+                    fontSize: '20px'
+                }
+            }, '列表2'),
+            createElement('li', {
+                key: 'c',
+                '@click': () => alert('haha')
+            }, '列表3'),
+        ])
+        render(vnode, document.getElementById('app'))
+    </script>
 </body>
+
 </html>
