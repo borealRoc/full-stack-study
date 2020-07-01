@@ -12,7 +12,7 @@ import emitter from "@/libs/emitter";
 
 export default {
   name: "MyInput",
-  // 让父元素不要继承属性
+  // 让父元素不要继承属性，比如placeholder
   inheritAttrs: false,
   props: {
     type: {
