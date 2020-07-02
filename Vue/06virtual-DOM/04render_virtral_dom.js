@@ -1,7 +1,16 @@
 // 渲染虚拟dom
 function render(vnode, ctn) {
     // 区分首次渲染和再次渲染
-    mount(vnode, ctn)
+    if (ctn.vnode) {
+        // 再次渲染，更新
+        // ctn.vnode: 旧vnode
+        // vnode: 新vnode
+        patch(ctn.vnode, vnode, ctn)
+    } else {
+        // 首次渲染，挂载
+        mount(vnode, ctn)
+    }
+    ctn.vnode = vnode
 }
 
 // 挂载虚拟dom到节点上
@@ -20,6 +29,8 @@ function mount(vnode, ctn) {
 function mountElement(vnode, ctn) {
     const { tag, data, children, childFlags } = vnode
     const el = document.createElement(tag)
+    // 把vnode的el属性赋值为真实节点
+    vnode.el = el
     // 挂载data
     if (data) {
         for (let key in data) {
@@ -41,14 +52,21 @@ function mountElement(vnode, ctn) {
 function mountText(vnode, ctn) {
     const { children } = vnode
     const el = document.createTextNode(children)
+    vnode.el = el
     ctn.appendChild(el)
 }
+
 // 挂载data
 function patchData(el, key, pre, next) {
     switch (key) {
         case 'style':
             for (let k in next) {
                 el.style[k] = next[k]
+            }
+            for (let k in pre) {
+                if (!next.hasOwnProperty(k)) {
+                    el.style[k] = ''
+                }
             }
             break
         case 'class':

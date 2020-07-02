@@ -14,7 +14,7 @@ const createElement = () => {
                 data: {
                     class: 'item',
                 },
-                children: ['子节点']
+                children: '子节点'
             }
         ]
     }

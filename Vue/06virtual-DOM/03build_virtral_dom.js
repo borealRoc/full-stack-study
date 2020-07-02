@@ -1,7 +1,7 @@
 const VNodeType = {
     HTML: 'HTML',
     TEXT: 'TEXT',
-    COMPONENT: 'COMPONENT',
+    // COMPONENT: 'COMPONENT',
 }
 const ChildType = {
     EMPTY: 'EMPTY',
@@ -15,9 +15,11 @@ function createElement(tag, data = null, children = null) {
     const type = typeof tag
     if (type === 'string') {
         flags = VNodeType.HTML
-    } else if (type === 'function') {
-        flags = VNodeType.COMPONENT
-    } else {
+    } 
+    // else if (type === 'function') {
+    //     flags = VNodeType.COMPONENT
+    // } 
+    else {
         flags = VNodeType.TEXT
     }
 
@@ -48,6 +50,7 @@ function createElement(tag, data = null, children = null) {
         data,
         children,
         childFlags,
+        el: null
     }
 }
 
