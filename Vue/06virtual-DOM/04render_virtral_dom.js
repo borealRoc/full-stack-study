@@ -14,11 +14,11 @@ function render(vnode, ctn) {
 }
 
 // 挂载虚拟dom到节点上
-function mount(vnode, ctn) {
+function mount(vnode, ctn, refNode) {
     const { flags } = vnode
     if (flags === VNodeType.HTML) {
         // 挂载普通标签
-        mountElement(vnode, ctn)
+        mountElement(vnode, ctn, refNode)
     } else if (flags === VNodeType.TEXT) {
         // 挂载纯文本
         mountText(vnode, ctn)
@@ -26,7 +26,7 @@ function mount(vnode, ctn) {
 }
 
 // 挂载普通标签
-function mountElement(vnode, ctn) {
+function mountElement(vnode, ctn, refNode) {
     const { tag, data, children, childFlags } = vnode
     const el = document.createElement(tag)
     // 把vnode的el属性赋值为真实节点
@@ -45,7 +45,7 @@ function mountElement(vnode, ctn) {
             mount(children[i], el)
         }
     }
-    ctn.appendChild(el)
+    refNode ? ctn.insertBefore(el, refNode) : ctn.appendChild(el)
 }
 
 // 挂载纯文本

@@ -18,6 +18,7 @@
     <!-- <script src="01complex_true_dom.js"></script> -->
     <script src="03build_virtral_dom.js"></script>
     <script src="04render_virtral_dom.js"></script>
+    <script src="05patch_diff_vdom.js"></script>
     <script>
         // const div = createElement('div', {id: 'app'}, [
         //     createElement('p', {class: 'item'}, ['节点1'])
@@ -56,7 +57,7 @@
         //     }],
         //     "childFlags": "MULTIPLE"
         // }
-        const vnode = createElement('ul', {
+        const vnode1 = createElement('ul', {
             id: 'lists'
         }, [
             createElement('li', {
@@ -72,11 +73,31 @@
             }, '列表2'),
             createElement('li', {
                 key: 'c',
-                '@click': () => alert('haha')
+                '@click': () => alert('cc')
             }, '列表3'),
         ])
-        console.log(JSON.stringify(vnode, null, 2))
-        render(vnode, document.getElementById('app'))
+        const vnode2 = createElement('ul', {
+            id: 'lists'
+        }, [
+            createElement('li', {
+                key: 'c',
+                '@click': () => alert('cc')
+            }, '列表3'),
+            createElement('li', {
+                key: 'd',
+                style: {
+                    color: '#e00000',
+                    fontSize: '20px'
+                }
+            }, '列表4'),
+            createElement('li', {
+                key: 'e',
+                class: 'list',
+            }, '列表5'),
+        ])
+        console.log(JSON.stringify(vnode1, null, 2))
+        render(vnode1, document.getElementById('app'))
+        setTimeout(() => render(vnode2, document.getElementById('app')), 1000)
     </script>
 </body>
 
