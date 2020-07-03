@@ -145,9 +145,9 @@ function patchChildren(
                 case ChildType.MULTIPLE:
                     // 3.3.1 老multiple的每一项在新multiple都存在
                     // [a,b,c] => [d,b,a,c]
-                    // 第一次： lastIndex =0 [d,a,b,c]
-                    // 第二次：lastIndex = 1 [d,a,b,c]
-                    // 第三次：[d,a,b,c]
+                    // 第一次： lastIndex =0 [d]
+                    // 第二次：lastIndex = 1 [d,a]
+                    // 第三次：lastIndex = 1 [d,a,b,c]
                     // 第四次：[d,a,b,c]
                     let lastIndex = 0
                     for (let i = 0; i < nextChildren.length; i++) {
