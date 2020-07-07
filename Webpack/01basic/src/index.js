@@ -1,7 +1,7 @@
-// import './index.css'
-// import './index.less'
-// import './index.scss'
-// import logo from './logo.png'
+import './index.css'
+import './index.less'
+import './index.scss'
+import logo from './logo.png'
 // var img = new Image()
 // img.src = logo //logo其实是路径
 // img.classList.add("logo")

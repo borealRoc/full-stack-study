@@ -127,6 +127,13 @@
             - preload chunk 会在父 chunk 加载时，以并行方式开始加载。prefetch chunk 会在父 chunk 加载结束后开始加载
             - preload chunk 具有中等优先级，并立即下载。prefetch chunk 在浏览器闲置时下载
     - 3.3 打包分析：在package.json文件的打包命令后面加参数`--profile --json > stats.json`,比如：`"bunnle": "npx webpack --profile --json > stats.json"`
+4. css文件的处理
+    - 使用less或者sass当做css技术栈
+    - 使用postcss为样式自动补齐浏览器前缀
+    - 借助MiniCssExtractPlugin抽离css
+    - 借助optimize-css-assets-webpack-plugin和cssnano压缩css
+5. 压缩HTML
+    - 借助html-webpack-plugin
 # 原理
 1. 原理简析：实行一个self_require来实现自己的模块化，代码文件以对象传进来，key是路径，value是包裹的代码字符串【用eval执行】，并且代码内部的require，都被替换成了self_require
 2. 实现步骤
@@ -199,7 +206,7 @@
 4. 如何编写一个plugins
     - plugin是一个类, 里面包含一个apply函数，接收一个参数，compiler
     ```javascript
-    clas DemoWebpackPlugin {
+    class DemoWebpackPlugin {
         constructor(opt) {
             console.log('opt获取插件参数')
         }

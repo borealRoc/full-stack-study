@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const webpack = require("webpack")
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 
 module.exports = {
     // 1.入口
@@ -172,7 +173,13 @@ module.exports = {
         new htmlWebpackPlugin({
             title: 'Webpack Practice',
             filename: 'main.html',
-            template: './src/index.html'
+            template: './src/index.html',
+            minify: {
+                // 压缩HTML文件
+                removeComments: true, // 移除HTML中的注释
+                collapseWhitespace: true, // 删除空白符与换行符
+                minifyCSS: true //压缩内联css
+            }
         }),
         // 每次打包都会清空build/下的文件
         new CleanWebpackPlugin(),
@@ -183,6 +190,15 @@ module.exports = {
         // 开启HMR
         new webpack.HotModuleReplacementPlugin(),
         // 处理Vue单文件，确保引入这个插件！
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        // 压缩css
+        new OptimizeCSSAssetsPlugin({
+            cssProcessor: require('cssnano'), //引入cssnano配置压缩选项
+            cssProcessorOptions: {
+                discardComments: {
+                    removeAll: true
+                }
+            }
+        })
     ],
 }
