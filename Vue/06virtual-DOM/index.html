@@ -57,47 +57,17 @@
         //     }],
         //     "childFlags": "MULTIPLE"
         // }
-        const vnode1 = createElement('ul', {
-            id: 'lists'
-        }, [
-            createElement('li', {
-                key: 'a',
-                class: 'list'
-            }, '列表1'),
-            createElement('li', {
-                key: 'b',
-                style: {
-                    color: '#e00000',
-                    fontSize: '20px'
-                }
-            }, '列表2'),
-            createElement('li', {
-                key: 'c',
-                '@click': () => alert('cc')
-            }, '列表3'),
-        ])
-        const vnode2 = createElement('ul', {
-            id: 'lists'
-        }, [
-            createElement('li', {
-                key: 'c',
-                '@click': () => alert('cc')
-            }, '列表3'),
-            createElement('li', {
-                key: 'd',
-                style: {
-                    color: '#e00000',
-                    fontSize: '20px'
-                }
-            }, '列表4'),
-            createElement('li', {
-                key: 'e',
-                class: 'list',
-            }, '列表5'),
-        ])
-        console.log(JSON.stringify(vnode1, null, 2))
+        const vnode1 = createElement('ul', {id: 'lists'}, [
+            createElement('li', {key: 'a',class: 'list'}, '列表1'),
+            createElement('li', {key: 'b',style: {color: '#e00000',fontSize: '20px'}}, '列表2'),
+            createElement('li', {key: 'c','@click': () => alert('cc')}, '列表3'),])
+        const vnode2 = createElement('ul', {id: 'lists'}, [
+            createElement('li', {key: 'c'}, '列表3'),
+            createElement('li', {key: 'd',style: {color: '#e00000',fontSize: '20px'}}, '列表4'),
+            createElement('li', {key: 'e',class: 'list',}, '列表5'),])
+        console.log(JSON.stringify(vnode2, null, 2))
         render(vnode1, document.getElementById('app'))
-        setTimeout(() => render(vnode2, document.getElementById('app')), 1000)
+        setTimeout(() => render(vnode2, document.getElementById('app')), 2000)
     </script>
 </body>
 

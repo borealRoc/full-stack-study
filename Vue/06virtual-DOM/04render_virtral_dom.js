@@ -76,7 +76,7 @@ function patchData(el, key, pre, next) {
             // 事件
             if (key[0] === '@') {
                 // 移除旧事件
-                if (pre) {
+                if (pre || !next) {
                     el.removeEventListener(key.slice(1), pre)
                 }
                 // 添加新事件

@@ -36,7 +36,7 @@ function patchElement(prev, next, ctn) {
     // 3.2 data不同
     const el = (next.el = prev.el)
     const prevData = prev.data
-    const nextData = prev.data
+    const nextData = next.data
     // 3.2.1 新data和旧data都有，并且新data有变化
     if (nextData) {
         for (let key in nextData) {
@@ -143,18 +143,18 @@ function patchChildren(
                 // 众多虚拟DOm，就在这里进行区分，各家优化策略不一样
                 // 以下用的是根据“相对位置”来判断的算法
                 case ChildType.MULTIPLE:
-                    // 3.3.1 老multiple的每一项在新multiple都存在
                     // [a,b,c] => [d,b,a,c]
-                    // 第一次： lastIndex =0 [d]
-                    // 第二次：lastIndex = 1 [d,a]
-                    // 第三次：lastIndex = 1 [d,a,b,c]
-                    // 第四次：[d,a,b,c]
+                    // 第0次：lastIndex =0 [d]
+                    // 第1次：lastIndex = 1 [d,b,]
+                    // 第2次：lastIndex = 1 [d,b,a]
+                    // 第3次：lastIndex = 1 [d,a,b,c]
                     let lastIndex = 0
                     for (let i = 0; i < nextChildren.length; i++) {
                         const nextNode = nextChildren[i]
                         let find = false, j = 0;
                         for (j; j < prevChildren.length; j++) {
                             const prevNode = prevChildren[j]
+                            // 3.3.1 老multiple的每一项在新multiple都存在
                             // 列表循环写key的重要性
                             if (nextNode.key === prevNode.key) {
                                 find = true
@@ -163,25 +163,26 @@ function patchChildren(
                                     // 需要移动
                                     const refNode = nextChildren[i - 1].el.nextSibling
                                     ctn.insertBefore(prevNode.el, refNode)
+                                    break
                                 } else {
                                     // 更新lastIndex
                                     lastIndex = j
                                 }
                             }
                         }
-                        // 3.3.2.2 新multiple多了一些老multiple没有的项
+                        // 3.3.2 新multiple多了一些老multiple没有的项
                         if (!find) {
                             const refNode = i - 1 < 0 ? prevChildren[0].el : nextChildren[i - 1].el.nextSibling
                             mount(nextNode, ctn, refNode)
                         }
                     }
-                    // 3.3.2 移除已经不存在的节点
+                    // 3.3.3 移除已经不存在的节点
                     for (let i = 0; i < prevChildren.length; i++) {
                         const prevNode = prevChildren[i]
                         // 列表循环写key的重要性
                         const has = nextChildren.find(nextNode => nextNode.key === prevNode.key)
                         if (!has) {
-                            ctn.removeChild(prevChildren.el)
+                            ctn.removeChild(prevNode.el)
                         }
                     }
                     break

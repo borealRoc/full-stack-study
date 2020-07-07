@@ -15,7 +15,7 @@ function createElement(tag, data = null, children = null) {
     const type = typeof tag
     if (type === 'string') {
         flags = VNodeType.HTML
-    } 
+    }
     // else if (type === 'function') {
     //     flags = VNodeType.COMPONENT
     // } 
@@ -48,6 +48,7 @@ function createElement(tag, data = null, children = null) {
         flags,
         tag,
         data,
+        key: data && data.key,
         children,
         childFlags,
         el: null
