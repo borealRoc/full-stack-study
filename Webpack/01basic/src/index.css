@@ -39,3 +39,8 @@ body {
 #number {
     vertical-align: middle;
 }
+
+.test-css-tree-shaking {
+    width: 100px;
+    height: 100px;
+}

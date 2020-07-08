@@ -5,6 +5,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const webpack = require("webpack")
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
+const PurifyCSS = require("purifycss-webpack")
+const glob = require("glob-all")
 
 module.exports = {
     // 1.入口
@@ -21,7 +23,10 @@ module.exports = {
         filename: 'bundle.js',
         chunkFilename: '[name].bundle.js',
         // 输出文件的路径，必须是绝对路径
-        path: path.resolve(__dirname, "dist")
+        path: path.resolve(__dirname, "dist"),
+        // 9 性能优化 
+        // 9.3 使用静态资源路径publicPath(CDN)
+        // publicPath: '公司的cdn服务器地址'
     },
     // 2.1 多出口
     // output: {
@@ -73,11 +78,11 @@ module.exports = {
     //     poll: 1000, //轮询，监测修改的时间(ms)                              
     // },
 
-    // 9. 优化
+    // 9. 性能优化
     optimization: {
-        // 9.1 tree shaking: 按需编译(只支持ES module的引入方式)
+        // 9.7.2 js tree shaking: 按需编译(只支持ES module的引入方式)
         usedExports: true,
-        // 9.2 splitting code: 代码分割 -- webpack自动进行代码分割
+        // 9.8 splitting code: 代码分割 -- webpack自动进行代码分割
         splitChunks: {
             chunks: 'all' //默认是支持异步
         },
@@ -107,25 +112,34 @@ module.exports = {
                         outputPath: 'images/',
                         // 下面表示小于10kb，转换成base64 
                         limit: 10 * 1024
-                    }
-                }
+                    },
+                },
+                // 9 性能优化
+                // 9.1 缩小文件范围
+                // include：包括
+                // exclude: 排除
+                include: path.resolve(__dirname, "./src"),
+                // exclude: path.resolve(__dirname, "./node_modules")
             },
             // 1.2 处理字体
             // 同个loader可以根据规则的不同写成多个
             {
                 test: /\.(eot|ttf|woff|woff2|svg)$/,
-                loader: 'file-loader'
+                loader: 'file-loader',
+                include: path.resolve(__dirname, "./src"),
             },
             // 2.css相关
             // 2.1 处理sass/scss文件
             {
                 test: /\.(s[ac]ss)$/i,
                 use: ['style-loader', 'css-loader', 'sass-loader'],
+                include: path.resolve(__dirname, "./src"),
             },
             // 2.2 处理less文件
             {
                 test: /\.less$/,
                 use: ['style-loader', 'css-loader', 'less-loader'],
+                include: path.resolve(__dirname, "./src"),
             },
             // 2.3 处理css文件
             {
@@ -150,6 +164,7 @@ module.exports = {
                     //     }
                     // }
                 ],
+                include: path.resolve(__dirname, "./src"),
             },
             // 3 babel处理es6和jsx
             {
@@ -157,14 +172,31 @@ module.exports = {
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
-                }
+                },
+                include: path.resolve(__dirname, "./src"),
             },
             // 4 处理.Vue单文件
             {
                 test: /\.vue$/,
-                loader: 'vue-loader'
+                loader: 'vue-loader',
+                include: path.resolve(__dirname, "./src"),
             }
         ]
+    },
+    // 9 性能优化
+    // 9.2 优化resolve.modules配置
+    resolve: {
+        // 9.2.1 用于配置wepack去哪个目录下查找第三方模块
+        modules: [path.resolve(__dirname, "./node_modules")],
+        // 9.2.2 通过别名来讲原导入路径映射成一个新的导入路径
+        alias: {
+            "@": path.resolve(__dirname, './src'),
+            "react": path.resolve(__dirname, "./node_modules/react/umd/react.production.min.js"),
+            "react-dom": path.resolve(__dirname, "./node_modules/react-dom/umd/react-dom.production.min.js"),
+            "vue": path.resolve(__dirname, "./node_modules/vue/dist/vue.min.js"),
+        },
+        // 9.2.3 在导入语句没有后缀时，webpack会自动带上后缀，去尝试查找文件是否存在
+        // extensions: ["js"]
     },
 
     // 7. 插件
@@ -174,8 +206,8 @@ module.exports = {
             title: 'Webpack Practice',
             filename: 'main.html',
             template: './src/index.html',
+            // 9.5 压缩HTML文件
             minify: {
-                // 压缩HTML文件
                 removeComments: true, // 移除HTML中的注释
                 collapseWhitespace: true, // 删除空白符与换行符
                 minifyCSS: true //压缩内联css
@@ -191,7 +223,7 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         // 处理Vue单文件，确保引入这个插件！
         new VueLoaderPlugin(),
-        // 压缩css
+        // 9.4 压缩css
         new OptimizeCSSAssetsPlugin({
             cssProcessor: require('cssnano'), //引入cssnano配置压缩选项
             cssProcessorOptions: {
@@ -199,6 +231,14 @@ module.exports = {
                     removeAll: true
                 }
             }
-        })
+        }),
+        // 9.7.1 css tree shaking
+        new PurifyCSS({
+            paths: glob.sync([
+                // 要做 CSS Tree Shaking 的路径文件
+                path.resolve(__dirname, "./src/*.html"), // 请注意，我们同样需要对 html 文件进行 tree shaking
+                path.resolve(__dirname, "./src/*.js")
+            ])
+        }),
     ],
 }
