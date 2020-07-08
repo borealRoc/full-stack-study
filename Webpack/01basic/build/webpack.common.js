@@ -2,7 +2,7 @@ const path = require("path")
 const htmlWebpackPlugin = require("html-webpack-plugin")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const merge = require("webpack-merge")
 const devConfig = require("./webpack.dev")
 const prodConfig = require("./webpack.prod")
@@ -53,6 +53,10 @@ const commonConfig = {
                     loader: 'babel-loader',
                 }
             },
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            }
         ]
     },
     plugins: [
@@ -64,7 +68,8 @@ const commonConfig = {
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: '[name][chunkhash:6].css'
-        })
+        }),
+        new VueLoaderPlugin()
     ],
 }
 

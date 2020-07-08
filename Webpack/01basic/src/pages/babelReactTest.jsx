@@ -5,4 +5,4 @@ class App extends Component {
         return <div>hello react</div>
     }
 }
-ReactDom.render(<App />, document.getElementById("root"))
+ReactDom.render(<App />, document.getElementById("react"))
