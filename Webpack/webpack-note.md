@@ -86,11 +86,24 @@
 1. 使用glob.sync第三方库来匹配路径
 2. entry的key`[name]`, output的`[name]`和htmlWebpackPlugins的`chunks: [name]`这三个name是一一对应的
 # 性能优化
-1. tree Shaking[摇树]
-    - `optimization: {usedExports: true}`
-    - 只支持处理ES module的引入方式, 检测import的文件，只编译引用部分
-    - 同时在package.json设置`"sideEffects": ["*.css"]`, 表示不检测css文件的import
-2. development和Production模式区分打包
+## 一、优化开发体验 -- 打包构建速度
+## 二、优化输出质量 -- 线上文件体积
+1. 缩小文件范围：6750ms => 4028ms
+    - include: `include: path.resolve(__dirname, "./src")`
+2. 优化resolve.modules配置
+    - Tips：在webpack中，查找绝对路径比查找相对路径快很多，所以能用绝对路径的地方就不要用相对路径!
+    - 2.1 resolve.modules: 4028ms => 3417ms
+    - 2.1 resolve.alias: 3417ms => 2750ms
+    - 2.1 resolve.extensions: 2750ms => 2643ms
+3. 使用静态资源路径publicPath(CDN)
+    - `output: {publicPath: '指定存放JS文件的CDN地址'} `
+4. css文件的处理
+    - 使用less或者sass当做css技术栈
+    - 使用postcss为样式自动补齐浏览器前缀
+    - 借助MiniCssExtractPlugin抽离css,单独生成css，css和js可以并行加载，提高页面加载效率
+    - 借助optimize-css-assets-webpack-plugin和cssnano压缩css
+5. 压缩HTML：借助html-webpack-plugin
+6. development和Production模式区分打包
     - 借用webpack-merge: `npm i webpack-merge -D`
     ```javascript
     // webpack.common.js
@@ -108,9 +121,16 @@
         "prod": "webpack --env.production --config ./build/webpack.common.js",
     }
     ```
-3. code splitting[代码分离]
-    - 3.1 使用场景：代码分离是 webpack 中最引人注目的特性之一。此特性能够把代码分离到不同的 bundle 中，然后可以按需加载或并行加载这些文件。代码分离可以用于获取更小的 bundle，以及控制资源加载优先级，如果使用合理，会极大影响加载时间。
-    - 3.2 方式, 常用的代码分离方法有三种
+7. Tree Shaking[摇树]
+    - 7.1 CSS Tree Shaking: `npm i glob-all purify-css purifycss-webpack --save-dev`
+    - 7.2 JS Tree Shaking: `optimization: {usedExports: true}`
+        - 只支持处理ES module的引入方式, 检测import的文件，只编译引用部分
+        - 同时在package.json设置`"sideEffects": ["*.css"]`, 表示不检测css文件的import
+        - JS Tree Shaking 在开发模式下是不生效的，因为为了方便调试
+        - 生产模式自动帮助开启JS摇树
+8. code splitting[代码分离]
+    - 8.1 使用场景：代码分离是 webpack 中最引人注目的特性之一。此特性能够把代码分离到不同的 bundle 中，然后可以按需加载或并行加载这些文件。代码分离可以用于获取更小的 bundle，以及控制资源加载优先级，如果使用合理，会极大影响加载时间。
+    - 8.2 方式, 常用的代码分离方法有三种
         - (1) 入口起点：使用 entry 配置手动地分离代码
         - (2) 防止重复：使用 SplitChunksPlugin 去重和分离 chunk：`optimization: {splitChunks: {chunks: 'all'}}`
         - (3) 动态导入：使用ES6的inport()语法
@@ -126,14 +146,8 @@
             - 在声明 import 时，使用下面的内置指令，可以让 webpack 输出 "resource hint(资源提示)"，来告知浏览器：
             - preload chunk 会在父 chunk 加载时，以并行方式开始加载。prefetch chunk 会在父 chunk 加载结束后开始加载
             - preload chunk 具有中等优先级，并立即下载。prefetch chunk 在浏览器闲置时下载
-    - 3.3 打包分析：在package.json文件的打包命令后面加参数`--profile --json > stats.json`,比如：`"bunnle": "npx webpack --profile --json > stats.json"`
-4. css文件的处理
-    - 使用less或者sass当做css技术栈
-    - 使用postcss为样式自动补齐浏览器前缀
-    - 借助MiniCssExtractPlugin抽离css
-    - 借助optimize-css-assets-webpack-plugin和cssnano压缩css
-5. 压缩HTML
-    - 借助html-webpack-plugin
+    - 8.3 打包分析：在package.json文件的打包命令后面加参数`--profile --json > stats.json`,比如：`"bunnle": "npx webpack --profile --json > stats.json"`
+9. 使用happypack并发执行任务
 # 原理
 1. 原理简析：实行一个self_require来实现自己的模块化，代码文件以对象传进来，key是路径，value是包裹的代码字符串【用eval执行】，并且代码内部的require，都被替换成了self_require
 2. 实现步骤
