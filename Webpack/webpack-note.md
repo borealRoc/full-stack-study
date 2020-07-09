@@ -136,7 +136,7 @@
         - (3) 动态导入：使用ES6的inport()语法
         ```javascript
         document.addEventListener('click', () => {
-            import("./click.js").then(({ default: func }) => { 
+            import(/* webpackPrefetch: true */"./click.js").then(({ default: func }) => { 
                 //需要用到 npm install --save-dev @babel/plugin-syntax-dynamic-import 
                 func()
             })
@@ -146,8 +146,21 @@
             - 在声明 import 时，使用下面的内置指令，可以让 webpack 输出 "resource hint(资源提示)"，来告知浏览器：
             - preload chunk 会在父 chunk 加载时，以并行方式开始加载。prefetch chunk 会在父 chunk 加载结束后开始加载
             - preload chunk 具有中等优先级，并立即下载。prefetch chunk 在浏览器闲置时下载
+        ```javascript
+        document.addEventListener('click', async () => {
+            const element = document.createElement('div')
+            const { default: _ } = await import(/* webpackChunkName: "lodash" *//* webpackPrefetch: true */'lodash')
+            element.innerHTML = _.join(['Hello', 'webpack'], '**')
+            document.body.appendChild(element)
+        })
+        ```
     - 8.3 打包分析：在package.json文件的打包命令后面加参数`--profile --json > stats.json`,比如：`"bunnle": "npx webpack --profile --json > stats.json"`
-9. 使用happypack并发执行任务
+9. DllPlugin插件打包第三类库优化构建性能
+    - 项目中引入很多第三方库，这些库在很长的时间内，基本不会更新，打包的时候分开打包来提升打包速度，DllPlugin动态链接库插件， 其原理就是把依赖的基础模块抽离出来打包到dll 件中，当需要导入的模块存在于某个dll中时，这个模块不再被打包，而是去dll中获取。动态链接库，建议使用在开发模式下，它主要是用来优化构建速度的，线上推荐代码分割。
+    - DllPlugin：用于打包出一个个单独的动态链接库文件
+    - DllReferencePlugin：用于在主要的配置文件中引入DllPlugin插件打包好的动态链接库文件
+10. 使用happypack并发执行任务
+    - 运行在 Node 之上的Webpack是单线程模型的，也就是说Webpack需要一个一个地处理任务，不能同时处理多个任务。 Happy Pack 就能让Webpack做到这一点，它将任务分解给多个子进程去并发执 ， 进程处 完后再将 结果发送给主进程。
 # 原理
 1. 原理简析：实行一个self_require来实现自己的模块化，代码文件以对象传进来，key是路径，value是包裹的代码字符串【用eval执行】，并且代码内部的require，都被替换成了self_require
 2. 实现步骤
@@ -233,4 +246,9 @@
         }
     }
     ```
+
+      <!-- "sideEffects": [
+    "*.css",
+    "@babel/polyfill"
+  ], -->
     

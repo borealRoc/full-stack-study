@@ -84,7 +84,17 @@ module.exports = {
         usedExports: true,
         // 9.8 splitting code: 代码分割 -- webpack自动进行代码分割
         splitChunks: {
-            chunks: 'all' //默认是支持异步
+            chunks: 'all', //默认是支持异步
+            cacheGroups: {
+                react: {
+                    test: /react|react-dom/,
+                    name: 'react',
+                },
+                loadash: {
+                    test: /lodash/,
+                    name: 'lodash'
+                },
+            }
         },
     },
 
@@ -193,10 +203,10 @@ module.exports = {
             "@": path.resolve(__dirname, './src'),
             "react": path.resolve(__dirname, "./node_modules/react/umd/react.production.min.js"),
             "react-dom": path.resolve(__dirname, "./node_modules/react-dom/umd/react-dom.production.min.js"),
-            "vue": path.resolve(__dirname, "./node_modules/vue/dist/vue.min.js"),
+            "vue": path.resolve(__dirname, "./node_modules/vue/dist/vue.runtime.esm.js"),
         },
         // 9.2.3 在导入语句没有后缀时，webpack会自动带上后缀，去尝试查找文件是否存在
-        // extensions: ["js"]
+        extensions: [".js"]
     },
 
     // 7. 插件
@@ -207,11 +217,11 @@ module.exports = {
             filename: 'main.html',
             template: './src/index.html',
             // 9.5 压缩HTML文件
-            minify: {
-                removeComments: true, // 移除HTML中的注释
-                collapseWhitespace: true, // 删除空白符与换行符
-                minifyCSS: true //压缩内联css
-            }
+            // minify: {
+            //     removeComments: true, // 移除HTML中的注释
+            //     collapseWhitespace: true, // 删除空白符与换行符
+            //     minifyCSS: true //压缩内联css
+            // }
         }),
         // 每次打包都会清空build/下的文件
         new CleanWebpackPlugin(),
