@@ -385,9 +385,9 @@
 3. react-ssr实现思路
 
 # react项目实践
-1. redux-saga
-2. umi
-3. dva
+1. redux异步方案 - redux-saga
+2. 企业级应用框架 umi
+3. 数据流方案 dva
 4. 移动端cra
 # react VS vue
 ## 相同点
