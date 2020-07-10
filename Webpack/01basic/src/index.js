@@ -38,6 +38,6 @@ import './pages/babelReactTest.jsx'
 // import { myAdd } from './pages/treeShakingTest'
 // console.log(myAdd(1, 2))
 // 测试性能优化之代码分割
-// import './pages/codeSplittingTest'
+import './pages/codeSplittingTest'
 // 测试性能优化之动态引入
 // import './pages/dynamicImport'

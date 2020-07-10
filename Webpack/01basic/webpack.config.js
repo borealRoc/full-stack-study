@@ -70,33 +70,6 @@ module.exports = {
         hotOnly: true, // 如果HMR失败，也不会自动刷新浏览器
     },
 
-    // 8. 文件监听
-    // watch: true,
-    // watchOptions: {
-    //     ignored: /node_modules/, //不监听的文件
-    //     aggregateTimeout: 500, //防止重复按键，500毫米内算按键一次
-    //     poll: 1000, //轮询，监测修改的时间(ms)                              
-    // },
-
-    // 9. 性能优化
-    optimization: {
-        // 9.7.2 js tree shaking: 按需编译(只支持ES module的引入方式)
-        usedExports: true,
-        // 9.8 splitting code: 代码分割 -- webpack自动进行代码分割
-        splitChunks: {
-            chunks: 'all', //默认是支持异步
-            cacheGroups: {
-                react: {
-                    test: /react|react-dom/,
-                    name: 'react',
-                },
-                loadash: {
-                    test: /lodash/,
-                    name: 'lodash'
-                },
-            }
-        },
-    },
 
     // 6. 模块，放所有loader
     module: {
@@ -193,21 +166,6 @@ module.exports = {
             }
         ]
     },
-    // 9 性能优化
-    // 9.2 优化resolve.modules配置
-    resolve: {
-        // 9.2.1 用于配置wepack去哪个目录下查找第三方模块
-        modules: [path.resolve(__dirname, "./node_modules")],
-        // 9.2.2 通过别名来讲原导入路径映射成一个新的导入路径
-        alias: {
-            "@": path.resolve(__dirname, './src'),
-            "react": path.resolve(__dirname, "./node_modules/react/umd/react.production.min.js"),
-            "react-dom": path.resolve(__dirname, "./node_modules/react-dom/umd/react-dom.production.min.js"),
-            "vue": path.resolve(__dirname, "./node_modules/vue/dist/vue.runtime.esm.js"),
-        },
-        // 9.2.3 在导入语句没有后缀时，webpack会自动带上后缀，去尝试查找文件是否存在
-        extensions: [".js"]
-    },
 
     // 7. 插件
     plugins: [
@@ -217,11 +175,11 @@ module.exports = {
             filename: 'main.html',
             template: './src/index.html',
             // 9.5 压缩HTML文件
-            // minify: {
-            //     removeComments: true, // 移除HTML中的注释
-            //     collapseWhitespace: true, // 删除空白符与换行符
-            //     minifyCSS: true //压缩内联css
-            // }
+            minify: {
+                removeComments: true, // 移除HTML中的注释
+                collapseWhitespace: true, // 删除空白符与换行符
+                minifyCSS: true //压缩内联css
+            }
         }),
         // 每次打包都会清空build/下的文件
         new CleanWebpackPlugin(),
@@ -251,4 +209,47 @@ module.exports = {
             ])
         }),
     ],
+
+    // 8. 文件监听
+    // watch: true,
+    // watchOptions: {
+    //     ignored: /node_modules/, //不监听的文件
+    //     aggregateTimeout: 500, //防止重复按键，500毫米内算按键一次
+    //     poll: 1000, //轮询，监测修改的时间(ms)                              
+    // },
+
+    // 9. 性能优化
+    optimization: {
+        // 9.7.2 js tree shaking: 按需编译(只支持ES module的引入方式)
+        usedExports: true,
+        // 9.8 splitting code: 代码分割 -- webpack自动进行代码分割
+        splitChunks: {
+            chunks: 'all', //默认是支持异步
+            cacheGroups: {
+                react: {
+                    test: /react|react-dom/,
+                    name: 'react',
+                },
+                loadash: {
+                    test: /lodash/,
+                    name: 'lodash'
+                },
+            }
+        },
+    },
+
+    // 9.2 优化resolve.modules配置
+    resolve: {
+        // 9.2.1 用于配置wepack去哪个目录下查找第三方模块
+        modules: [path.resolve(__dirname, "./node_modules")],
+        // 9.2.2 通过别名将原导入路径映射成一个新的导入路径
+        alias: {
+            "@": path.resolve(__dirname, './src'),
+            "react": path.resolve(__dirname, "./node_modules/react/umd/react.production.min.js"),
+            "react-dom": path.resolve(__dirname, "./node_modules/react-dom/umd/react-dom.production.min.js"),
+            "vue": path.resolve(__dirname, "./node_modules/vue/dist/vue.runtime.esm.js"),
+        },
+        // 9.2.3 在导入语句没有后缀时，webpack会自动带上后缀，去尝试查找文件是否存在
+        extensions: [".js"]
+    },
 }
