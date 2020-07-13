@@ -10,7 +10,7 @@ const loginReducer = (state = { ...initialLoginState }, action) => {
         case 'requestLogin':
             return { ...state, loading: true, }
         case 'loginSuccess':
-            return { ...state, loading: false, isLogin: true, name: '史詩王爵' }
+            return { ...state, loading: false, isLogin: true, name: '史詩王爵', error: ''}
         case 'loginFaile':
             return { ...state, loading: false, isLogin: false, error: action.error }
         case 'logout':
