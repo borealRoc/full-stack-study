@@ -25,21 +25,24 @@ class LoginPage extends Component {
     }
 
     render() {
+        // thunkLogin：redux-thunk处理异步任务
         // const { userInfo, thunkLogin, location } = this.props
+        // sagaLogin: redus-sage处理异步任务
         const { userInfo, sagaLogin, location } = this.props
-        const { isLogin, loading } = userInfo
+        const { isLogin, loading, error } = userInfo
+
         const to = location.state.redirect || "/"
         if (isLogin) {
             return <Redirect to={to} />
         }
 
         const { name } = this.state
-
         return (
             <div>
                 <h3>Login Page</h3>
                 <input type="text" value={name} onChange={this.setName} />
-                <Button onClick={name => sagaLogin(name)}>{loading ? "登录中..." : "登录"}</Button>
+                <Button style={{ marginLeft: "10px", width: "80px"}} onClick={() => sagaLogin(name)}>{loading ? "登录中..." : "登录"}</Button>
+                {error && <p  className="error">{error}</p>}
             </div>
         )
     }

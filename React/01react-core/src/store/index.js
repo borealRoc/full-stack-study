@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import logger from 'redux-logger'
 // import thunk from 'redux-thunk'
+
 import { counter1 } from './counterReducer1'
 import { counter2 } from './counterReducer2'
 
@@ -17,6 +18,6 @@ const counterStore = createStore(
     // 使用redux-saga和logger中间件
     applyMiddleware(sagaMiddleware, logger)
 )
-
 sagaMiddleware.run(loginSaga)
+
 export default counterStore

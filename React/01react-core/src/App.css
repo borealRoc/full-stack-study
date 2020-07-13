@@ -172,3 +172,7 @@ button {
 .my-dialog .my-dialog-ctn .my-dialog-btn.confirm {
   color: rgb(0, 142, 255);
 }
+
+.error {
+  color: #e00000;
+}

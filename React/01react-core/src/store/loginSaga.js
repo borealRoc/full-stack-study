@@ -31,7 +31,7 @@ function* loginWatcher(action) {
 
 // watcher saga
 function* loginSaga() {
-    yield takeEvery('loginSaga', loginWatcher)
+    yield takeEvery('login', loginWatcher)
 }
 
 export default loginSaga
