@@ -383,10 +383,12 @@
     <img src="./img/ssr.png"/>  
 > 总结：SSR核心优势就是减少请求数量，减少白屏事件，对SEO友好
 3. react-ssr实现思路
-
 # react项目实践
 1. redux异步方案 - redux-saga
+    - 1.1 概述：处理 redux 异步任务
+    - 1.2 使用步骤
 2. 企业级应用框架 umi
+    - 2.1 依赖层：jest, antd, react, babel@7 webpack@4 dva react-router
 3. 数据流方案 dva
 4. 移动端cra
 # react VS vue
