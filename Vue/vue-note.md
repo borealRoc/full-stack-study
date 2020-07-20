@@ -147,6 +147,106 @@
     1.5 总结：Vue1.0的mvvm模式，是通过对节点的精确定位[一个属性引用对应一个Watcher]，在节点有数据变化时，通过DOM操作对其进行更新，因此不需要虚拟DOM和Diff计算，但也因此，它不适合用来做大型项目[太多Watcher]。Vue2.0为了改正这个缺点，引入了虚拟DOM[一个组件对应一个Watcher]，在页面有数据更新时，通过Diff算法比对前后两个节点树，从而查找到哪些节点进行了更新，这些更新，会在新的虚拟DOM完成，再一次性插入到页面中,大大减少了页面重排重绘。从算法复杂度的来分析两者的性能差异，Vue2.0相较于1.0，是用空间在换时间。
 2. vue2.0原理
     - 2.1 目录结构<https://www.cnblogs.com/yimeidan/p/10594620.html>
+        - dist: 构建后输出的不同版本的Vue（UMD, CommonJS, ES 生产和开发包）
+        - example: 用Vue写的一些Demo
+        - flow: Vue使用Flow进行进行静态类型检查，这个flow文件夹是静态类型检查类型声明文件
+        - script: 项目配置文件，结合webpack, rollup进行编译、测试、构建等操作
+            - alias.js: 模块别名
+            - config.js: 包含在'dist/'中找到的所有文件的生成配置[在这个文件找Vue源码入口]
+            - build.js: 对config.js所有的rollup配置进行构建
+        - src：主要源码所在位置
+            - compiler: 解析模块相关
+                - codegen: 把AST转换为render函数
+                - directives: 通用生成render函数之前需要处理的指令
+                - parser: 解析模板成AST
+            - core: Vue核心代码，包括内置组件，全局API封装，Vue实例化，观察者，虚拟DOM...
+                - components: 组件相关属性, 主要是keep-alive
+                - global-api: 全局API，如Vue.use, Vue.extend, Vue.mixin...
+                - instance: Vue实例化相关的内容，如state, 生命周期，事件...
+                - observer: 响应式，双向数据绑定
+                - util: 工具方法
+                - vdom：虚拟DOM的创建和打补丁
+            - platforms：跨平台相关
+                - web: web端
+                    - compiler: web端编译相关代码，把模板编译成render函数
+                    - runtime: web端运行时相关代码，用于创建Vue实例
+                    - server: 服务端渲染
+                    - util: 相关工具类
+                - weex: 基于通用跨平台的 Web 开发语言和开发经验，来构建 Android、iOS 和 Web 应用
+            - server: ssr相关
+            - sfc: 转换单文件(*.vue)
+            - shared: 全局共享的方法和常量
+        - test：测试用例
+        - types：Vue新版本支持TypeScript，主要是TypeScript类型声明文件
+        - .babelrc.js: babel配置
+        - .eslintrc.js: eslint配置
+        - .flowconfig: flow配置
+    - 2.2 入口文件：直接用于浏览器带编译器的完整版`src/platforms/web/entry-runtime-with-compiler.js`
+    - 2.3 Vue初始化
+        - (1)扩展$mount，处理el和template选项
+            ```javascript
+            // 获取选项
+            const options = this.$options
+            // 若不存在render选项则将template/el的设置转换为render函数
+            if (!options.render) {
+                let template = options.template
+                if (template) {
+                    // 解析template选项
+                } else if (el) {
+                    // 否则解析el选项
+                    template = getOuterHTML(el)
+                }
+                if (template) {
+                    // 编译得到render函数
+                    const { render, staticRenderFns } = compileToFunctions(template, {..}, this)
+                    options.render = render
+                }
+            }
+            ```
+        - (2)web运行时代码
+            - （2）- 1 实现$mount 
+            ```javascript
+            Vue.prototype.$mount = function (
+                el?: string | Element,
+                hydrating?: boolean
+                ): Component {
+                el = el && inBrowser ? query(el) : undefined
+                return mountComponent(this, el, hydrating)
+            }
+            ``` 
+            - (2) - 2 定义 _patch
+            ```javascript
+            // install platform patch function
+            Vue.prototype.__patch__ = inBrowser ? patch : noop  
+            ```
+        - (3) 初始化全局API：`initGlobalAPI(Vue)`, 比如set,delete, nextTick...
+        - (4) Vue构造函数
+            ```javascript
+            function Vue (options) {
+                // 构造函数仅执行了_init
+                this._init(options)
+            }
+            initMixin(Vue) // 实现上面的this._init这个初始化方法 
+            stateMixin(Vue) // 状态相关api $data,$props,$set,$delete,$watch
+            eventsMixin(Vue) // 事件相关api $on,$once,$off,$emit
+            lifecycleMixin(Vue) // 生命周期api _update,$forceUpdate,$destroy
+            renderMixin(Vue) // 渲染api _render,$nextTick
+            ```
+            - （4）- 1 `initMixin(Vue)`
+            ```javascript
+            initLifecycle(vm) //$parent,$root,$children,$refs
+            initEvents(vm) // 处理父组件传递的监听器
+            initRender(vm) // 定义 $slots,$scopedSlots,vm.$createElement
+            callHook(vm, 'beforeCreate') 
+            initInjections(vm) // resolve injections before data/props，注入进来的属性也是响应式
+            initState(vm) // 初始化组件的状态，包括pros, data, methods, computed, watch等
+            initProvide(vm) // resolve provide after data/props
+            callHook(vm, 'created')
+            ```
+    - 2.4 数据响应式 —— 一个组件挂载一个watcher
+
+    - 2.5 虚拟DOM
+    - 2.6 编译器
 # 虚拟DOM
 <https://juejin.im/post/5d36cc575188257aea108a74>
 1. 真实DOM和其解析流：创建DOM树[HTML]->创建Style Rules[CSS]->构建Render树[HTML+CSS]->布局Layout[HTML+CSS+坐标]->绘制Painting[页面]
