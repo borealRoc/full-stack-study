@@ -166,43 +166,43 @@
         }
         initMixin(Vue) // 实现上面的this._init这个初始化方法 
         /**
-         * vm.$data: Vue 实例观察的数据对象。Vue 实例代理了对其 data 对象 property 的访问
-            * vm.$prop: 当前组件接收到的 props 对象。Vue 实例代理了对其 props 对象 property 的访问
-            * vm.$set: 全局 Vue.set 的别名
-            * vm.$delete: 全局 Vue.delete 的别名
-            */
+        * vm.$data: Vue 实例观察的数据对象。Vue 实例代理了对其 data 对象 property 的访问
+        * vm.$prop: 当前组件接收到的 props 对象。Vue 实例代理了对其 props 对象 property 的访问
+        * vm.$set: 全局 Vue.set 的别名
+        * vm.$delete: 全局 Vue.delete 的别名
+        */
         stateMixin(Vue) // 状态相关api $data,$props,$set,$delete,$watch
         /**
-         * vm.$on: 监听当前实例上的自定义事件。事件可以由 vm.$emit 触发
-            * vm.$emit: 触发当前实例上的事件
-            * vm.$once: 监听一个自定义事件，但是只触发一次。一旦触发之后，监听器就会被移除
-            * vm.$off: 移除自定义事件监听器
-            */
+        * vm.$on: 监听当前实例上的自定义事件。事件可以由 vm.$emit 触发
+        * vm.$emit: 触发当前实例上的事件
+        * vm.$once: 监听一个自定义事件，但是只触发一次。一旦触发之后，监听器就会被移除
+        * vm.$off: 移除自定义事件监听器
+        */
         eventsMixin(Vue) // 事件相关api $on,$once,$off,$emit
         /**
-         * vm.$forceUpdata(): 迫使 Vue 实例重新渲染。注意它仅仅影响实例本身和插入插槽内容的子组件，而不是所有子组件
-            * vm.$detory()： 完全销毁一个实例
-            */
+        * vm.$forceUpdata(): 迫使 Vue 实例重新渲染。注意它仅仅影响实例本身和插入插槽内容的子组件，而不是所有子组件
+        * vm.$detory()： 完全销毁一个实例
+        */
         lifecycleMixin(Vue) // 生命周期api _update,$forceUpdate,$destroy
         /**
-         * vm.$nextTick: 跟全局方法 Vue.nextTick 一样
-            */ 
+        * vm.$nextTick: 跟全局方法 Vue.nextTick 一样
+        */ 
         renderMixin(Vue) // 渲染api _render,$nextTick
         ```
         - （4）- 1 `initMixin(Vue)`: 创建组件实例，初始化其数据、属性、事件等
         ```javascript
         /**
-         * vm.$parent: 父实例
-            * vm.$root: 根 Vue 实例
-            * vm.$children: 当前实例的直接子组件
-            * vm.$refs: 一个对象，持有注册过 ref attribute 的所有 DOM 元素和组件实例
-            */ 
+        * vm.$parent: 父实例
+        * vm.$root: 根 Vue 实例
+        * vm.$children: 当前实例的直接子组件
+        * vm.$refs: 一个对象，持有注册过 ref attribute 的所有 DOM 元素和组件实例
+        */ 
         initLifecycle(vm) //$parent,$root,$children,$refs
         initEvents(vm) // 处理父组件传递的监听器
         /**
-         * vm.$slot: 访问被插槽分发的内容
-            * vm.$scopedSlots: 访问作用域插槽
-            */ 
+        * vm.$slot: 访问被插槽分发的内容
+        * vm.$scopedSlots: 访问作用域插槽
+        */ 
         initRender(vm) // 定义 $slots,$scopedSlots,vm.$createElement
         callHook(vm, 'beforeCreate') 
         initInjections(vm) // resolve injections before data/props，注入进来的属性也是响应式
@@ -211,7 +211,37 @@
         callHook(vm, 'created')
         ```
     - 2.4 数据响应式 —— 一个组件挂载一个watcher
-        - (1)响应式概要：Vue一大特点是数据响应式，数据的变化会作用于UI而不用进行DOM操作。原理上来讲，是利用了JS语 言特性Object.defineProperty()，通过定义对象属性setter方法拦截对象属性变更，从而将数值的变化 转换为UI的变化。具体实现是在Vue初始化时，会调用initState，它会初始化data，props等，这里着重关注data初始化
-
+        - （1）响应式概要：Vue一大特点是数据响应式，数据的变化会作用于UI而不用进行DOM操作。原理上来讲，是利用了JS语 言特性Object.defineProperty()，通过定义对象属性setter方法拦截对象属性变更，从而将数值的变化 转换为UI的变化。具体实现是在Vue初始化时，会调用initState，它会初始化data，props等，这里着重关注data初始化
+        - （2）响应式流程
+            - (2)-1 初始化数据
+            ```javascript
+            function initData (vm: Component) {
+                //获取data
+                let data = vm.$options.data
+                data = vm._data = typeof data === 'function'
+                    ? getData(data, vm)
+                    : data || {}
+                // 代理data到实例上 
+                proxy(vm, `_data`, key)
+                // 执行数据响应化
+                observe(data, true /* asRootData */)
+            }
+            ```
+            - (2)-2 
+        - data为数组时，哪些操作可以引起响应式？
+        ```javascript
+        // src/core/observer/array.js
+        const methodsToPatch = [
+            'push',
+            'pop',
+            'shift',
+            'unshift',
+            'splice',
+            'sort',
+            'reverse'
+        ]
+        // 通知更新
+        ob.den.notify()
+        ```
     - 2.5 虚拟DOM
     - 2.6 编译器
