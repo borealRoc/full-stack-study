@@ -107,7 +107,7 @@
         - .flowconfig: flow配置
     - 2.2 入口文件：直接用于浏览器带编译器的完整版`src/platforms/web/entry-runtime-with-compiler.js`
     - 2.3 Vue初始化
-        - (1)扩展$mount，处理el和template选项
+        - (1)扩展$mount，处理el和template选项[处理优先级：render > template > el]
             ```javascript
             // 获取选项
             const options = this.$options
@@ -210,38 +210,327 @@
         initProvide(vm) // resolve provide after data/props
         callHook(vm, 'created')
         ```
-    - 2.4 数据响应式 —— 一个组件挂载一个watcher
+    - 2.4 数据响应式[一个组件挂载一个watcher]
         - （1）响应式概要：Vue一大特点是数据响应式，数据的变化会作用于UI而不用进行DOM操作。原理上来讲，是利用了JS语 言特性Object.defineProperty()，通过定义对象属性setter方法拦截对象属性变更，从而将数值的变化 转换为UI的变化。具体实现是在Vue初始化时，会调用initState，它会初始化data，props等，这里着重关注data初始化
         - （2）响应式流程
             - (2)-1 初始化数据
             ```javascript
-            function initData (vm: Component) {
-                //获取data
-                let data = vm.$options.data
-                data = vm._data = typeof data === 'function'
-                    ? getData(data, vm)
-                    : data || {}
-                // 代理data到实例上 
-                proxy(vm, `_data`, key)
+            // 1. 初始化组件的状态，包括pros, data, methods, computed, watch等
+            function initState(vm: Component) {
+                initData()
+                initProps()
+                initComputed()
+                initWatch()
+                initMethods()
+            }
+            // 2. 以initData为例, 研究data如何响应化
+            function initData(vm: Component) {
                 // 执行数据响应化
+                let data = vm.$options.data
                 observe(data, true /* asRootData */)
+                // 代理data到实例上
+                const keys = Object.keys(data)
+                proxy(vm, `_data`, key)
             }
             ```
-            - (2)-2 
-        - data为数组时，哪些操作可以引起响应式？
-        ```javascript
-        // src/core/observer/array.js
-        const methodsToPatch = [
-            'push',
-            'pop',
-            'shift',
-            'unshift',
-            'splice',
-            'sort',
-            'reverse'
-        ]
-        // 通知更新
-        ob.den.notify()
-        ```
+            - (2)-2 observe()返回一个Observer实例
+            ```javascript
+            function observe(value: any, asRootData: ?boolean): Observer | void {
+                let ob: Observer | void
+                ob = new Observer(value)
+                return ob
+            }
+            ```
+            - (2)-3 Observer对象根据数据类型执行相应的响应化操作
+            ```javascript
+            export class Observer {
+                value: any;
+                dep: Dep;
+                vmCount: number; // number of vms that have this object as root $data
+                constructor(value: any) {
+                    this.value = value
+                    this.dep = new Dep()
+                    this.vmCount = 0
+                    if (Array.isArray(value)) {
+                        // 数组响应化
+                        if (hasProto) {
+                            //数组存在原型就覆盖其原型
+                            protoAugment(value, arrayMethods)
+                        } else {
+                            //不存在就直接定义拦截方法
+                            copyAugment(value, arrayMethods, arrayKeys)
+                        }
+                    } else {
+                        // 对象响应化
+                        this.walk(value)
+                    }
+                }
+                /**
+                * Walk through all properties and convert them into
+                * getter/setters. This method should only be called when
+                * value type is Object.
+                */
+                walk(obj: Object) {
+                    const keys = Object.keys(obj)
+                    for (let i = 0; i < keys.length; i++) {
+                        defineReactive(obj, keys[i])
+                    }
+                }
+                /**
+                * Observe a list of Array items.
+                */
+                observeArray(items: Array<any>) {
+                    for (let i = 0, l = items.length; i < l; i++) {
+                        observe(items[i])
+                    }
+                }
+            }
+            ```
+            - (2)-4 defineReactive定义对象属性的getter和setter
+            ```javascript
+            export function defineReactive (
+                obj: Object,
+                key: string,
+                val: any,
+                customSetter?: ?Function,
+                shallow?: boolean
+                ) {
+                // 一个key一个Dep实例
+                const dep = new Dep()
+                // 递归执行子对象响应化
+                let childOb = !shallow && observe(val)
+                // 定义当前对象getter/setter
+                Object.defineProperty(obj, key, {
+                    enumerable: true,
+                    configurable: true,
+                    get: function reactiveGetter () {
+                        // getter负责依赖收集
+                        if (Dep.target) {
+                            dep.depend()
+                            // 若存在子observer，则依赖也追加到子ob
+                            if (childOb) {
+                                childOb.dep.depend()
+                                if (Array.isArray(value)) {
+                                    dependArray(value) // 数组需特殊处理
+                                }
+                            }
+                        }
+                        return value
+                    },
+                    set: function reactiveSetter (newVal) {
+                        if (newVal === value || (newVal !== newVal && value !== value)) {
+                            return
+                        }    
+                        val = newVal // 更新值
+                        childOb = !shallow && observe(newVal) // childOb更新
+                        dep.notify() // 通知更新
+                    }
+                })
+            }
+            ```
+            - (2)-5 Dep管理一组Watcher，Dep关联的值更新时通知其管理的Watcher更新
+            ```javascript
+            export default class Dep {
+                static target: ?Watcher; // 依赖收集时的wacher引用
+                subs: Array<Watcher>; // watcher数组
+                constructor () {
+                    this.subs = [] 
+                }
+                //添加watcher实例
+                addSub (sub: Watcher) {
+                    this.subs.push(sub)
+                }
+                //删除watcher实例
+                removeSub (sub: Watcher) {
+                    remove(this.subs, sub)
+                }
+                //watcher和dep相互保存引用
+                depend () {
+                    if (Dep.target) {
+                        Dep.target.addDep(this)
+                    }
+                }
+                notify () {
+                    // stabilize the subscriber list first
+                    const subs = this.subs.slice()
+                    for (let i = 0, l = subs.length; i < l; i++) {
+                        subs[i].update()
+                    }
+                }
+            }
+            ```
+            - (2)-6 Watcher监控一个表达式或关联一个组件更新函数，数值更新则指定回调或更新函数被调用
+            ```javascript
+            export default class Watcher {
+                constructor (
+                    vm: Component,
+                    expOrFn: string | Function,
+                    cb: Function,
+                    options?: ?Object,
+                    isRenderWatcher?: boolean
+                ) {
+                    this.vm = vm
+                    // 组件保存render watcher
+                    if (isRenderWatcher) {
+                        vm._watcher = this
+                    }
+                    // 组件保存非render watcher
+                    vm._watchers.push(this)
+
+                    // options...
+                    // 将表达式解析为getter函数
+                    // 如果是函数则直接指定为getter，那什么时候是函数？
+                    // 答案是那些和组件实例对应的Watcher创建时会传递组件更新函数updateComponent
+                    if (typeof expOrFn === 'function') {
+                        this.getter = expOrFn
+                    } else {
+                        // 这种是$watch传递进来的表达式，它们需要解析为函数
+                        this.getter = parsePath(expOrFn)
+                        if (!this.getter) {
+                            this.getter = noop
+                        }
+                    }
+                    // 若非延迟watcher，立即调用getter
+                    this.value = this.lazy ? undefined : this.get()
+                }
+                /**
+                * 模拟getter, 重新收集依赖re-collect dependencies.
+                */
+                get () {
+                    // Dep.target = this
+                    pushTarget(this)
+                    let value
+                    const vm = this.vm
+                    try {
+                        // 从组件中获取到value同时触发依赖收集
+                        value = this.getter.call(vm, vm)
+                    } 
+                    catch (e) {} 
+                    finally {
+                        // deep watching，递归触发深层属性
+                        if (this.deep) {
+                            traverse(value)
+                        }
+                        popTarget()
+                        this.cleanupDeps()
+                    }
+                    return value
+                }
+                addDep (dep: Dep) {
+                    const id = dep.id
+                    if (!this.newDepIds.has(id)) {
+                        // watcher保存dep引用
+                        this.newDepIds.add(id)
+                        this.newDeps.push(dep)
+                        // dep添加watcher
+                        if (!this.depIds.has(id)) {
+                            dep.addSub(this)
+                        }
+                    }
+                }
+                update () {
+                    // 更新逻辑
+                    if (this.lazy) {
+                        this.dirty = true
+                    } else if (this.sync) {
+                        this.run()
+                    } else {
+                        //推入队列，下个刷新周期执行批量任务，这是vue异步更新实现的关键
+                        queueWatcher(this)
+                    }
+                }
+            }
+            function queueWatcher (watcher: Watcher) {
+                queue.push(watcher)
+                // nextTick将flushSchedulerQueue加入回调数组，启动timerFunc准备执行
+                nextTick(flushSchedulerQueue)
+            }
+            callbacks.push(() => cb.call(ctx))
+            // timerFunc指定了vue异步执行策略，根据执行环境，首选Promise，备选依次为:MutationObserver、setImmediate、setTimeout
+            timerFunc()
+            ```
+            - (2)-7 数组响应式：数组比较特别，它的操作方法不会触发setter，需要特别处理
+                - 7.1 数组方法打补丁
+                ```javascript
+                // 数组原型
+                const arrayProto = Array.prototype
+                // 修改后的原型
+                export const arrayMethods = Object.create(arrayProto)
+                // 七个待修改方法
+                const methodsToPatch = [
+                    'push',
+                    'pop',
+                    'shift',
+                    'unshift',
+                    'splice',
+                    'sort',
+                    'reverse'
+                ]
+                /**
+                * 拦截这些方法，额外发送变更通知
+                */
+                methodsToPatch.forEach(function (method) {
+                    // 原始数组方法
+                    const original = arrayProto[method]
+                    // 修改这些方法的descriptor
+                    def(arrayMethods, method, function mutator (...args) {
+                        // 原始操作
+                        const result = original.apply(this, args)
+                        // 获取ob实例用于发送通知
+                        const ob = this.__ob__
+                        // 三个能新增元素的方法特殊处理
+                        let inserted
+                        switch (method) {
+                            case 'push':
+                            case 'unshift':
+                                inserted = args
+                                break
+                            case 'splice':
+                                inserted = args.slice(2)
+                                break
+                        }
+                        // 若有新增则做响应处理
+                        if (inserted) ob.observeArray(inserted)
+                        // 通知更新
+                        ob.dep.notify()
+                        return result
+                    })
+                })
+                ```
+                - 7.2 覆盖数组原型
+                ```javascript
+                if (Array.isArray(value)) {
+                    // 替换数组原型
+                    protoAugment(value, arrayMethods) // value.__proto__ = arrayMethods
+                    this.observeArray(value)
+                }
+                ```
+                - 7.3 数组响应式的特殊处理
+                ```javascript
+                observeArray (items: Array<any>) {
+                    for (let i = 0, l = items.length; i < l; i++) {
+                        observe(items[i])
+                    }
+                }
+                ```
+                - 7.4 依赖收集时特殊处理
+                ```javascript
+                //getter中
+                if (Array.isArray(value)) {
+                    dependArray(value)
+                }
+                // 数组中每一项也需要收集依赖
+                function dependArray (value: Array<any>) {
+                    for (let e, i = 0, l = value.length; i < l; i++) {
+                        e = value[i]
+                        e && e.__ob__ && e.__ob__.dep.depend()
+                        if (Array.isArray(e)) {
+                            dependArray(e)
+                        }
+                    }
+                }
+                ```
     - 2.5 虚拟DOM
+        - 
     - 2.6 编译器
+        - 

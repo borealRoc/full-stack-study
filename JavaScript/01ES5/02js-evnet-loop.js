@@ -1,7 +1,8 @@
 // http://www.ruanyifeng.com/blog/2014/10/event-loop.html
 // https://juejin.im/post/59e85eebf265da430d571f89
+// https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/
 // JavaScript执行机制
-// 1. javascript的特定
+// 1. javascript的特点
 // 1.1 javascript是一门单线程语言
 // 1.2 为了利用多核CPU的计算能力，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完全受主线程控制，且不得操作DOM。所以，这个新标准并没有改变JavaScript单线程的本质。
 // 2. 同步与异步

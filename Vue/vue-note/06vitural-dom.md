@@ -14,6 +14,7 @@
 2. 虚拟DOM的好处
     - 虚拟 DOM 就是为了解决浏览器性能问题而被设计出来的。如前，若一次操作中有 10 次更新 DOM 的动作，虚拟 DOM 不会立即操作 DOM，而是将这 10 次更新的 diff 内容保存到本地一个 JS 对象中，最终将这个 JS 对象一次性 attch 到 DOM 树上，再进行后续操作，避免大量无谓的计算量。所以，用 JS 对象模拟 DOM 节点的好处是，页面的更新可以先全部反映在 JS 对象(虚拟 DOM )上，操作内存中的 JS 对象的速度显然要更快，等更新完成后，再将最终的 JS 对象映射成真实的 DOM，交由浏览器去绘制。
 3. 虚拟DOM是什么: 用JS对象描述DOM节点，更新之前做diff，达到最小操作dom的效果
+
 4. 虚拟DOM如何新建
     ```javascript
     function createElement(tag, data, children) { 
