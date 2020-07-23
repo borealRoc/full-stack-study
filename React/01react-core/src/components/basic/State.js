@@ -11,40 +11,43 @@ export default class State extends Component {
     }
 
     componentDidMount() {
-        this.setState({A: 'aaa', B: 'bbb'})
-        this.setState({A: 'aa'})
+        this.setState({ A: 'aaa', B: 'bbb' })
+        this.setState({ A: 'aa' })
 
-        this.setState((preState, preProps) => ({
-            counter: preState.counter + 1 //1
-        }), () => {
-            console.log('1', this.state.counter) //1
-        })
-        this.setState((preState, preProps) => ({
-            counter: preState.counter + 1 //2
-        }), () => {
-            console.log('2', this.state.counter) //2
-        })
+        // console.log('0', this.state.counter) //0
+        
+        // // 下面两个setState的更新会被合并，所以第一个回调counter也为2
+        // this.setState((preState, preProps) => ({
+        //     counter: preState.counter + 1
+        // }), () => {
+        //     console.log('1', this.state.counter) //2
+        // })
+        // this.setState((preState, preProps) => ({
+        //     counter: preState.counter + 1
+        // }), () => {
+        //     console.log('2', this.state.counter) //2
+        // })
 
-        setTimeout(() => {
-            this.setState({
-                counter: this.state.counter + 1 //1
-            })
-            console.log('3', this.state.counter) //1
-            this.setState({
-                counter: this.state.counter + 1 //2
-            })
-            console.log('4', this.state.counter) //2
-        }, 0)
+        // setTimeout(() => {
+        //     this.setState({
+        //         counter: this.state.counter + 1
+        //     })
+        //     console.log('3', this.state.counter) //3
+        //     this.setState({
+        //         counter: this.state.counter + 1
+        //     })
+        //     console.log('4', this.state.counter) //4
+        // }, 0)
 
         document.getElementById('changeCounter').addEventListener('click', () => {
             this.setState({
-                counter: this.state.counter + 1 //1
+                counter: this.state.counter + 1
             })
-            console.log('5', this.state.counter) //1
+            console.log('5', this.state.counter) //5
             this.setState({
-                counter: this.state.counter + 1 //2
+                counter: this.state.counter + 1
             })
-            console.log('6', this.state.counter) //2
+            console.log('6', this.state.counter) //6
         })
     }
 

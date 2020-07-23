@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
 export default function FunState() {
-    const [time, setState] = useState(new Date())
+    const [time, setTime] = useState(new Date())
 
     useEffect(() => {
         const timeId = setInterval(() => {
-            setState(new Date())
+            setTime(new Date())
         }, 1000)
         return () => clearInterval(timeId)
     })

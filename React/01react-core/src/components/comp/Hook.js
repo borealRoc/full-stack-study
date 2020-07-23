@@ -27,7 +27,7 @@ export default function Hook() {
             setDate(new Date())
         }, 1000)
         // 清除工作：有一些副作用是需要清除的，清除工作十分重要，可以防止引起内存泄露
-        // 组件卸载后悔执行返回的清理函数
+        // 组件卸载后执行返回的清理函数
         return () => clearInterval(timeId)
     }, [date]) //设置依赖：只有date发生变化时，才会执行副作用
 

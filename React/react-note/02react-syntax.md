@@ -1,14 +1,14 @@
 # react 基础知识
 1. React 和 ReactDOM
     - React负责逻辑控制: 数据 -> VDOM：`JSX = React.createElement()`
-    - ReactDOM渲染实际DOM: VDOM -> DOM: `ReactDom.render(JSX, #app)`
+    - ReactDOM渲染真实DOM: VDOM -> DOM: `ReactDom.render(JSX, #app)`
 2. JSX
     - 2.1 条件渲染
         - if 语句
         - 逻辑与 &&
         - 三元表达式
     - 2.2 循环列表 && key
-    - 2.3 元素属性：静态值用双引号，动态值用花括号，class与for要特殊处理
+    - 2.3 元素属性：静态值用双引号，动态值用花括号，class[className]与for[htmlFor]要特殊处理
         - `<div style={{border: "solid 1px"}}></div>`
         - React样式解决方案
             - style-components
@@ -41,41 +41,48 @@
             - 异步: setState通常是异步的，因此如果要获取到最新状态值有以下三种方式
                 - （1）回调函数
                 ```javascript
+                constructor(props) {
+                    super(props)
+                    this.state = {
+                        counter: 0
+                    }
+                }
+                // 下面两个setState的更新会被合并，所以第一个回调counter也为2
                 this.setState((preState, preProps) => ({
-                    counter: preState.counter + 1 //1
+                    counter: preState.counter + 1
                 }), () => {
-                    console.log(this.state.counter) //1
+                    console.log('1', this.state.counter) //2
                 })
                 this.setState((preState, preProps) => ({
-                    counter: preState.counter + 1 //2
+                    counter: preState.counter + 1
                 }), () => {
-                    console.log(this.state.counter) //2
+                    console.log('2', this.state.counter) //2
                 })
                 ```
                 - （2）使用定时器
                 ```javascript
                 setTimeout(() => {
                     this.setState({
-                        counter: this.state.counter + 1 //1
+                        counter: this.state.counter + 1
                     })
-                    console.log(this.state.counter) //1
+                    console.log('3', this.state.counter) //3
                     this.setState({
-                        counter: this.state.counter + 1 //2
+                        counter: this.state.counter + 1
                     })
-                    console.log(this.state.counter) //2
+                    console.log('4', this.state.counter) //4
                 }, 0)
                 ```
                 - （3）原生事件中修改状态
                 ```javascript
                 document.getElementById('changeCounter').addEventListener('click', () => {
                     this.setState({
-                        counter: this.state.counter + 1 //1
+                        counter: this.state.counter + 1
                     })
-                    console.log(this.state.counter) //1
+                    console.log('5', this.state.counter) //5
                     this.setState({
-                        counter: this.state.counter + 1 //2
+                        counter: this.state.counter + 1
                     })
-                    console.log(this.state.counter) //2
+                    console.log('6', this.state.counter) //6
                 })
                 ```
                 > setState只有在合成事件和钩子函数中是异步的，在setState回调函数，原生事件和setTimeout、setInterval中都是同步的？？
@@ -87,6 +94,7 @@
 6. 组件通讯
     - 父传子[props]：单向数据流
     - 子传父[事件，传参]：状态提升
+    - 兄弟组件[通过共同的父组件搭桥]
     - 跨层级[context]
     - 任意两个组件通讯[redux]
     - 双向数据绑定
