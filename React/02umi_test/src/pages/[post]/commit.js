@@ -5,7 +5,7 @@ export default props => {
   const { match: { params: { post } } } = props
   return (
     <div>
-      <h1 className={styles.title}>Page -- {post} 的commit</h1>
+      <h1 className={styles.title}>Page post -- {post} commit.</h1>
     </div>
   );
 }

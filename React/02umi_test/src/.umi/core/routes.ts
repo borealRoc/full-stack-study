@@ -8,14 +8,15 @@ const routes = [
     "component": require('@/layouts/index.js').default,
     "routes": [
       {
-        "path": "/about/about",
+        "path": "/404",
         "exact": true,
-        "component": require('@/pages/about/about.js').default
+        "component": require('@/pages/404.js').default
       },
       {
         "path": "/",
         "exact": true,
-        "component": require('@/pages/index.js').default
+        "component": require('@/pages/index.js').default,
+        "title": "首页"
       },
       {
         "path": "/login",
@@ -26,27 +27,18 @@ const routes = [
         "path": "/users",
         "routes": [
           {
-            "path": "/users",
-            "exact": true,
-            "component": require('@/pages/users/index.js').default
-          },
-          {
             "path": "/users/:id",
             "exact": true,
             "component": require('@/pages/users/[id].js').default
           }
         ],
-        "component": require('@/pages/users/_layout.js').default
+        "component": require('@/pages/users/_layout.js').default,
+        "wrappers": [require('@/routes/PrivateRoute').default]
       },
       {
         "path": "/:post/commit",
         "exact": true,
         "component": require('@/pages/[post]/commit.js').default
-      },
-      {
-        "path": "/:post",
-        "exact": true,
-        "component": require('@/pages/[post]/index.js').default
       }
     ]
   }
