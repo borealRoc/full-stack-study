@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { createBrowserHistory } from '/Users/xusp/.config/yarn/global/node_modules/@umijs/runtime';
+import { createBrowserHistory } from '/Users/xusp/Desktop/studySpace/full-stack-study/React/02umi_test/node_modules/@umijs/runtime';
 
 let options = {
   "basename": "/"

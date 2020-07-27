@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { ApplyPluginsType } from '/Users/xusp/.config/yarn/global/node_modules/@umijs/runtime';
+import { ApplyPluginsType } from '/Users/xusp/Desktop/studySpace/full-stack-study/React/02umi_test/node_modules/@umijs/runtime';
 import { plugin } from './plugin';
 
 const routes = [
@@ -15,8 +15,7 @@ const routes = [
       {
         "path": "/",
         "exact": true,
-        "component": require('@/pages/index.js').default,
-        "title": "首页"
+        "component": require('@/pages/index.js').default
       },
       {
         "path": "/login",

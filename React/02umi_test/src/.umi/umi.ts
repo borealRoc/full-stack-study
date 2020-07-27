@@ -3,8 +3,8 @@ import './core/polyfill';
 import '@@/core/devScripts';
 import { plugin } from './core/plugin';
 import { createHistory } from './core/history';
-import { ApplyPluginsType } from '/Users/xusp/.config/yarn/global/node_modules/@umijs/runtime';
-import { renderClient } from '/Users/xusp/.config/yarn/global/node_modules/@umijs/renderer-react/dist/index.js';
+import { ApplyPluginsType } from '/Users/xusp/Desktop/studySpace/full-stack-study/React/02umi_test/node_modules/@umijs/runtime';
+import { renderClient } from '/Users/xusp/Desktop/studySpace/full-stack-study/React/02umi_test/node_modules/@umijs/renderer-react/dist/index.js';
 
 
 
@@ -31,7 +31,7 @@ export default clientRender();
 
 
     window.g_umi = {
-      version: '3.2.9',
+      version: '3.2.10',
     };
   
 
