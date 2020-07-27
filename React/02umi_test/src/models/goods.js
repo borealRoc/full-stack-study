@@ -21,6 +21,12 @@ export default {
         },
         addGoods(state, action) {
             return [...state, { id: state.length, title: action.payload.title }]
+        },
+        delGoods(state, action) {
+            const tempState = [...state]
+            const goodIndex = state.findIndex(item => item.id === action.payload.goodId)
+            tempState.splice(goodIndex, 1)
+            return tempState
         }
     },
     // 用于处理异步操作( 如:与服务端交互)和业务逻辑，也是由 action 触发。

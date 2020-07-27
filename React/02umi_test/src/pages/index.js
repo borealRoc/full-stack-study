@@ -17,9 +17,15 @@ export default connect(
       return {
         type: 'goods/getGoods'
       }
+    },
+    delGoods: goodId => {
+      return {
+        type: 'goods/delGoods',
+        payload: { goodId }
+      }
     }
   }
-)(function ({ goods, addGoods, getGoods }) {
+)(function ({ goods, addGoods, getGoods, delGoods }) {
   const [fruit, setFruit] = useState('')
   useEffect(() => {
     getGoods()
@@ -32,7 +38,11 @@ export default connect(
       <button onClick={() => addGoods(fruit)}>添加</button>
       <ul>
         {
-          goods.map(good => <li key={good.id}>{good.title}</li>)
+          goods.map(good =>
+            <li key={good.id} >
+              {good.title}
+              <button onClick={() => delGoods(good.id)}>-</button>
+            </li>)
         }
       </ul>
       <Link to="/login">Login</Link>
