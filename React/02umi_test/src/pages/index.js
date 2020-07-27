@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './index.css';
-import { Link, connect } from 'umi'
+import { connect } from 'umi'
 
 export default connect(
   state => ({
@@ -36,16 +36,20 @@ export default connect(
       <label htmlFor="fruit">你想要吃什么水果：</label>
       <input id="fruit" type="text" value={fruit} onChange={e => setFruit(e.target.value)} />
       <button onClick={() => addGoods(fruit)}>添加</button>
-      <ul>
-        {
-          goods.map(good =>
-            <li key={good.id} >
-              {good.title}
-              <button onClick={() => delGoods(good.id)}>-</button>
-            </li>)
-        }
-      </ul>
-      <Link to="/login">Login</Link>
+      {
+        goods && goods.length > 0 ?
+          <ul>
+            {
+              goods.map(good =>
+                <li key={good.id} >
+                  {good.title}
+                  <button onClick={() => delGoods(good.id)}>-</button>
+                </li>)
+            }
+          </ul> :
+          <div>加载中...</div>
+      }
+
     </div>
   );
 })
