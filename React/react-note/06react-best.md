@@ -50,7 +50,7 @@
     // render the application
     ```
 2. 数据流方案 dva
-    - dva 是一个基于 redux 和 redux-saga 的数据流方案，同时还内置了 react-router 和 fetch
+    - dva 是一个基于 redux 和 redux-saga 的数据流方案，同时还内置了 react-router 和 fetch, 所以也可以理解为一个轻量级的应用框架
 3. 企业级应用框架 umi
     - 3.1 依赖层：jest, antd, react, babel@7 webpack@4 dva react-router
     - 3.2 路由
@@ -62,9 +62,17 @@
             - 全局laoyuts: 手动创建跟pages同级的layouts文件夹
             - 路由守卫：通过指定高阶组件 wrappers 达成效果
         - 3.2.2 配置式路由: 当写了配置式路由，则会忽略约定式路由的所有设置
+            - `config/config.js` 或 `.umirc.js`
     - 3.3 配置
     - 3.4 API
     - 3.5 MOCK数据
         - 本地mock：mock文件夹
         - 线上mock：借助mockjs第三方库
+    - 3.6 umi 中的 dva
+        - 放在 src/models 目录下
+        - 核心概念
+            - namespace：命名空间
+            - state: 初始状态
+            - reducers: 用于修改state, 由action触发
+            - effects: 基于redux-saga，使用generator函数来控制异步流程，通过触发 action 调用 reducer 实现对 state 的间接操作
 4. 移动端cra
