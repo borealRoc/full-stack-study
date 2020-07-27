@@ -49,7 +49,6 @@ export default connect(
           </ul> :
           <div>加载中...</div>
       }
-
     </div>
   );
 })
