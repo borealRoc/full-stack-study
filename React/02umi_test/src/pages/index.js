@@ -4,7 +4,9 @@ import { connect } from 'umi'
 
 export default connect(
   state => ({
-    goods: state.goods
+    goods: state.goods,
+    // dva自带的loading state
+    loading: state.loading
   }),
   {
     addGoods: title => {
@@ -25,7 +27,7 @@ export default connect(
       }
     }
   }
-)(function ({ goods, addGoods, getGoods, delGoods }) {
+)(function ({ goods, addGoods, getGoods, delGoods, loading }) {
   const [fruit, setFruit] = useState('')
   useEffect(() => {
     getGoods()
@@ -37,7 +39,8 @@ export default connect(
       <input id="fruit" type="text" value={fruit} onChange={e => setFruit(e.target.value)} />
       <button onClick={() => addGoods(fruit)}>添加</button>
       {
-        goods && goods.length > 0 ?
+        loading.models.goods > 0 ?
+          <div>加载中...</div> :
           <ul>
             {
               goods.map(good =>
@@ -46,8 +49,7 @@ export default connect(
                   <button onClick={() => delGoods(good.id)}>-</button>
                 </li>)
             }
-          </ul> :
-          <div>加载中...</div>
+          </ul>
       }
     </div>
   );
