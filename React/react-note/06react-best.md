@@ -11,6 +11,7 @@
         function* fetchUser(action) {
             try {
                 const user = yield call(API.fetchUser, action.paload.userId)
+                // put.type 和 loginReducers 的 action.type 对应
                 yield put({type: 'USER_FETCH_SUCCEEDED', user: user})
             } catch (e) {
                 yield put({type: 'USER_FETCH_FAILED', message: e.message})
@@ -52,7 +53,7 @@
 2. 数据流方案 dva
     - dva 是一个基于 redux 和 redux-saga 的数据流方案，同时还内置了 react-router 和 fetch, 所以也可以理解为一个轻量级的应用框架
 3. 企业级应用框架 umi
-    - 3.1 依赖层：jest, antd, react, babel@7 webpack@4 dva react-router
+    - 3.1 依赖层：antd react react-router dva babel@7 webpack@4 
     - 3.2 路由
         - 3.2.1 约定式路由
             - 基础路由: `umi g page index`
@@ -66,13 +67,49 @@
     - 3.3 配置
     - 3.4 API
     - 3.5 MOCK数据
-        - 本地mock：mock文件夹
+        - 本地mock：更src同级的mock文件夹
         - 线上mock：借助mockjs第三方库
     - 3.6 umi 中的 dva
         - 放在 src/models 目录下
-        - 核心概念
-            - namespace：命名空间
-            - state: 初始状态
-            - reducers: 用于修改state, 由action触发
-            - effects: 基于redux-saga，使用generator函数来控制异步流程，通过触发 action 调用 reducer 实现对 state 的间接操作
+        - 创建 
+        ```javascript
+        export default {
+            //命名空间
+            namespace: 'users', 
+            //初始状态
+            state: {name: 'xu'}, 
+            //用于修改state, 由action触发
+            reducers: {
+                setName(state, action) {
+                    return {name: action.payload.name}
+                }
+            },
+            // 基于redux-saga，使用generator函数来控制异步流程，通过触发 action 调用 reducer 实现对 state 的间接操作
+            effects: {
+                *asyncSetName(action, {call, put}) {
+                    const res = yield call(GET_NAME_API)
+                    yield put({type: 'setName', payload: res.data})
+                } 
+            }
+        }
+        ```
+        - 使用
+        ```javascript
+        import { connect } from 'umi'
+        export default connect(
+            state => ({
+                name: state.users
+            }),
+            {
+                setName: name => {
+                    return {
+                        type: 'users/setName',
+                        payload: {name}
+                    }
+                },
+            }
+        )(function ({name, setName}) {
+
+        })
+        ```
 4. 移动端cra
