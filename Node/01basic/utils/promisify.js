@@ -1,3 +1,4 @@
+// 把函数Promise化
 module.exports = function promisify(fn) {
     return function (...args) {
         return new Promise(function (resolve, reject) {

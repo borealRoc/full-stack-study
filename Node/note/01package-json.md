@@ -37,6 +37,6 @@
     console.log(process.env.npm_package_name); // foo
     console.log(process.env.npm_package_version); // 1.2.5
     ```
-- bin:  来指定各个内部命令对应的可执行文件的路径
+- bin: 来指定各个内部命令对应的可执行文件的路径
     - 全局安装, 可以在命令行中执行这个文件
     - 本地安装, 可以在当前工程目录的命令行中执行该文件
