@@ -1,7 +1,19 @@
 const Koa = require('koa')
 const app = new Koa()
 
+// 1. 中间件机制、请求、响应处理
+// 打印时间日志
+app.use(async (ctx, next) => {
+    const start = new Date()
+    const t_start = start.getTime()
+    console.log(`start: 开始于${start} 请求${ctx.url}`)
+    await next()
+    const end = new Date()
+    const t_end = end.getTime()
+    console.log(`end: 结束于${end} 总共耗时${parseInt(t_end - t_start)}ms`)
+})
 app.use((ctx, next) => {
+    console.log('1号执行')
     ctx.body = [
         {
             name: 'xu'
@@ -10,9 +22,30 @@ app.use((ctx, next) => {
     next()
 })
 app.use((ctx, next) => {
-    if (ctx.url === '/html') {
-        ctx.type = `text/html;charset=utf-8`
-        ctx.body = `<h1>我的名字是:${ctx.body[0].name}</h1>`
+    console.log('2号执行')
+    const { url, method, body } = ctx
+    console.log('url', url)
+    console.log('method', method)
+    body && body.push({ name: 'shao' })
+    console.log('body', body)
+    if (url === '/html') {
+        ctx.type = 'text/html;charset=utf-8'
+        ctx.body = `<h1>My name is ${body[0].name}</h1>`
     }
+    next()
 })
+
+// 2. 路由
+const router = require('koa-router')()
+router.get('/string', async (ctx, next) => {
+    ctx.body = 'hello koa2'
+})
+router.post('/login', async (ctx, next) => {
+    ctx.body = `login success`
+})
+app.use(router.routes())
+
+// 3. 静态服务器
+app.use(require('koa-static')(__dirname + '/www'))
+
 app.listen(3000)
