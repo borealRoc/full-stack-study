@@ -27,17 +27,17 @@ class MyKoa {
         })
         server.listen(...args)
     }
+
     // 构建上下文, 把res和req都挂载到ctx之上，并且在ctx.req和ctx.request.req，以及ctx.res和ctx.response.res同时保存
     createContext(req, res) {
         const ctx = Object.create(context)
         ctx.request = Object.create(request)
         ctx.response = Object.create(response)
-
         ctx.req = ctx.request.req = req
         ctx.res = ctx.response.res = res
-
         return ctx
     }
+    
     // 合成函数
     compose(middlewares) {
         return function (ctx) { // 传入上下文
