@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="font.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .round {
+            position: fixed;
+            top: 50%;
+            right: 1rem;
+            width: 5rem;
+            height: 5rem;
+            margin-top: -5rem;
+            background-color: tomato;
+            border-radius: 50%;
+            line-height: 5rem;
+            text-align: center;
+            color: #fff;
+            line-height: 5rem;
+            font-size: 2rem;
+        }
+
+        .lists {
+            position: fixed;
+            bottom: 50%;
+            right: 1rem;
+            width: 5rem;
+            border-radius: 2.5rem;
+            display: none;
+
+        }
+
+        .lists li {
+            width: 5rem;
+            height: 5rem;
+            text-align: center;
+            line-height: 5rem;
+            color: #fff;
+            line-height: 5rem;
+            font-size: 2rem;
+            background-color: teal;
+        }
+
+        .lists li:nth-child(1) {
+            border-radius: 2.5rem 2.5rem 0 0;
+        }
+
+        .lists li:nth-child(3) {
+            border-radius: 0 0 2.5rem 2.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="lists">
+        <li>1</li>
+        <li>2</li>
+        <li id="listBtm">3</li>
+    </ul>
+    <div class="round">圆<div>
+            <script>
+                $(function () {
+                    var _round = $(".round");
+                    var _listBtm = $("#listBtm");
+                    _round.on("click", function () {
+                        $(".round").hide();
+                        $(".lists").slideDown();
+                    })
+                    _listBtm.on("click", function () {
+                        $(".lists").slideUp(function () {
+                            $(".round").fadeIn();
+                        });
+                    })
+                })
+            </script>
+</body>
+
+
+</html>
