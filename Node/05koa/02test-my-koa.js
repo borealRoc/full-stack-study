@@ -2,6 +2,7 @@ const Koa = require('./theory/my-koa')
 const app = new Koa()
 const Router = require('./theory/my-koa-router')
 const router = new Router()
+const static = require('./theory/static')
 
 // 1. 测试中间件机制
 // const delay = () => Promise.resolve(resolve => setTimeout(() => resolve()
@@ -28,7 +29,8 @@ router.get('/list', async ctx => { ctx.body = 'list page' })
 router.post('/index', async ctx => { ctx.body = 'post page' })
 app.use(router.routes())
 
-
+// 3. 测试静态文件托管
+app.use(static(__dirname + '/www'))
 
 app.listen(4000, () => {
     console.log('监听端口4000')
