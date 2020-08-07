@@ -12,7 +12,7 @@ http.createServer((req, res) => {
         })
     } else if (method === 'GET' || method === 'POST' && url === '/user') {
         res.setHeader("Content-Type", "application/json")
-        // 简单请求cors
+        // 简单请求cors00
         // 什么是简单请求？
         // 1. 动词为get/post/head
         // 2. 没有自定义请求头
