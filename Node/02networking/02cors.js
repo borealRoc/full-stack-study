@@ -4,7 +4,7 @@ const fs = require('fs')
 
 // 实际开发解决跨域问题，不需要为每个接口去写，可以用 cors node模块解决
 http.createServer((req, res) => {
-    const {url, method} = req
+    const { url, method } = req
     if (method === 'GET' && url === '/index') {
         fs.readFile('./index.html', (err, data) => {
             res.setHeader("Content-Type", "text/html")
@@ -20,8 +20,8 @@ http.createServer((req, res) => {
         res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500") //允许所有设置为：'*'
         // 如果要携带cookie信息，则请求变为credential请求
         res.setHeader("Access-Control-Allow-Credentials", "true")
-        res.end(JSON.stringify([{name: 'xu', age: 17}]))
-    } else if (method === 'OPTIONS' && url === '/user') {
+        res.end(JSON.stringify([{ name: 'xu', age: 17 }]))
+    } else if (method === 'OPTIONS') {
         // preflight请求，需要响应浏览器发出的options请求(预检请求)，并根据情况设置响应头
         res.writeHead(200, {
             "Access-Control-Allow-Origin": "http://127.0.0.1:5500", //允许所有设置为：'*'
@@ -29,7 +29,7 @@ http.createServer((req, res) => {
             "Access-Control-Allow-Methods": "GET,POST,PUT",
             // 如果要携带cookie信息，则请求变为credential请求
             "Access-Control-Allow-Credentials": "true"
-          })
-          res.end()
+        })
+        res.end()
     }
 }).listen(3000)
