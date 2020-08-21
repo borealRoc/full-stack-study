@@ -13,7 +13,6 @@ module.exports = (dirPath = "./public") => {
                 stats = fs.statSync(filepath);
                 if (stats.isDirectory()) {
                     const dir = fs.readdirSync(filepath);
-                    // const
                     const ret = ['<div style="padding-left:20px">'];
                     dir.forEach(filename => {
                         console.log(filename);

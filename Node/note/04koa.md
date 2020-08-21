@@ -25,7 +25,10 @@ app.use((ctx, next) => {console.log('执行3');next()})
 5. 静态服务器：借助 koa-static
     - `app.use(require('koa-static')(__dirname + '/www'))`
 ## 原理
-1. context
-2. 中间件机制：compose <https://github.com/koajs/compose/blob/master/index.js>
-3. 路由
-4. 静态文件托管
+1. 实现contex
+    - 1.1 使用JS对象的get和set方法
+    - 1.2 把 request 对象 和 response 对象整合到 ctx 对象上
+2. 实现中间件机制：compose <https://github.com/koajs/compose/blob/master/index.js>
+    - 合成函数 compose
+3. 实现路由插件
+4. 实现静态文件托管插件
