@@ -37,12 +37,29 @@ app.use((ctx, next) => {
 
 // 2. 路由
 const router = require('koa-router')()
-router.get('/string', async (ctx, next) => {
-    ctx.body = 'hello koa2'
+router.get('/get', async (ctx, next) => {
+    // 获取get请求浏览器传过来的数据
+    ctx.body = ctx.query
 })
-router.post('/login', async (ctx, next) => {
-    ctx.body = `login success`
+const koaBody = require('koa-body')
+app.use(koaBody({
+    multipart: true,
+    formidable: {
+        maxFileSize: 200 * 1024 * 1024    // 设置上传文件大小最大限制，默认2M
+    }
+}))
+router.post('/post', async (ctx, next) => {
+    // 获取post请求浏览器传过来的普通数据
+    console.log('/post ctx.request.body', ctx.request.body)
+    ctx.body = ctx.request.body
 })
+
+router.post('/file', async (ctx, next) => {
+    // 获取post请求浏览器传过来的file数据
+    console.log('/file ctx.request.files', ctx.request.files)
+    ctx.body = ctx.request.files
+})
+
 app.use(router.routes())
 
 // 3. 静态服务器
