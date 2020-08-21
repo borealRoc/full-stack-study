@@ -36,8 +36,8 @@ app.post('/post', (req, res) => {
 })
 // 手动实现body-parser的urlencoded方法
 const myBody = require('./lib/urlencoded')
-app.use(myBody.urlencoded())
 app.post('/login', (req, res) => {
+    app.use(myBody.urlencoded())
     res.send(req.body)
 })
 // 4.3 post请求，处理文件
@@ -51,9 +51,8 @@ app.post('/file', (req, res) => {
 // 5. cookie相关
 // 5.1 cookie-parse
 const cookieParser = require('cookie-parser')
-app.use(cookieParser('thisisasecreetkey')); //自己保管的一份密钥
+app.use(cookieParser('thisisasecreetkey')) //自己保管的一份密钥
 app.get('/cookie', (req, res) => {
-    console.log('cookie', req.cookies)
     console.log('signedCookieds', req.signedCookies)
     res.cookie('money', 100.00, {
         // domain: '',
