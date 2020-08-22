@@ -35,5 +35,5 @@
 ## 原理
 1. express 有一个 Appliction 类，并最终导出 new Application() 实例
 2. 在 Appliction 类的外面，定义了一个变量： `const routes = []`
-3. 在引用并定义express实例后：`const app = express()`，app每定义一个路由：`app.get(path, (req,res,next) => {})`, routes 数组就会Push进一条路由记录：`routes.push({path, method: 'GET', handler})`
+3. 在定义express实例后：`const app = express()`，app每定义一个路由：`app.get(path, (req,res,next) => {})`, routes 数组就会Push进一条路由记录：`routes.push({path, method: 'GET', handler})`
 4. 在app实例监听端口时：`app.listen(3000)`, 借助：`http.createServer((req, res) => {})`方法，遍历routes数组：`for (const route of routes) {}`，如果：`route.path === req.url.pathname && route.method === req.method`，则执行回调函数：`handler(req,res)`

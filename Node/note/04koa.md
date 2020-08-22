@@ -26,7 +26,7 @@ app.use((ctx, next) => {console.log('执行3');next()})
     - `app.use(require('koa-static')(__dirname + '/www'))`
 ## 原理
 1. 实现contex
-    - 1.1 使用JS对象的get和set方法
+    - 1.1 创建context, request和response三个对象，使用JS对象的get和set方法分别设置它们的属性
     - 1.2 把 request 对象 和 response 对象整合到 ctx 对象上
 2. 实现中间件机制：compose <https://github.com/koajs/compose/blob/master/index.js>
     - 合成函数 compose
