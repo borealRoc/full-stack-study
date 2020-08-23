@@ -32,3 +32,7 @@ app.use((ctx, next) => {console.log('执行3');next()})
     - 合成函数 compose
 3. 实现路由插件
 4. 实现静态文件托管插件
+## 拓展：JS中间件实现方式对比<https://github.com/nanjixiong218/analys-middlewares/tree/master/src>
+    - express
+    - koa
+    - redux
