@@ -93,7 +93,7 @@
         - Content-Language：指明资源所⽤的⾃然语⾔，eg: `Content-Language: da`
 6. GET 和 POST 的区别<https://segmentfault.com/a/1190000018129846>
     - 6.1 表面上：
-        -  get 使用URL或Cookie传参。而 post 将数据放在BODY中
+        -  get 使用URL传参, 而 post 将数据放在BODY中
         -  get 的URL会有长度上的限制，则 post 的数据则可以非常大
         -  post 比 get 安全，因为数据在地址栏上不可见
         <img src="http.png"/>
@@ -107,7 +107,7 @@
                 - 服务器：URL长了，对服务器处理是一种负担
         - 6.2.3 安全不安全和 get 、 post 没有关系
             - 从传输的角度来说，他们都是不安全的，因为 HTTP 在网络上是明文传输的，只要在网络节点上捉包，就能完整地获取数据报文。要想安全传输，就只有加密，也就是 HTTPS。
-    - 6.3 所以说，上面列举的 get 和 post 的区别，只是浏览器实现上的区别，而不是 get 和 post 的本质区别
+    - 6.3 所以说，上面列举的 get 和 post 的区别，只是浏览器对HTTP协议实现上的区别，而不是 get 和 post 的本质区别
     - 6.4 get 和 post 方法没有实质区别，只是报文格式不同
         - 不带参数时他们的区别就仅仅是报文的前几个字符不同而已
             - get 方法请求报文第一行是这样的 GET /uri HTTP/1.1 \r\n
