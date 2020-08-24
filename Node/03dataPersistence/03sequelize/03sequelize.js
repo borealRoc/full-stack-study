@@ -1,4 +1,4 @@
-// 基于Promise的ORM(像操作对象一样操作数据库)， 持多种数据库、事务、关联等
+ // 基于Promise的ORM(像操作对象一样操作数据库)， 持多种数据库、事务、关联等
 (async () => {
     const Sequelize = require("sequelize")
 

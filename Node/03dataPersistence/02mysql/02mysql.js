@@ -18,7 +18,7 @@
     id INT NOT NULL AUTO_INCREMENT,
     message VARCHAR(45) NULL,
     PRIMARY KEY (id))`
-    let ret = connection.execute(CREATE_TABLE)
+    let ret = await  connection.execute(CREATE_TABLE)
     console.log('创建表', ret)
 
     // 增
