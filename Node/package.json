@@ -17,6 +17,7 @@
     "cookie-session": "^1.4.0",
     "cpu-stat": "^2.0.1",
     "express": "^4.17.1",
+    "http-proxy-middleware": "^1.0.5",
     "iconv-lite": "^0.5.1",
     "koa-router": "^9.1.0",
     "koa-static": "^5.0.0",

@@ -107,12 +107,32 @@
                 - 服务器：URL长了，对服务器处理是一种负担
         - 6.2.3 安全不安全和 get 、 post 没有关系
             - 从传输的角度来说，他们都是不安全的，因为 HTTP 在网络上是明文传输的，只要在网络节点上捉包，就能完整地获取数据报文。要想安全传输，就只有加密，也就是 HTTPS。
-    - 6.3 所以说，上面列举的 get 和 post 的区别，只是浏览器对HTTP协议实现上的区别，而不是 get 和 post 的本质区别
+    - 6.3 所以，上面列举的 get 和 post 的区别，只是浏览器对HTTP协议实现上的区别，而不是 get 和 post 的本质区别
     - 6.4 get 和 post 方法没有实质区别，只是报文格式不同
         - 不带参数时他们的区别就仅仅是报文的前几个字符不同而已
             - get 方法请求报文第一行是这样的 GET /uri HTTP/1.1 \r\n
             - post 方法请求报文第一行是这样的 POST /uri HTTP/1.1 \r\n
         - 带参数时报文的区别呢？ 在约定中，GET 方法的参数应该放在 url 中，POST 方法参数应该放在 body 中
             - 但是，可以在 URL 上写参数，然后方法使用 POST；也可以在 Body 写参数，然后方法使用 GET。当然，这需要服务端支持。
-## 跨域
-## 爬虫
+## 三、跨域
+1. 概念：**浏览器**同源策略引起的接口调用问题
+2. 解决方案
+    - JSONP: <script>标签发出的GET请求不受同源策略影响
+    - 代理
+        - nginx代理服务器
+        - webpack的devServer的pxoxy属性可以设置代理
+        - 借助express中间件`http-proxy-middleware`
+    - CORS（跨资源共享）
+        - 简单请求：`res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000" || "*")`
+        - preflight请求：需要响应浏览器发出的options请求（预检请求），并根据情况设置响应头
+        ```javascript
+        res.writeHead(200, {
+            "Access-Control-Allow-Origin": "http://localhost:3000",
+            "Access-Control-Allow-Headers": "X-Token,Content-Type",
+            "Access-Control-Allow-Methods": "GET,POST,PUT",
+        })
+        ```
+        - 携带cookie信息
+            - 服务器设置：`res.setHeader("Access-Control-Allow-Credentials", "true")`
+            - 客户端设置：`axios.defaults.withCredentials = true`
+## 四、爬虫
