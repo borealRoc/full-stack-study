@@ -1,4 +1,4 @@
-// 实现⼀个⽂件系统读写数据库
+ // 实现⼀个⽂件系统读写数据库
 const fs = require('fs')
 const fsDBFile = "./fsDB.json"
 
@@ -15,7 +15,7 @@ const set = (key, val) => {
         const json = data? JSON.parse(data): {}
         json[key] = val
         fs.writeFile(fsDBFile, JSON.stringify(json), err => {
-            if (err) err
+            if (err) console.log(err)
             console.log('写入成功')
         })
     })

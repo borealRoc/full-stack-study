@@ -18,6 +18,15 @@
         - 不保证到达
         - 不保证质量
         - 不保证顺序
+3. 正向代理与反向代理
+    - 正向代理
+        - 靠近客户端, 代表客户端的利益
+        - 客户端C主动通过代理服务器P访问服务器S，S只知道P访问了它，但不知道是C通过P来访问它的
+        - 关系图： C <——> P ——> S
+    - 反向代理
+        - 靠近服务端，代表服务端的利益
+        - 客户端C想访问服务器S，S让C访问代理服务器P, C最终访问到P，但C不知道这是P，以为是S
+        - 关系图：C ——> P <——> S
 ## 二、HTTP协议
 1. 特点
     - 1.1 无连接：服务器处理完客户端的请求，并收到客户端收到响应的应答后，即断开连接
@@ -119,9 +128,9 @@
 2. 解决方案
     - JSONP: <script>标签发出的GET请求不受同源策略影响
     - 代理
-        - nginx代理服务器
         - webpack的devServer的pxoxy属性可以设置代理
         - 借助express中间件`http-proxy-middleware`
+        - nginx
     - CORS（跨资源共享）
         - 简单请求：`res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000" || "*")`
         - preflight请求：需要响应浏览器发出的options请求（预检请求），并根据情况设置响应头
@@ -136,3 +145,44 @@
             - 服务器设置：`res.setHeader("Access-Control-Allow-Credentials", "true")`
             - 客户端设置：`axios.defaults.withCredentials = true`
 ## 四、爬虫
+## 五、Socket
+1. 服务端
+```javascript
+const http = require('http')
+const io = require('socket.io')
+const httpServer = http.createServer()
+httpServer.listen(8080)
+const wsServer = io.listen(httpServer)
+
+wsServer.on('connection', socket => {
+    socket.on('disconnect', () => {})
+    socket.on('clientEve', (...args) => {})
+    socket.emit('serverEve', args)
+})
+```
+2. 客户端
+```html
+<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+const socket = io.connect('ws://localhost:8080/')
+
+socket.on('connect', () => {})
+socket.on('disconnect', () => {})
+socket.emit('clientEve', ...args)
+socket.on('serverEve', res => {})
+</script>
+```
+## 六、HTTPS
+## 七、HTTP2
+1. 二进制协议
+    - HTTP/1.1 版的头信息肯定是文本（ASCII编码），数据体可以是文本，也可以是二进制
+    - HTTP/2 则是一个彻底的二进制协议，头信息和数据体都是二进制，并且统称为"帧"（frame）
+2. 多工（多路复用）
+    - HTTP/1.1协议中，客户端在同一时间，针对同一域名下的请求有一定数量限制。超过限制数目的请求会被阻塞
+    - HTTP/2 复用TCP连接，在一个连接里，客户端和浏览器都可以同时发送多个请求或回应，而且不用按照顺序一一对应
+3. 数据流
+    - 因为 HTTP/2 的数据包是不按顺序发送的，同一个连接里面连续的数据包，可能属于不同的回应。因此，必须要对数据包做标记，指出它属于哪个回应
+4. 头信息压缩
+    - http/1.x 的 header 由于 cookie 和 user agent很容易膨胀，而且每次都要重复发送
+    - http/2使用 encoder 来减少需要传输的 header 大小，通讯双方各自 cache一份 header fields 表，既避免了重复 header 的传输，又减小了需要传输的大小
+5. 服务器推送
