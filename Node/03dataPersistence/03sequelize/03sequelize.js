@@ -48,6 +48,8 @@
     }, {
         // 避免自动生成时间戳字段
         timestamps: false,
+        // 指定表名
+        tableName: "TBL_FRUIT",
         // Getters & Setters(2): 定义为模型选项options中
         getterMethods: {
             amount() {

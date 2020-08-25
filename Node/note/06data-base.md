@@ -1,5 +1,5 @@
 # 数据持久化
-1. 文件系统 - fs
+1. 文件系统 - Node·fs
 2. 关系型数据库 - mysql
     - MySQL 安装、配置
         - MySQL服务端：MySQL
