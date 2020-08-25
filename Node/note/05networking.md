@@ -27,6 +27,8 @@
         - 靠近服务端，代表服务端的利益
         - 客户端C想访问服务器S，S让C访问代理服务器P, C最终访问到P，但C不知道这是P，以为是S
         - 关系图：C ——> P <——> S
+4. 三次握手 && 四次挥手
+
 ## 二、HTTP协议
 1. 特点
     - 1.1 无连接：服务器处理完客户端的请求，并收到客户端收到响应的应答后，即断开连接
@@ -52,7 +54,39 @@
         - Request-URI: 请求地址
         - HTTP-Version: 协议
     - 3.2 请求报头
-    - 3.3 请求正文：客户端发送给服务器的数据
+    - 3.3 请求正文：客户端发送给服务器的数据, 根据头部的 Content-Type 确定
+        - `Content-Type: application/x-www-form-urlencoded`, 默认数据编码方式
+            ```javascript
+            POST http://www.example.com HTTP/1.1
+            Content-Type: application/x-www-form-urlencoded;charset=utf-8
+            
+            title=test&sub%5B%5D=1&sub%5B%5D=2&sub%5B%5D=3
+            ```
+        - `Content-Type: application/josn`, 序列化后的JSON字符串
+            ```javascript
+            POST http://www.example.com HTTP/1.1
+            Content-Type: application/json;charset=utf-8
+            
+            {"title":"test","sub":[1,2,3]}
+            ```
+        - `Content-Type: multipart/form-data`, 数据中包含整个文件，常用于文件上传；或既有文本数据，又有二进制等文件数据
+            ```javascript
+            POST http://www.example.com HTTP/1.1
+            Content-Type:multipart/form-data; boundary=----WebKitFormBoundaryrGKCBY7qhFd3TrwA
+            
+            ------WebKitFormBoundaryrGKCBY7qhFd3TrwA
+            Content-Disposition: form-data; name="text"
+            
+            title
+            ------WebKitFormBoundaryrGKCBY7qhFd3TrwA
+            Content-Disposition: form-data; name="file"; filename="chrome.png"
+            Content-Type: image/png
+            
+            PNG ... content of chrome.png ...
+            ------WebKitFormBoundaryrGKCBY7qhFd3TrwA--
+            ```
+        - `Content-Type: text/xml`, XML 作为编码方式的远程调用规范
+        - `Content-Type: text/plain`, 纯文本（text/json/xml/html）进行编码
 4. HTTP协议详解之响应篇：由三个部分组成：状态⾏、消息报头、响应正⽂
     - 4.1 状态行：HTTP-Version Status-Code Reason-Phrase CRLF [CRLF表示回车或换行]
         - EG: `HTTP/1.1 200 OK （CRLF）`
@@ -89,6 +123,7 @@
         - Accept-Encoding: 指定可接受的内容编码 eg：`Accept-Encoding: gzip`
         - Accept-Language: 指定⼀种⾃然语⾔ 。eg：`Accept-Language: zh-cn`
         - Accept-Charset: 指定客户端接受的字符集 eg：`Accept-Charset: iso-8859-1, gb2312`
+        - Content-Type: 指定请求正文（body）编码方式 eg: `Content-Type: application/x-www-form-urlencoded`
         - Authorization: Authorization请求报头域主要⽤于证明客户端有权查看某个资源。当浏览器访问⼀个⻚⾯时，如果收到服务器的响应代码为401（未授权），可以发送⼀个包含Authorization请求报头域的请求，要求服务器对其进⾏验证。
         - Host: 指定被请求资源的Internet主机和端⼝号，它通常从HTTP URL中提取出来
         - User-Agent: 允许客户端将它的操作系统、浏览器和其它属性告诉服务器
