@@ -23,15 +23,15 @@
 
     |说明|SQL概念|MongoDB概念|Mongoose概念
     |-|-|-|-|
-    |数据库|database|database|
+    |数据库|database|new MongoDB() 实例|Mongoose
     |表|table|collection(集合)|模板（schema）+ 模型（Model）
-    |列(字段)|column|field|
+    |列(字段)|column|field|field
     |行|row|document(文档)|instance(实例)
-    |索引|index|index|
-    |主键|primary key|primary key(MongoDB自动将_id字段设置为主键)|
+    |索引|index|index|index
+    |主键|primary key|primary key(MongoDB自动将_id字段设置为主键)|primary key(Mongoose自动将_id字段设置为主键)
     |表关联|table joins|不支持，只能嵌入|不支持
 
     - 3.3 node原生驱动: `npm install mongodb -S`
     - 3.4 ODM-Mongoose: `npm install mongoose -S`
-        - NodeJS对象文档模型
+        - 只定义模型，接口自动产生
 4. 键值对数据库 - redis
