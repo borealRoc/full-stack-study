@@ -12,13 +12,12 @@
     ret = await client.connect()
     // 3. 创建数据库'test'
     const db = client.db('test')
-    // 4. 创建集合'fruits'
+    // 4. 创建集合'fruits'【表】
     const fruits = db.collection('fruits')
-
-    // 5. 添加文档
+    // 5. 添加文档【行】
     ret = await fruits.insertOne({
-        name: '芒果',
-        price: 20.1
+        name: '芒果', //【name字段】
+        price: 20.1 //【price字段】
     })
     console.log('添加文档', JSON.stringify(ret))
     // 6. 查询文档

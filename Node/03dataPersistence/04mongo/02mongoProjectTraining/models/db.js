@@ -1,3 +1,4 @@
+// 封装数据库连接
 const conf = require('./conf')
 const { EventEmitter } = require('events')
 const { MongoClient } = require('mongodb')
@@ -21,9 +22,9 @@ class Mongodb {
     // 3. 创建数据库dbName和集合colName
     col(colName, dbName = conf.dbName) {
         return this.client.db(dbName).collection(colName);
-      }
-    once(event,cb){
-        this.emmiter.once(event,cb)
+    }
+    once(event, cb) {
+        this.emmiter.once(event, cb)
     }
 }
 

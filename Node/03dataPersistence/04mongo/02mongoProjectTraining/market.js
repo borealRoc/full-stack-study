@@ -16,6 +16,7 @@ app.get("/api/list", async (req, res) => {
         condition.category = category
     }
     if (keyword) {
+        // condition.name 因为markes数据库设置设计了name字段对应前端的keyword
         condition.name = { $regex: new RegExp(keyword) }
     }
     console.dir(condition)
@@ -43,3 +44,6 @@ app.get("/api/category", async (req, res) => {
 })
 
 app.listen(3000)
+
+// 上面代码优化思考
+// 在每个接口都写了`const col = mongo.col("markets")`，能否提取出来一次性执行？
