@@ -37,3 +37,71 @@
         - 通过关系型数据库的思想来设计非关系型数据库
         - 基于mongodb驱动
 4. 键值对数据库 - redis
+5. 各种数据基础写法对比
+    - 5.1 mysql
+    ```javascript
+    (async () => {
+        const mysql = require('mysql2/promise')
+        const cfg = {}
+        const connect = await = mysql.createConnection(cfg)
+        // 建表、增删查改
+        const basic_sql_operator = await connect.execute(BASIC_SQL_SENTENCE)
+    })()
+    ``` 
+    - 5.2 sequlize
+    ```javascript
+    (async () => {
+        const Sequlize = require('sequlize')
+        const cfg = {}
+        const sequlize_connect = new Sequlize(cfg)
+        // 定义模型（创建表）、增删查改
+        const create_model = sequlize_connect.define("model_name", {
+            field_1: {}
+            field_2: {}
+        })
+        let insert_op = await create_model.create({field_1: 'field_1_val',field_2: 'field_2_val'})
+        insert_op = await create_model.create({field_1: 'field_11_val',field_2: 'field_2_val'})
+        const delete_op = await create_model.destroy({where: {field_1: 'field_1_val'}}) 
+        const find_op= await create_model.findOne({where: {field_1: 'field_11_val'}})
+        const update_op = await create_model.update({field_2: 'field_22_val'}, {{where: {field_1: 'field_11_val'}})
+    })()
+    ``` 
+    - 5.3 mongobd
+    ```javascript
+    (async () => {
+        const { MongoClient: MongoDB } = require('mongodb')
+        const cfg = {}
+        const client = new MongoDB(config)
+        let mongodb_connect = await client.connect()
+        // 创建数据库（mysql和sequlize创建数据库的步骤定义在配置中cfg）
+        const mongodb_database = client.db('mongodb_database_name')
+        // 创建集合（表）、增删查改
+        const mongodb_collection = mongodb_database.collection('mongodb_collection_name')
+        const insert_op = await mongodb_collection.insertOne({field: 'field_1_val', field_2: 'field_2_val'})
+        const find_op = await mongodb_collection.findOne()
+        const update_op = await mongodb_collection.updateOne({field: 'field_1_val'}, {$set: {field: 'field_11_val', field_2: 'field_22_val'}})
+        const delete_op = await mongodb_collection.deleteOne({field_1: 'field_11_val'})
+        // 关闭连接
+        client.close()
+    })()
+    ```
+    - 5.4 mongoose
+    ```javascript
+    const mongoose = require('mongoose')
+    const cfg = {}
+    const mongoose_connect = mongoose.connect(cfg).connection
+    mongoose_connect.once('open', async () => {
+        // 定义一个Schema
+        const Schema = mongoose.Schema({
+            field_1: String,
+            field_2: String,
+        })
+        // 创建集合（表）、增删查改
+        // Schema + Model = Collection
+        const Model = mongoose.model('Mongoose_Model_Name', Schema)
+        const insert_op = await Model.create({field: 'field_1_val', field_2: 'field_2_val'})
+        const find_op = await Model.find({field: 'field_1_val'})
+        const update_op = await Model.updateOne({field: 'field_1_val'}, {$set: {field: 'field_11_val', field_2: 'field_22_val'}})
+        const delete_op = await Model.deleteOne({field_1: 'field_11_val'})
+    })
+    ```
