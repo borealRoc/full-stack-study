@@ -14,12 +14,13 @@
         - ES2017写法：`npm i mysql2 -S`
     - 2.4 Sequlize
         - 基于Promise的ORM(像操作对象一样操作数据库)
+        - `npm i sequelize mysql2 -S`
     - 2.5 拓展：MySQL和Oracle都是常见的关系型数据库
         - MySQL: 免费; 绝大多数普通应用; 性能很高、安全性很高; 容灾略差
         - Oracle: 收费; 金融、医疗; 容灾特别强
 3. 文档型数据库 - mongodb
     - 3.1 安装
-    - 3.2 概念解析 vs SQL
+    - 3.2 概念解析
 
     |说明|SQL概念|MongoDB概念|Mongoose概念
     |-|-|-|-|
@@ -33,5 +34,6 @@
 
     - 3.3 node原生驱动: `npm install mongodb -S`
     - 3.4 ODM-Mongoose: `npm install mongoose -S`
-        - 只定义模型，接口自动产生
+        - 通过关系型数据库的思想来设计非关系型数据库
+        - 基于mongodb驱动
 4. 键值对数据库 - redis
