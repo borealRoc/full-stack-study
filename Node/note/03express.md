@@ -11,7 +11,7 @@
     - cookie: 存储在浏览器，请求服务器时，会附在请求头发到服务器
         - 问题：不安全。用户可以篡改
         - 解决：设置httpOnly; 对cookie进行签名[浏览器的cookie容量只有4kb，签名会让cookie变长变大]
-    - session: 存储在服务器，不是独立存在，基于cookie[token:存储在cookie里面的sessionID]
+    - session: 存储在服务器，不是独立存在，基于cookie[存储在cookie里面的sessionID]
         - 问题：session挟持[sessionID被盗取]
         - 解决：缩短sessionID有效期[一般设置20分钟]，定时更新
     - cookie-parse
