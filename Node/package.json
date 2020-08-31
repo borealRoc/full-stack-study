@@ -32,6 +32,7 @@
     "socket.io": "^2.3.0"
   },
   "dependencies": {
+    "co-redis": "^2.1.1",
     "koa": "^2.11.0",
     "koa-body": "^4.2.0",
     "koa-session": "^6.0.0"
