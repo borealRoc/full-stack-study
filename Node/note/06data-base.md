@@ -45,7 +45,7 @@
         const cfg = {}
         const connect = await = mysql.createConnection(cfg)
         // 建表、增删查改
-        const basic_sql_operator = await connect.execute(BASIC_SQL_SENTENCE)
+        const sql_operator = await connect.execute(SQL_SENTENCE)
     })()
     ``` 
     - 5.2 sequlize
@@ -53,17 +53,16 @@
     (async () => {
         const Sequlize = require('sequlize')
         const cfg = {}
-        const sequlize_connect = new Sequlize(cfg)
+        const connect = new Sequlize(cfg)
         // 定义模型（创建表）、增删查改
-        const create_model = sequlize_connect.define("model_name", {
+        const Model = connect.define("model_name", {
             field_1: {}
             field_2: {}
         })
-        let insert_op = await create_model.create({field_1: 'field_1_val',field_2: 'field_2_val'})
-        insert_op = await create_model.create({field_1: 'field_11_val',field_2: 'field_2_val'})
-        const delete_op = await create_model.destroy({where: {field_1: 'field_1_val'}}) 
-        const find_op= await create_model.findOne({where: {field_1: 'field_11_val'}})
-        const update_op = await create_model.update({field_2: 'field_22_val'}, {{where: {field_1: 'field_11_val'}})
+        const insert_op = await Model.create({field_1: 'field_1_val',field_2: 'field_2_val'})
+        const find_op= await Model.findOne({where: {field_1: 'field_1_val'}})
+        const update_op = await Model.update({field_2: 'field_22_val'}, {{where: {field_1: 'field_1_val'}})
+        const delete_op = await Model.destroy({where: {field_1: 'field_1_val'}}) 
     })()
     ``` 
     - 5.3 mongobd
