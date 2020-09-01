@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const Router = require("koa-router");
-const controller = require("./controller");
+
 // 读取指定目录下文件 
 function load(dir, cb) {
     // 获取绝对路径 
@@ -32,6 +32,10 @@ function initRouter(app) {
             console.log(`正在映射地址：${method.toLocaleUpperCase()} ${prefix}${path}`);
             // 执行router.method(path, handler)注册路由 
             router[method](prefix + path, routes[key]);
+            // router[method](prefix + path, async ctx => {
+            //     app.ctx = ctx
+            //     await routes[key](app)
+            // })
         });
     });
     return router;
@@ -48,4 +52,12 @@ function initController() {
     return controllers
 }
 
-module.exports = { initRouter, initController };
+function initService() {
+    const services = {}
+    load('service', (filename, service) => {
+        services[filename] = service
+    })
+    return services
+}
+
+module.exports = { initRouter, initController, initService };

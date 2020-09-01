@@ -1,10 +1,10 @@
 const koa = require("koa");
-const { initRouter, initController } = require('./loader');
+const { initRouter, initController, initService } = require('./loader');
 class APP {
     constructor(conf) {
-        this.$app = new koa(conf);
-        // 初始化控制器，路由对它有依赖
-        this.$ctrl = initController()
+        this.$app = new koa(conf)
+        this.$service = initService()
+        this.$ctrl = initController(this)
         this.$router = initRouter(this);
         this.$app.use(this.$router.routes());
     }
