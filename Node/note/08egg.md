@@ -7,3 +7,4 @@
     - `app/model/**`: 模型层 —— 数据库相关
     - `config/config.{env}.js`: 用于编写配置文件
     - `config/plugin.js`: 用于配置需要加载的插件
+## 二、原理
