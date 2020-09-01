@@ -8,3 +8,5 @@
     - `config/config.{env}.js`: 用于编写配置文件
     - `config/plugin.js`: 用于配置需要加载的插件
 ## 二、原理
+1. 路由处理
+2. 控制器：抽取routes中业务逻辑至controller

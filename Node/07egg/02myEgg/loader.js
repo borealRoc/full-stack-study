@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const Router = require("koa-router");
+const controller = require("./controller");
 // 读取指定目录下文件 
 function load(dir, cb) {
     // 获取绝对路径 
@@ -18,11 +19,13 @@ function load(dir, cb) {
     });
 }
 
-function initRouter() {
+function initRouter(app) {
     const router = new Router();
     load("routes", (filename, routes) => {
         // 若是index无前缀，别的文件前缀就是文件名 
         const prefix = filename === "index" ? "" : `/${filename}`;
+        // 判断路由类型，若为函数需传递app进去 
+        routes = typeof routes == "function" ? routes(app) : routes;
         // 遍历路由并添加到路由器 
         Object.keys(routes).forEach(key => {
             const [method, path] = key.split(" ");
@@ -33,4 +36,16 @@ function initRouter() {
     });
     return router;
 }
-module.exports = { initRouter };
+
+
+function initController() {
+    const controllers = {}
+    // 读取控制器目录
+    load("controller", (filename, controller) => {
+        // 添加路由 
+        controllers[filename] = controller
+    })
+    return controllers
+}
+
+module.exports = { initRouter, initController };
