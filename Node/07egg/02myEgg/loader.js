@@ -31,11 +31,11 @@ function initRouter(app) {
             const [method, path] = key.split(" ");
             console.log(`正在映射地址：${method.toLocaleUpperCase()} ${prefix}${path}`);
             // 执行router.method(path, handler)注册路由 
-            router[method](prefix + path, routes[key]);
-            // router[method](prefix + path, async ctx => {
-            //     app.ctx = ctx
-            //     await routes[key](app)
-            // })
+            // router[method](prefix + path, routes[key]);
+            router[method](prefix + path, async ctx => {
+                app.ctx = ctx
+                await routes[key](app)
+            })
         });
     });
     return router;

@@ -11,3 +11,14 @@
 1. 路由处理
 2. 控制器：抽取routes中业务逻辑至controller
 3. 服务：抽离通用逻辑至service文件夹，利于复用
+
+## 三、更佳实践
+1. 添加swagger-doc自动生成路由和接口文档：`npm install egg-swagger-doc-feat -s`
+2. 增加异常处理中间件: `app/middleware/error_handler.js`
+3. helper⽅法实现统⼀响应格式: `app/extend/helper.js`
+4. Validate检查: `npm i egg-validate -s`
+5. 添加Model层：`npm i egg-mongoose -S`
+6. 添加Service层：`npm i egg-bcrypt -s`
+7. 通过生命周期初始化数据
+8. 用户鉴权：`npm i egg-jwt -s`
+9. 文件上传：`npm i await-stream-ready stream-wormhole image-downloader -s`
