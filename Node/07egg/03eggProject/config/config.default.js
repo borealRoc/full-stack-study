@@ -38,9 +38,9 @@ module.exports = appInfo => {
     routerMap: true,
     enable: true,
   }
-  
+
   config.mongoose = {
-    url: 'mongodb://127.0.0.1:27017/egg_x',
+    url: 'mongodb://127.0.0.1:27017/eggModel',
     options: {
       // useMongoClient: true,
       autoReconnect: true,

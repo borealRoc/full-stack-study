@@ -14,14 +14,17 @@ class UserController extends Controller {
     * @response 200 baseResponse 创建成功
     */
     async create() {
-        const { ctx } = this
+        const { ctx, service } = this
         // testError()
         // ctx.body = 'user ctrl'
         // 接口校验
         ctx.validate(ctx.rule.createUserRequest)
-        const res = {message: 'helper⽅法实现统⼀响应格式'}
+        // 组装参数
+        const payload = ctx.request.body || {}
+        // 调⽤ Service 进⾏业务处理
+        const res = await service.user.create(payload)
         // 借助helper⽅法设置响应内容和响应状态码
-        ctx.helper.success({ctx, res})
+        ctx.helper.success({ ctx, res })
     }
 }
 module.exports = UserController
