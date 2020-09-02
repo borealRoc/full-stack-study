@@ -49,6 +49,12 @@ module.exports = appInfo => {
     },
   }
 
+  config.jwt = {
+    secret: 'Great4-M',
+    enable: true, // default is false
+    match: /^\/api/, // 表示所有以/api/开头的接口都要鉴权
+  }
+
   return {
     ...config,
     ...userConfig,
