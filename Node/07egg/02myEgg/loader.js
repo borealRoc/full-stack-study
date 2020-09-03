@@ -19,18 +19,32 @@ function load(dir, cb) {
     });
 }
 
-function initRouter() {
+function initRouter(app) {
     const router = new Router();
     load("routes", (filename, routes) => {
         // 若是index无前缀，别的文件前缀就是文件名 
         const prefix = filename === "index" ? "" : `/${filename}`;
+        // 判断路由类型，若为函数需传递app进去 
+        routes = typeof routes == "function" ? routes(app) : routes;
         // 遍历路由并添加到路由器 
         Object.keys(routes).forEach(key => {
             const [method, path] = key.split(" ");
-            console.log(`正在映射地址：${method.toLocaleUpperCase()} ${prefix}${path}`);
+            console.log(`initRouter ${method.toLocaleUpperCase()} ${prefix}${path}`);
             // 执行router.method(path, handler)注册路由 
             router[method](prefix + path, routes[key]);
         });
     }); return router;
 }
-module.exports = { initRouter };
+
+function initController() {
+    const controllers = {}
+    // 读取控制器目录 
+    load("controller", (filename, controller) => {
+        // 添加路由 
+        console.log('initController', filename, controller)
+        controllers[filename] = controller;
+    });
+    return controllers;
+}
+
+module.exports = { initRouter, initController };
