@@ -1,3 +1,3 @@
-const APP = require('./app')
-const app = new APP()
-app.start(3000)
+const MyEgg = require('./myegg_application')
+const app = new MyEgg()
+app.start(7000)
