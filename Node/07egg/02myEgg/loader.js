@@ -31,20 +31,33 @@ function initRouter(app) {
             const [method, path] = key.split(" ");
             console.log(`initRouter ${method.toLocaleUpperCase()} ${prefix}${path}`);
             // 执行router.method(path, handler)注册路由 
-            router[method](prefix + path, routes[key]);
+            // router[method](prefix + path, routes[key]);
+            router[method](prefix + path, async ctx => {
+                app.ctx = ctx
+                await routes[key](app)
+            })
         });
     }); return router;
 }
 
-function initController() {
+function initController(app) {
     const controllers = {}
     // 读取控制器目录 
     load("controller", (filename, controller) => {
         // 添加路由 
         console.log('initController', filename, controller)
-        controllers[filename] = controller;
+        controllers[filename] = controller(app);
     });
     return controllers;
 }
 
-module.exports = { initRouter, initController };
+function initService() {
+    const services = {}
+    load('service', (filename, service) => {
+        console.log('initService', filename, service)
+        services[filename] = service
+    })
+    return services
+}
+
+module.exports = { initRouter, initController, initService };
