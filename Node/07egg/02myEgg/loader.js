@@ -81,4 +81,12 @@ function loadConfig(app) {
         }
     })
 }
-module.exports = { initRouter, initController, initService, loadConfig };
+
+const schedule = require('node-schedule')
+function initSchedule() {
+    load('schedule', (filename, scheduleConfig) => {
+        schedule.scheduleJob(scheduleConfig.interval, scheduleConfig.handler)
+    })
+}
+
+module.exports = { initRouter, initController, initService, loadConfig, initSchedule };
