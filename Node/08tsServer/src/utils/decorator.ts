@@ -25,9 +25,24 @@ type RouteOptions = {
 const router = new KoaRouter()
 const decorate = (method: HTTPMethod, path: string, options: RouteOptions = {}, router: KoaRouter) => {
     return (target, property: string) => {
-        const url = options.prefix ? options.prefix + path : path
-        router[method](url, target[property])
-
+        process.nextTick(() => {
+            // 添加中间件数组 
+            const middlewares = [];
+            // 若设置了中间件选项则加入到中间件数组 
+            // class级别的中间件
+            if (target.middlewares) {
+                middlewares.push(...target.middlewares)
+            }
+            // 方法级别的中间件
+            if (options.middlewares) {
+                middlewares.push(...options.middlewares);
+            }
+            // 添加路由处理器 
+            middlewares.push(target[property]);
+            const url = options.prefix ? options.prefix + path : path
+            // router[method](url, target[property])
+            router[method](url, ...middlewares)
+        })
     }
 }
 const method = method => (path: string, options?: RouteOptions) => decorate(method, path, options, router)
@@ -43,3 +58,8 @@ export const load = (folder: string, options: LoadOptions = {}): KoaRouter => {
     return router
 }
 
+export const middlewares = (middlewares: Koa.Middleware[]) => {
+    return function (target) {
+        target.prototype.middlewares = middlewares
+    }
+}
