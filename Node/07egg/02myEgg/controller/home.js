@@ -7,14 +7,16 @@
 //     }
 // }
 
-// 从service层获取
 module.exports = app => ({
     index: async ctx => {
-        const name = await app.$service.user.getName()
-        ctx.body = '首页 ctrl ' + name
+        // 从service层获取
+        // const name = await app.$service.user.getName()
+        // ctx.body = '首页 ctrl ' + name
+        // 从Model层获取
+        app.ctx.body = await app.$model.user.findAll()
     },
     detail: ctx => {
         const age = app.$service.user.getAge()
-        ctx.body = '首页详情 ctrl ' + age
+        app.ctx.body = '首页详情 ctrl ' + age
     }
 })

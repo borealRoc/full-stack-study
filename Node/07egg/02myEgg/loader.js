@@ -51,13 +51,27 @@ function initController(app) {
     return controllers;
 }
 
-function initService() {
+function initService(app) {
     const services = {}
     load('service', (filename, service) => {
         console.log('initService', filename, service)
-        services[filename] = service
+        services[filename] = service(app)
     })
     return services
 }
 
-module.exports = { initRouter, initController, initService };
+const Sequelize = require('sequelize')
+function loadConfig(app) {
+    load('config', (filename, conf) => {
+        if (conf.db) {
+            app.$db = new Sequelize(conf.db)
+            // 加载模型
+            app.$model = {}
+            load('model', (filename, { schema, options }) => {
+                app.$model[filename] = app.$db.define(filename, schema, options)
+            })
+            app.$db.sync()
+        }
+    })
+}
+module.exports = { initRouter, initController, initService, loadConfig };
