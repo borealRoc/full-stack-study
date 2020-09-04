@@ -29,7 +29,7 @@ function initRouter(app) {
         // 遍历路由并添加到路由器 
         Object.keys(routes).forEach(key => {
             const [method, path] = key.split(" ");
-            console.log(`initRouter ${method.toLocaleUpperCase()} ${prefix}${path}`);
+            // console.log(`initRouter ${method.toLocaleUpperCase()} ${prefix}${path}`);
             // 执行router.method(path, handler)注册路由 
             // router[method](prefix + path, routes[key]);
             router[method](prefix + path, async ctx => {
@@ -45,7 +45,7 @@ function initController(app) {
     // 读取控制器目录 
     load("controller", (filename, controller) => {
         // 添加路由 
-        console.log('initController', filename, controller)
+        // console.log('initController', filename, controller)
         controllers[filename] = controller(app);
     });
     return controllers;
@@ -54,7 +54,7 @@ function initController(app) {
 function initService(app) {
     const services = {}
     load('service', (filename, service) => {
-        console.log('initService', filename, service)
+        // console.log('initService', filename, service)
         services[filename] = service(app)
     })
     return services
@@ -71,6 +71,13 @@ function loadConfig(app) {
                 app.$model[filename] = app.$db.define(filename, schema, options)
             })
             app.$db.sync()
+        }
+        // 执行中间件
+        if (conf.middleware) {
+            conf.middleware.forEach(mid => {
+                const midPath = path.resolve(__dirname, 'middleware', mid)
+                app.$app.use(require(midPath))
+            })
         }
     })
 }
