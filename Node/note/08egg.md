@@ -12,7 +12,15 @@
     - `config/config.{env}.js`: 用于编写配置文件
     - `config/plugin.js`: 用于配置需要加载的插件
 ## 二、原理 —— 基于Koa实现MVC框架
-
+1. 路由处理：`routes/**`
+2. 控制器：抽取route中业务逻辑至controller
+3. 服务：抽离通用逻辑至service文件夹，利于复用
+4. 数据库集成
+    - `config/index.js` 中存放项目配置项
+    - model中存放数据模型
+5. 中间件：`middleware/**`
+6. 定时任务：`npm install node-schedule -s`
+    - schedule目录，存放定时任务，使用crontab格式来启动定时
 ## 三、更佳实践
 1. 添加swagger-doc自动生成路由和接口文档：`npm install egg-swagger-doc-feat -s`
     - 1.1 `app/contract/index.js` 定义`baseRequest`和`baseResponse`
