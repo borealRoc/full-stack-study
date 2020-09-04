@@ -7,6 +7,17 @@ import { load } from './utils/decorator'
 import {resolve} from 'path' 
 const router = load(resolve(__dirname, './routes'))
 
+import { Sequelize } from 'sequelize-typescript';
+const database = new Sequelize({
+    port:3306,
+    database:'test',
+    username:'xusp',
+    password:'@WSXdr%43',
+    dialect:'mysql',
+    modelPaths: [`${__dirname}/model`],
+});
+database.sync({force: true})
+
 const app = new Koa()
 app.use(
     bodify({

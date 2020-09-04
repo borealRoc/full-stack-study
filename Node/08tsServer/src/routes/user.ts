@@ -1,8 +1,8 @@
 import * as Koa from 'koa'
 import { get, post, middlewares } from '../utils/decorator'
 
-
-const users = [{ name: 'tom', age: 20 }]
+// const users = [{ name: 'tom', age: 20 }]
+import model from '../model/user'
 
 @middlewares([
     async function guard(ctx: Koa.Context, next: () => Promise<any>) {
@@ -17,6 +17,7 @@ const users = [{ name: 'tom', age: 20 }]
 export default class User {
     @get('/users')
     public async list(ctx: Koa.Context) {
+        const users = await model.findAll()
         ctx.body = { ok: 1, data: users }
     }
 
@@ -34,7 +35,7 @@ export default class User {
         ]
     })
     public add(ctx: Koa.Context) {
-        users.push(ctx.request.body);
+        // users.push(ctx.request.body);
         ctx.body = { ok: 1 }
     }
 
