@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>节流，防抖和懒加载</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .test {
+            width: 200px;
+            height: 2000px;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test"></div>
+    <script>
+        // 节流
+        const throttle = (fn, wait = 100) => {
+            let lastTime = 0
+            return function (...args) {
+                let now = new Date()
+                if (now - lastTime > wait) {
+                    lastTime = now
+                    fn.apply(this, args)
+                }
+            }
+        }
+
+        // 防抖
+        const debounce = (fn, wait = 100) => {
+            let timer
+            return function (...args) {
+                if (timer) clearTimeout(timer)
+                timer = setTimeout(() => {
+                    fn.apply(this, args)
+                }, wait)
+            }
+        }
+        
+        // 测试节流
+        // window.addEventListener('scroll', throttle(() => {
+        //     console.log('我滚动了')
+        // }, 1000))
+
+        // 测试防抖
+        window.addEventListener('scroll', debounce(() => {
+            console.log('我滚动了')
+        }, 100))
+    </script>
+</body>
+
+</html>
