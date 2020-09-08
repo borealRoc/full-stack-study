@@ -20,55 +20,44 @@
         img {
             display: block;
         }
-
-        #id {
-            width: 100px;
-        }
     </style>
 </head>
 
 <body>
     <div id='container'>
         <div class="img-container">
-            <img data-src="./01.jpeg" alt="">
-
+            <img data-src="https://cdn.pixabay.com/photo/2018/12/01/00/10/blue-hour-3848856_960_720.jpg" alt="">
         </div>
         <div class="img-container">
-            <img data-src="./02.jpg" alt="">
-
+            <img data-src="https://cdn.pixabay.com/photo/2020/08/17/13/37/elephant-5495430_960_720.jpg" alt="">
         </div>
         <div class="img-container">
-            <img data-src="./03.jpeg" alt="">
-
+            <img data-src="https://cdn.pixabay.com/photo/2020/08/30/09/28/buildings-5528981_960_720.jpg" alt="">
         </div>
     </div>
     <script>
+        // 获取所有的图⽚标签
         const imgs = document.querySelectorAll('img')
         // 获取可视区域高度
         const viewHeight = window.innerHeight || window.documentElement.clientHeight
-        console.log(viewHeight, imgs)
+        //  num⽤于统计当前显示到了哪⼀张图⽚，避免每次都从第⼀张图⽚开始检查是否露出
         num = 0
-        function loadImg() {
+        function lazyLoad() {
             for (let i = 0; i < imgs.length; i++) {
-                console.log(imgs[i].getBoundingClientRect().top)
+                // ⽤可视区域⾼度减去元素顶部距离可视区域顶部的⾼度
                 let dis = viewHeight - imgs[i].getBoundingClientRect().top
+                // 如果可视区域⾼度⼤于等于元素顶部距离可视区域顶部的⾼度，说明元素露出
                 if (dis > 0) {
+                    // 给元素写⼊真实的src，展示图⽚
                     imgs[i].src = imgs[i].getAttribute('data-src')
+                    // 前i张图⽚已经加载完毕，下次从第i+1张开始检查是否露出
                     num = i + 1
                 }
             }
         }
         loadImg()
-        // 节流
-        window.addEventListener('scroll', loadImg)
-    </script>
-
-    <script>
-        new Vue({
-            created() {
-                this.xx = xx
-            }
-        })
+        // 监听Scroll事件
+        window.addEventListener('scroll', lazyLoad, false)
     </script>
 </body>
 
