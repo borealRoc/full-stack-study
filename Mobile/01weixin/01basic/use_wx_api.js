@@ -10,28 +10,44 @@ app.use(static(__dirname + '/'))
 const axios = require('axios')
 const conf = require('./conf')
 
-const tokenCache = {
-    access_token: '',
-    updateTime: Date.now(),
-    expires_in: 7200,
-}
+// 原生调用
+// const tokenCache = {
+//     access_token: '',
+//     updateTime: Date.now(),
+//     expires_in: 7200,
+// }
+// router.get('/getTokens', async ctx => {
+//     const wxDomain = `https://api.weixin.qq.com`;
+//     const path = `/cgi-bin/token`;
+//     const params = `?grant_type=client_credential&appid=${conf.appid}&secret=${conf.appsecret}`;
+//     const url = `${wxDomain}${path}${params}`;
+//     const res = await axios.get(url);
+//     Object.assign(tokenCache, res.data, {
+//         updateTime: Date.now()
+//     });
+//     ctx.body = res.data
+// })
+// router.get('/getFollowers', async ctx => {
+//     const url = `https://api.weixin.qq.com/cgi-bin/user/get?access_token=${tokenCache.access_token}`
+//     const res = await axios.get(url)
+//     ctx.body = res.data
+// })
 
-router.get('/getTokens', async ctx => {
-    const wxDomain = `https://api.weixin.qq.com`;
-    const path = `/cgi-bin/token`;
-    const params = `?grant_type=client_credential&appid=${conf.appid}&secret=${conf.appsecret}`;
-    const url = `${wxDomain}${path}${params}`;
-    const res = await axios.get(url);
-    Object.assign(tokenCache, res.data, {
-        updateTime: Date.now()
-    });
-    ctx.body = res.data
-})
-
+// 借助co-wechat-api调用
+const WechatAPI = require('co-wechat-api')
+const { ServerToken } = require('./mongoose')
+const api = new WechatAPI(conf.appid, conf.appsecret,
+    async function () {
+        return await ServerToken.findOne()
+    },
+    async function (token) {
+        const res = await ServerToken.updateOne({}, token, { upsert: true })
+    }
+);
 router.get('/getFollowers', async ctx => {
-    const url = `https://api.weixin.qq.com/cgi-bin/user/get?access_token=${tokenCache.access_token}`
-    const res = await axios.get(url)
-    ctx.body = res.data
+    let res = await api.getFollowers();
+    res = await api.batchGetUsers(res.data.openid, 'zh_CN');
+    ctx.body = res
 })
 
 app.use(router.routes()); /*启动路由*/
