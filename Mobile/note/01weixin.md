@@ -9,4 +9,6 @@
 2. 验证 -- 我们的服务器验证微信
 3. 服务器端调用微信API
     - 方法1: 微信公众号平台设置 <https://mp.weixin.qq.com/cgi-bin/frame?t=advanced/dev_tools_frame&nav=10049&token=1003798924&lang=zh_CN>
-    - 方法2: 微信公众号开发文档 <https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html>
+    - 方法2: 微信公众号开发文档 <https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html>, 借助 `npm i 'co-wechat-api -S`
+4. 多进程下保存 token 全局票据
+    - 将 token 保存到数据库
