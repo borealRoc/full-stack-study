@@ -12,6 +12,8 @@
     <div id="app">
         <button @click='getTokens'>getTokens</button>
         <button @click='getFollowers'>getFollowers</button>
+        <button @click='auth'>微信登录</button>
+        <button @click='getUser'>获取用户信息</button>
     </div>
     <script>
         var app = new Vue({
@@ -24,7 +26,19 @@
                 async getFollowers  () {
                     const res = await axios.get(`/getFollowers`)
                     console.log('getFollowers', res)
-                }
+                },
+                async auth() {
+                    window.location.href = '/wxAuthorize'
+                },
+                async getUser() {
+                    const qs = Qs.parse(window.location.search.substr(1))
+                    const res = await axios.get('/getUser', {
+                        params: {
+                            openid: qs.openid
+                        }
+                    })
+                    console.log('User', res.data)
+                },
             },
         });
     </script>
