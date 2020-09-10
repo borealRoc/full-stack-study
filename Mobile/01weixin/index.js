@@ -12,22 +12,22 @@ const conf = require('./conf')
 
 // 1 微信服务端 -- 获取用户 token 和获取关注列表
 // 1.1 原生调用
-// const tokenCache = {
-//     access_token: '',
-//     updateTime: Date.now(),
-//     expires_in: 7200,
-// }
-// router.get('/getTokens', async ctx => {
-//     const wxDomain = `https://api.weixin.qq.com`;
-//     const path = `/cgi-bin/token`;
-//     const params = `?grant_type=client_credential&appid=${conf.appid}&secret=${conf.appsecret}`;
-//     const url = `${wxDomain}${path}${params}`;
-//     const res = await axios.get(url);
-//     Object.assign(tokenCache, res.data, {
-//         updateTime: Date.now()
-//     });
-//     ctx.body = res.data
-// })
+const tokenCache = {
+    access_token: '',
+    updateTime: Date.now(),
+    expires_in: 7200,
+}
+router.get('/getTokens', async ctx => {
+    const wxDomain = `https://api.weixin.qq.com`;
+    const path = `/cgi-bin/token`;
+    const params = `?grant_type=client_credential&appid=${conf.appid}&secret=${conf.appsecret}`;
+    const url = `${wxDomain}${path}${params}`;
+    const res = await axios.get(url);
+    Object.assign(tokenCache, res.data, {
+        updateTime: Date.now()
+    });
+    ctx.body = res.data
+})
 // router.get('/getFollowers', async ctx => {
 //     const url = `https://api.weixin.qq.com/cgi-bin/user/get?access_token=${tokenCache.access_token}`
 //     const res = await axios.get(url)
