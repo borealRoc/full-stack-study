@@ -68,5 +68,36 @@
         - 2.4.2 验证码
         - 2.4.3 cookie值进行hash: 攻击者在访问信任网站A时，虽然浏览器可以在请求中带上 cookie ,但是网站A确不仅仅通过cookie来判断用户身份，同时通过用户发送过来的内容中的伪随机数来判断请求真正是用户发送的。攻击者在请求A的时候，不能在提交的内容中产生伪随机数
         - 2.4.4 禁止第三方携带cookie
-
+3. click jacking 点击劫持
+    - 3.1 定义：点击劫持是一种视觉欺骗的攻击手段。攻击者将需要攻击的网站通过 iframe 嵌套的方式嵌入自己的网页中，并将 iframe 设置为透明，在页面中透出一个按钮诱导用户点击。即攻击者不盗取用户任何信息，只是诱导用户完成某个操作（比如点赞）
+    - 3.2 防御手段
+        - 前端方面
+        ```html
+        <head> 
+            <style id="click-jack"> 
+            html { display: none !important; } 
+        </style> 
+        </head> 
+        <body> 
+            <script>
+            // self是当前窗口自身的引用，与window属性等价
+            // top 返回顶层窗口，即浏览器窗口
+            if (self == top) { 
+                 var style = document.getElementById('click-jack') 
+                 document.body.removeChild(style) 
+            } else { 
+                top.location = self.location 
+            } 
+            // 以上代码的作用就是当通过 iframe 的方式加载页面时，攻击者的网页直接不显示所有内容了。
+            </script> 
+        </body>
+        ```
+        - 后端方面 X-FRAME-OPTIONS
+            - X-FRAME-OPTIONS 是一个 HTTP 响应头，在现代浏览器有一个很好的支持。这个 HTTP 响应头 就是为了防御用 iframe 嵌套的点击劫持攻击。
+        ```javascript
+        // DENY，表示页面不允许通过 iframe 的方式展示
+        // SAMEORIGIN，表示页面可以在相同域名下通过 iframe 的方式展示
+        // ALLOW-FROM，表示页面可以在指定来源的 iframe 中展示
+        ctx.set('X-FRAME-OPTIONS', 'DENY')
+        ```
 ## 二、防御手段
