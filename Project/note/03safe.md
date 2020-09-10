@@ -100,4 +100,16 @@
         // ALLOW-FROM，表示页面可以在指定来源的 iframe 中展示
         ctx.set('X-FRAME-OPTIONS', 'DENY')
         ```
+4. SQL注入
+    - 4.1 攻击方式
+    ```javascript
+    // 填入特殊密码 
+    '1' or '1'='1'
+    // 拼接后的SQL 
+    SELECT * FROM test.user 
+    WHERE username = 'laowang' 
+    AND password = '1' or '1'='1'
+    ```
+    - 4.2 防御手段
+        - 4.2.1 所有的查询语句建议使用数据库提供的**参数化查询接口**
 ## 二、防御手段
