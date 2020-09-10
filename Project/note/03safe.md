@@ -112,4 +112,51 @@
     ```
     - 4.2 防御手段
         - 4.2.1 所有的查询语句建议使用数据库提供的**参数化查询接口**
+        ```javascript
+        // 错误写法 
+        const sql = `
+            SELECT * FROM test.user 
+            WHERE username = '${ctx.request.body.username}' 
+            AND password = '${ctx.request.body.password}' 
+        `
+        // 正确的写法
+        const sql = `
+        SELECT *
+        FROM test.user
+        WHERE username = ? 
+        AND password = ?
+        res = await query(sql,[ctx.request.body.username, ctx.request.body.password])
+        ```
+        - 4.2 后端代码检查输入的数据是否符合预期, 例如使用正则表达式进行一些匹配处理
+        - 4.3 对进入数据库的特殊字符（'，"，\，<，>，&，*，; 等）进行转义处理，或编码转换
+5. OS命令注入
+    - 5.1 定义：OS命令注入和SQL注入差不多，只不过SQL注入是针对数据库的，而OS命令注入是针对操作系统的。OS命令注入攻击指 通过Web应用，执行非法的操作系统命令达到攻击的目的。只要在能调用Shell函数的地方就有存在被攻击的风险。倘 若调用Shell时存在疏漏，就可以执行插入的非法命令。
+    - 5.2 攻击方式
+    ```javascript
+    // 以 Node.js 为例，假如在接口中需要从 github 下载用户指定的 repo
+    const exec = require('mz/child_process').exec;
+    let params = {/* 用户输入的参数 */};
+    exec(`git clone ${params.repo} /some/path`);
+    // 如果攻击者传入下面的参数，则会把数据库所有的数据删除
+    // https://github.com/xx/xx.git && rm -rf /* &&
+    ```
+    - 5.3 防御手段：同sql注入
+6.  请求劫持
+    - 6.1 DNS劫持 
+        - 定义：DNS服务器(DNS解析各个步骤)被篡改，修改了域名解析的结果，使得访问到的不是预期的ip
+    - 6.2 HTTP劫持（运营商劫持）
+        - 防御手段：大概只能升级HTTPS了
+7. DDOS
+    - <http://www.ruanyifeng.com/blog/2018/06/ddos.html>
+    - 7.1 定义: DDOS 不是一种攻击，而是一大类攻击的总称。网站运行的各个环节，都可以是攻击目标。只要把一个环节攻破，使得整个流程跑不起来，就达到了瘫痪服务的目的。
+    - 7.2 攻击方式：
+        - SYN Flood：此攻击通过向目标发送具有欺骗性源IP地址的大量TCP“初始连接请求”SYN数据包来利用TCP握手。目标机器响应每个连接请求，然后等待握手中的最后一步，这一步从未发生过，耗尽了进程中的目标资源
+        - HTTP Flood：此攻击类似于同时在多个不同计算机上反复按Web浏览器中的刷新 - 大量HTTP请求泛滥服务器，导致拒绝服务
+    - 7.3 防御手段
+        - 备份网站
+            - 备份网站不一定是全功能的，如果能做到全静态浏览，就能满足需求。最低限度应该可以显示公告，告诉用户，网 站出了问题，正在全力抢修。
+        - HTTP 请求的拦截 高防IP
+            - 靠谱的运营商（比如阿里云）、 防火墙
+        - 带宽扩容 + CDN
+            - 提高犯罪成本
 ## 二、防御手段
