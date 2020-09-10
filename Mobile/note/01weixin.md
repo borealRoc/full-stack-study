@@ -36,5 +36,7 @@
     - 2.2.3 用户信息: `let userInfo = oauth.getUser(openid)`
     - 2.2.4 AccessToken缓存: 保存到数据库
 ## 二、JSSDK
-
+1. <https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html>
+2. 定义：开发者在网页上通过JavaScript代码使用微信原生功能
+3. 后端获取JSConfig, 借助 `npm i 'co-wechat-api -S`
 
