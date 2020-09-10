@@ -103,6 +103,13 @@ router.get('/getUser', async ctx => {
     ctx.body = userInfo
 })
 
+/**
+ * 2.2 获取JSConfig
+ */
+router.get('/getJsConfig',async ctx => {
+    const res = await api.getJsConfig(ctx.query)
+    ctx.body = res
+})
 
 app.use(router.routes()); /*启动路由*/
 app.use(router.allowedMethods());
