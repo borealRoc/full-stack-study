@@ -27,6 +27,12 @@
     "install": "^0.13.0",
     "vue-template-compiler": "^2.6.11"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "test:uni",
+      "pre-push": "test:uni"
+    }
+  },
   "eslintConfig": {
     "root": true,
     "env": {
