@@ -49,8 +49,7 @@
             - 节流：隔⼀段时间只触发⼀次
             - 防抖: 完成后再统⼀发送请求
         - HTML5 Web Works
-            - web works 是运行在后台的Javascript，脱离于浏览器窗体，算是幕后⼯作，可
-以实现离线缓存
+            - web works 是运行在后台的Javascript，脱离于浏览器窗体，算是幕后⼯作，可以实现离线缓存
         - ⽩屏应对
             - 先展示骨架（比如antd的skeleton组件）
             - ⾃动化⽅案：page-skeleton-webpack-plugin
@@ -66,7 +65,7 @@
             - 批量操作（比如字符串拼接）
             - 在 DOM 树外更新节点，然后添加到 DOM 树（虚拟DOM）
         - 减少重排(回流)和重绘
-            - 重排: 们对 DOM 的修改引发了 DOM ⼏何尺⼨的变化(（⽐如修改元素的宽、⾼或隐藏元素等)
+            - 重排: 当我们对 DOM 的修改引发了 DOM ⼏何尺⼨的变化(（⽐如修改元素的宽、⾼或隐藏元素等)
             - 重绘：当我们对 DOM 的修改导致了样式的变化、却并未影响其⼏何属性（⽐如修改了颜⾊或背景⾊）
 3. 性能监测
     - Performance API：直接在浏览器控制台输入`Window.performance`来查看
@@ -81,5 +80,43 @@
 2. 根据场景合理使用 v-if 和 v-show
 3. 和渲染无关的数据,不要放在 data 上
 ## 五、React 项目性能优化
-## 六、Webpack 性能优化
+## 六、其它
+1. 前端错误监控
+    - 1.1 try/catch
+        - try/catch只能捕捉同步代码抛出的错误，不能捕捉异步代码抛出的错误
+    - 1.2 window.onerror
+        - try/catch有一个弊端就是对每一个函数都需要进行try/catch捕捉再进行处理, 其实可以使用一个全局的error事件来捕获所有的error
+        ```javascript
+        window.onerror = function(message, source, lineno, colno, error) {
+            // 错误信息，源文件，行号
+            console.log(message + '\n' + source + '\n' + lineno);
+            // 禁止浏览器打印标准的错误信息
+            return true;
+        }
+        ```
+    - 1.3 网络异常捕捉 —— 网络异常可以在事件捕获的阶段捕捉到，通过window.addEventListener来实现，代码必须放在文档载入之前
+    ```javascript
+    // ie11和主流浏览器
+    window.addEventListener('error', function(e) {
+        e.stopImmediatePropagation();
+        const srcElement = e.srcElement;
+        if (srcElement === window) {
+            // 全局错误
+            console.log(e.message)
+        } else {
+            // 元素错误，比如引用资源报错
+            console.log(srcElement.tagName)
+            console.log(srcElement.src);
+        }
+    }, true)
+    ```
+    - 1.4 Promise错误捕捉: `pro.then(res => {}, err => {})`
+    - 1.5 Async/await错误捕捉 —— 通过try/catch处理同步或者异步的错误
+    - 1.6 Script error
+        - 如果引用外链不同源的js文件，外链不同源js文件报错，onerror只会提示Script error，无法精确到指定文件和行数，可以通过script标签的crossorigin="anonymous"，比如：`<script type="text/javascript" src="http://localhost:3000/test/script.js" crossorigin="anonymous"></script>` 设置了该属性的话，那么需要在服务器对响应的静态文件设置Access-Control-Allow-Origin:*响应头。这样就可以捕捉到script.js文件的的错误信息，如下：  
+        <img src="err.png">
 
+    - 1.7 压缩js的错误定位
+        - 通过node提供的 source-map 模块来定位上报错误信息对应源文件错误的行号, 如下：
+        <img src="source_map.png">
+    
