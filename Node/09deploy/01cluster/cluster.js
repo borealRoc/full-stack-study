@@ -10,7 +10,7 @@ if (cluster.isMaster) {
     // 主进程分支
 
     cluster.on('exit', (worker, code, signal) => {
-        // 当子进程报错，关闭该子进程
+        // 当某子进程报错，关闭该子进程, 并重新启动
         console.log('工作进程 %d 关闭 (%s). 重启中...',
             worker.process.pid, signal || code);
         delete workers[worker.process.pid]

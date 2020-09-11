@@ -5,8 +5,10 @@ const server = http.createServer((request, response) => {
 })
 
 if (!module.parent) {
+    console.log('直接执行')
     server.listen(3000);
     console.log('app started at port 3000...');
 } else {
+    console.log('被require后执行')
     module.exports = server
 }
