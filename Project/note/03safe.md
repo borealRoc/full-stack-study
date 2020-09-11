@@ -1,7 +1,7 @@
 # 网络安全
 ## 一、常见 web 攻击及其防御手段
 1. XSS (Cross Site Scripting) 跨站脚本攻击
-    - 1.1 定义：向存在安全漏洞的网站运行非法的非本站点的HTML标签或Javascript
+    - 1.1 定义：向存在安全漏洞的网站运行非法的非本站点的HTML标签或JavaScript
     - 1.2 危害
         - 利用虚假输入表单骗取用户个人信息
         - 利用脚本窃取用户 cookie
@@ -13,9 +13,9 @@
     - 1.4 防御手段
         - 1.4.1 ejs转义
             - 前端方面
-                - 一些模板引擎框架自带 ejs 转义
+                - 一些前端框架、模板引擎框架自带 ejs 转义
                 - 浏览器默认开启 ejs 转义
-            - 后端方面: 用户的输入永远不可信任的，最普遍的做法就是转义输入输出的内容，对于引号、尖括号、斜杠进行转义
+            - 后端方面: 前端传过来的永远不可信任的，最普遍的做法就是转义输入输出的内容，对于引号、尖括号、斜杠进行转义
                 - 黑名单: 转义所有字符
                 ```javascript
                 function escape(str) { 
@@ -141,7 +141,7 @@
     // https://github.com/xx/xx.git && rm -rf /* &&
     ```
     - 5.3 防御手段：同sql注入
-6.  请求劫持
+6. 请求劫持
     - 6.1 DNS劫持 
         - 定义：DNS服务器(DNS解析各个步骤)被篡改，修改了域名解析的结果，使得访问到的不是预期的ip
     - 6.2 HTTP劫持（运营商劫持）
@@ -159,4 +159,66 @@
             - 靠谱的运营商（比如阿里云）、 防火墙
         - 带宽扩容 + CDN
             - 提高犯罪成本
-## 二、防御手段
+## 二、安全防范
+1. 密码强化  
+<img src="pass_safe.png">  
+
+2. 人机识别
+<img src="rj.png"> 
+
+3. HTTPS
+    - 3.1 HTTPS = HTTP + SSL证书
+        - SSL证书：SSL证书由浏览器中“受信任的根证书颁发机构”在验证服务器身份后颁发,具有网站身份验证和加密传输双重功能
+        - SSH 公钥登陆原理  
+        <img src="ssh.png"> 
+
+        - https验证流程  
+        <img src="https.png"> 
+
+        - https加密原理 <https://www.techug.com/post/https-ssl-tls.html>
+4. 浏览器安全控制
+    - X-XSS-Protection：防止反射型XSS（浏览器默认开启）
+    - Strict-Transport-Security：强制使用HTTPS通信
+    - HTTP 响应头 Content-Security-Policy 
+    ```html
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';">
+    ```
+        - <https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy>
+        - <https://juejin.im/post/5c6ad29ff265da2da00ea459>
+5. 后端 CSP -- helmet 中间件
+    - 借助 helmet 中间，开启所有安全策略，比如：
+    ```javascript
+    // npm i koa-helmet -s
+    const Koa = require("koa"); 
+    const helmet = require("koa-helmet"); 
+    const app = new Koa();
+
+    app.use(helmet())
+    // 使用该中间件会开启以下特性：
+    // X-XSS-Protection：开启大多现代浏览器内建的对于跨站脚本攻击（XSS）的过滤功能
+    // Content-Security-Policy：防止受到跨站脚本攻击以及其他跨站注入攻击
+    // X-Frame-Options：提供对于“点击劫持”的保护
+    // Strict-Transport-Security：强制使用安全连接（SSL/TLS之上的HTTPS）来连接到服务器
+    // X-Content-Type-Options： 防止浏览器使用MIME-sniffing来确定响应的类型，转而使用明确的content-type来确定
+    // ...
+    ```
+6. Session 管理
+    - 对于cookie的安全使用，其重要性是不言而喻的。
+    - Cookie标示
+        - secure: 这个属性告诉浏览器，仅在请求是通过HTTPS传输时，才传递cookie
+        - HttpOnly: 设置这个属性将禁止 javascript 脚本获取到这个cookie，这可以用来帮助防止跨站脚本攻击。
+    - Cookie域
+        - domain: 这个属性用来比较请求URL中服务端的域名。如果域名匹配成功，或这是其子域名，则继续检查 path 属性
+        - path:  除了域名，cookie可用的URL路径也可以被指定。当域名和路径都匹配时，cookie才会随请求发送
+        - expires: 这个属性用来设置持久化的cookie，当设置了它之后，cookie在指定的时间到达之前都不会过期
+7. 密码学
+    - 7.1 摘要算法
+        - md5
+        - sha1
+        - sha256-hash
+    - 7.2 对称加密
+        - 对称加密的一大缺点是密钥的管理与分配，换句话说，如何把密钥发送到需要解密你的消息的人的手里是一个问题。在发送密钥的过程中，密钥有很大的风险会被黑客们拦截。现实中通常的做法是将对称加密的密钥进行非对称加密，然后传送给需要它的人。
+    - 7.3 非对称加密
+        - 产生一对秘钥：公钥负责加密，私钥负责解密
+        - 私钥无法解开说明公钥无效 - 抗抵赖
+        - 计算复杂对性能有影响
