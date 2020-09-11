@@ -29,8 +29,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test:uni",
-      "pre-push": "npm run test:uni"
+      "pre-commit": "npm run test:unit",
+      "pre-push": "npm run test:unit"
     }
   },
   "eslintConfig": {
