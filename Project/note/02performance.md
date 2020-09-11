@@ -80,6 +80,7 @@
 2. 根据场景合理使用 v-if 和 v-show
 3. 和渲染无关的数据,不要放在 data 上
 ## 五、React 项目性能优化
+1. Purecomponent
 ## 六、其它
 1. 前端错误监控
     - 1.1 try/catch
