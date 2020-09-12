@@ -1,17 +1,26 @@
 <template>
   <div id="app">
     <TestClick/>
+    <!-- <TestAxios/> -->
+    <TestGlobalComp @click="testEmit">halo</TestGlobalComp>
   </div>
 </template>
 
 <script>
 import TestClick from './components/TestClick.vue'
+// import TestAxios from './components/TestAxios.vue'
 
 export default {
   name: 'App',
   components: {
-    TestClick
-  }
+    TestClick,
+    // TestAxios
+  },
+  methods: {
+    testEmit(msg) {
+      console.log(msg)
+    }
+  },
 }
 </script>
 

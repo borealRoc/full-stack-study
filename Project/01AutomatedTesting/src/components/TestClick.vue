@@ -1,5 +1,6 @@
 <template>
 <div>
+  <h2>点击事件测试</h2>
   <span id="message">{{ message }}</span>
 
   <button class="test-btn" @click="changeMsg">哈哈</button>
@@ -11,16 +12,16 @@
   export default {
     data () {
       return {
-        message: 'hello!'
+        message: 'hello'
       }
     },
     methods:{
       changeMsg(){
-        this.message = 'clicked!'
+        this.message = 'clicked'
       }
     },
     created () {
-      this.message = 'bye!'
+      this.message = 'created'
     },
     mounted () {
       this.message = 'mounted'
