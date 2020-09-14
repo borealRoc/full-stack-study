@@ -1,0 +1,13 @@
+<!-- pages/bookLists/bookLists.wxml -->
+<view>
+    <view class="book-lists">
+        <view class="book-list" wx:for="{{books}}" wx:for-item="book" wx:key="{{book._id}}">
+            <image class="book-pic" src="{{book.image}}" mode="scaleToFill"></image>
+            <view class="book-content">
+                <view class="book-title">{{book.title}}</view>
+                <view class="book-rate">豆瓣评分：{{book.rateStart}}</view>
+                <view class="book-summary">图书简介：{{book.summary}}</view>
+            </view>
+        </view>
+    </view>
+</view>

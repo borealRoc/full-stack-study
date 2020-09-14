@@ -1,4 +1,5 @@
 // miniprogram/pages/myDemo/book/book.js
+const db = wx.cloud.database()
 Page({
 
   /**
@@ -12,8 +13,7 @@ Page({
     // 微信扫码 api
     wx.scanCode({
       success(res) {
-        // console.log('你添加的图书是:', res)
-        // // 调用云端 book 函数
+        // // 云端 book 函数
         // wx.cloud.callFunction({
         //   name: 'book',
         //   data: {
@@ -26,21 +26,36 @@ Page({
         // })
         const isbn = res.result
         wx.showLoading({
-          title: '查询中...',
+          title: '添加中...',
         })
+        // 调用云函数
         wx.cloud.callFunction({
           name: 'book',
           data: {
             isbn,
           },
-          success(res) {
-            const { title } = res.result
-            if (title) {
-              wx.hideLoading()
-              wx.showModal({
-                title: '查询成功',
-                content: `您查询的图书为《${title}》`
+          success({ result }) {
+            if (result) {
+              // 前端入库
+              db.collection('books_collections').add({
+                data: result,
+                success(add) {
+                  console.log('add', add)
+                  // 入库成功
+                  if (add._id) {
+                    wx.hideLoading()
+                    wx.showModal({
+                      title: '添加成功',
+                      content: `您添加的图书为《${result.title}》`
+                    })
+                  }
+                }
               })
+              // wx.hideLoading()
+              // wx.showModal({
+              //   title: '添加成功',
+              //   content: `您添加的图书为《${result.title}》`
+              // })
             }
           }
         })

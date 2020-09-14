@@ -1,0 +1,38 @@
+/* pages/bookLists/bookLists.wxss */
+.book-list {
+    padding: 20rpx 40rpx;
+    display: flex;
+}
+.book-pic {
+    display: block;
+    width: 160rpx;
+    height: 200rpx;
+    margin-right: 20rpx;
+    overflow: hidden;
+}
+.book-content {
+    flex: 1;
+    line-height: 40rpx;
+}
+
+.book-title {
+    font-size: 28rpx;
+    height: 80rpx;
+    font-weight: bold;
+
+}
+
+.book-rate {
+    font-size: 20rpx;
+}
+
+.book-summary {
+    font-size: 24rpx;
+    color: #999;
+    overflow: hidden;
+    display: -webkit-box;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
