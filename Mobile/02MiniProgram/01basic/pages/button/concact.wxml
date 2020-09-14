@@ -1,0 +1,5 @@
+<!-- pages/button/concact.wxml -->
+<view>
+  <text>客服按钮: button 组件 的 open-type 属性自带这个功能</text>
+  <button type="primary" open-type="contact">打开客服</button>
+</view>
