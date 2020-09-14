@@ -1,0 +1,5 @@
+<!--miniprogram/pages/myDemo/book/book.wxml-->
+<view>
+    <text>扫码识别图书</text>
+    <button type="primary" bindtap="scanCode">添加图书</button>
+</view>
