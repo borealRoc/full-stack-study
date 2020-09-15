@@ -16,7 +16,7 @@
                 "miniprogramRoot": "mp/", //⼩程序的内容都放进来
                 "cloudfunctionRoot": "fn/",//云函数⽬录
             ```
-            - (2)  调用小程序扫码 API:` \page\book\book.js`
+            - (2) 调用小程序扫码 API:` \page\book\book.js`
             ```javascript
                 scanCode() {
                     wx.scanCode({
@@ -100,6 +100,26 @@
                         // 读库读到的数据都放在 res.data 里面
                     }
                 })
+            ```
+            - (7) 分页显示：`\page\bookLists\bookLists.js` 
+            ```javascript
+                getBookLists() {
+                    const PAGE_ACCOUNT = 5
+                    db.collection('book_collection')
+                    .orderBy('create_time', 'desc')
+                    .skip(this.data.page * PAGE_ACCOUNT)
+                    .limit(PAGE_ACCOUNT)
+                    .get().then(res => {})
+                }
+                // 页面上拉触底事件的处理函数
+                onReachBottom: function () {
+                    this.setData({
+                        page: this.data.page + 1
+                    }, () => {
+                        this.getBookLists()
+                    })
+                },
+
             ```
 
 
