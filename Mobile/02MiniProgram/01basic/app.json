@@ -1,9 +1,9 @@
 {
   "pages": [
-    "pages/button/concact",
-
-    "pages/camera/camera",
     "pages/index/index",
+    "pages/concact/concact",
+    "pages/camera/camera",
+    "pages/Http/http",
     "pages/logs/logs"
   ],
   "window": {
