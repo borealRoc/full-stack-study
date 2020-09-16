@@ -1,6 +1,7 @@
 export default {
   pages: [
-    'pages/index/index'
+    'pages/todolist/todolist',
+    'pages/index/index',
   ],
   window: {
     backgroundTextStyle: 'light',
