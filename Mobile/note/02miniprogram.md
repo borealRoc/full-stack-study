@@ -9,7 +9,7 @@
     - 2.1 根据图书 isbn 码展示图书信息
         - 2.1.1 开发思路
             - 借助⼩程序的扫码能⼒，获取图书的isbn码
-            - 借助云函数，实现对isbn对应的图书 信息抓取（豆瓣爬虫）
+            - 借助云函数，实现对isbn对应的图书信息抓取（豆瓣爬虫）
         - 2.2.2 开发流程
             - (1) 调整项⽬⽬录：`project.config.json`
             ```json
@@ -46,7 +46,7 @@
                         // ... 爬虫逻辑
                     };
                 ```
-                - (3)-3 上传并部署云函数 不然没有效果
+                - (3)-3 右键上传并部署云函数
             - (4) ⼩程序内调⽤云函数: `\page\book\book.js` 
             ```javascript
                 scanCode() {
@@ -94,7 +94,6 @@
             ```
             - （6）读库操作：`\page\bookLists\bookLists.js` 
             ```javascript
-                const db = wx.cloud.database()
                 db.collection("book_collection").get({
                     success: res => {
                         // 读库读到的数据都放在 res.data 里面
@@ -121,6 +120,21 @@
                 },
 
             ```
-
-
-
+3. taro 
+    - 3.1 简介
+        - 官网：<https://taro.aotu.io/>
+        - UI 组件：<https://taro-ui.aotu.io/#/>
+        - 安装：`npm i -g @tarojs/cli`
+        - 创建项目：`taro init demo`
+        - 简介：Taro 是⼀套遵循 React 语法规范的多端开发解决⽅案。uni-app 是⼀套遵循 Vue 语法规范的多端开发解决⽅案
+            - 微信/头条/百度/支付宝小程序
+            - 网页H5、React-Native、原生APP
+    - 3.2 微信⼩程序转taro <https://taro-docs.jd.com/taro/docs/taroize>
+        - 在命令⾏中定位到⼩程序项⽬的根⽬录, 执行 `taro convert`
+            - ⼩程序的⽬录，不是云函数的
+        - 转换后的代码保存在根⽬录下的 taroConvert ⽂件夹下
+        - 定位到 taroConvert ⽬录执⾏ npm install 命令之后就可以使⽤ taro build 命令编译到对应平台的代码
+        - ⾥⾯会含有微信⼩程序和taro的混合语法，需要安装 `npm i @tarojs/with-weapp`, 就可以在taro⾥⽀持微信⼩程序的语法了
+    - 3.3 实战
+        - 3.3.1 使⽤ taro-ui遇到的坑：在小程序端报 ` Error: Cannot find module './style/index.scss'` 的解决方法：<https://www.cnblogs.com/chenlw/p/13254815.html>
+        - 3.3.2 使⽤ mobx 遇到的坑: `" 'mobx' does not contain an export named '_allowStateReadsEnd'.` 的解决方法：把`mobx-react`删了再重装一遍
