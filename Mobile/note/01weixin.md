@@ -5,11 +5,25 @@
 ## 公众号服务端
 1. 客服消息
     - 方法1: 微信公众号平台设置 <https://mp.weixin.qq.com/cgi-bin/frame?t=advanced/dev_tools_frame&nav=10049&token=1003798924&lang=zh_CN>
-    - 方法2: 开通公众号测试账号 <http://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index>, 借助`npm i co-wechat -S`, 在自己的服务器写代码实现
+    - 方法2: 开通公众号测试账号 <http://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index>, 借助微信公众平台消息接口服务中间件: `npm i co-wechat -S`, 在自己的服务器写代码实现
 2. 验证 -- 我们的服务器验证微信
+    ```javascript
+    const {
+        signature, // 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
+        timestamp, // 时间戳
+        nonce, // 随机数 
+        echostr // 随机字符串
+    } = quer
+    ```
+    - 将 token timestamp nonce 三个参数进行字典序排序并用sha1加密 
+    ```javascript
+    let str = [conf.token, timestamp, nonce].sort().join('')
+    let strSha1 = crypto.createHash('sha1').update(str).digest('hex')
+    ```
+    - 签名对比，相同则验证通过 `if (signature == strSha1)`
 3. 服务器端调用微信API
     - 方法1: 微信公众号平台设置 <https://mp.weixin.qq.com/cgi-bin/frame?t=advanced/dev_tools_frame&nav=10049&token=1003798924&lang=zh_CN>
-    - 方法2: 微信公众号开发文档 <https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html>, 借助 `npm i 'co-wechat-api -S`
+    - 方法2: 微信公众号开发文档 <https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html>, 借助微信公共平台Node库API: `npm i 'co-wechat-api -S`
 4. 多进程下保存 token 全局票据
     - 将 token 保存到数据库
 ## 公众号网页端
@@ -21,7 +35,7 @@
 2. 开发过程
 - 2.1 微信公众号平台授权
     - 2.1.1 获取 “网页授权 -- 网页授权获取用户基本信息” 的权限 
-        - <https://mp.weixin.qq.com/advanced/advanced?action=table&token=1899850966&lang=zh_CN>
+        - <https://mp.weixin.qq.com/advanced/advanced?action=table&token=228924665&lang=zh_CN>
         - 有一个疑问：服务号支持，订阅号不支持？
     - 2.1.2 修改授权回调域名
         - <https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index>

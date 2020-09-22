@@ -120,6 +120,144 @@
                 },
 
             ```
+    - 2.2 小程序支付 
+        - 前端API：<https://developers.weixin.qq.com/miniprogram/dev/api/open-api/payment/wx.requestPayment.html>
+        - 后端API：<https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=3_1#>  
+        - 网上教程：<https://www.jianshu.com/p/ddccf5f95e8c> <https://blog.csdn.net/qiushi_1990/article/details/106679387>  
+        <img src="wxpay.jpg"/>  
+
+        - 2.2.1 开发思路  
+            - （1）用户下单，将购买的**商品Id**，**商品数量**，**openId** 等传给到服务器
+            ```javascript
+            // client/pages/pay-list/index.js
+            wx.cloud.callFunction({
+                name: 'emall-pay',
+                data: {
+                    type: 'unifiedorder', // 预下单 去商户端下单
+                    data: {
+                        goodId, // 商品id
+                    }
+                }
+            })
+            ```
+            - （2）微信支付云函数逻辑
+            ```javascript
+            // /cloud/functions/emall-pay/index.js
+            // 1. 借助微信官方提供的云开发工具库
+            const {WXPay,  WXPayConstants, WXPayUtil} = require('wx-js-utils')
+            const ip = require('ip')
+            // 2. 这几个是有商户权限后，提供的配置
+            const {
+                ENV, //环境ID
+                MCHID, //商户id
+                KEY, //密钥
+                CERT_FILE_CONTENT, //证书
+                TIMEOUT // 超时
+            } = require('./config/index')
+            // 3. 初始化云环境
+            cloud.init({env: ENV})
+
+            exports.main = async function (event) {
+                // 4. 通过云调用获取微信调用上下文
+                const {
+                    OPENID, //小程序用户 openid
+                    APPID //小程序 AppID
+                } = cloud.getWXContext() 
+                // 5. 新建支付对象
+                const pay = new WXPay({
+                    appId: APPID,
+                    mchId: MCHID,
+                    key: KEY,
+                    certFileContent: CERT_FILE_CONTENT,
+                    timeout: TIMEOUT,
+                    signType: WXPayConstants.SIGN_TYPE_MD5,
+                    useSandbox: false // 不使用沙箱环境
+                })
+                // 6. 服务端查询数据库
+                const db = cloud.database()
+                // 6.1 获取商品信息collection
+                const goodCollection = db.collection('goods')
+                // 6.2 获取订单信息collection
+                const orderCollection = db.collection('orders')
+                
+                const { type, data } = event
+                // 7. 订单状态 
+                switch (type) {
+                    // 7.1 统一下单（分别在微信支付侧和云开发数据库生成订单）
+                    case: 'unifiedorder':
+                        // 7.1.1 云数据库查询商品
+                        const { goodId } = data
+                        let goods = await goodCollection.doc(goodId).get()
+                        let good = goods.data
+                        // 7.2 拼凑订单参数
+                        const curTime = Date.now()
+                        const out_trade_no = `${goodId}-${curTime}` //商户订单号,自定义的,z这里采用商品id+时间戳
+                        const body = good.name //商品描述
+                        const spbill_create_ip = ip.address() || '127.0.0.1' //终端IP
+                        const notify_url = 'http://www.qq.com' // 异步接收微信支付结果通知的回调地址。云函数暂时没有外网地址和HTTP触发地，所以暂时随便填个地址
+                        const total_fee = good.price //订单总金额，单位为分
+                        const time_stamp = '' + Math.ceil(Date.now() / 1000)
+                        const sign_type = WXPayConstants.SIGN_TYPE_MD5 // 签名类型，默认为MD5
+                        const orderParam = {
+                            body,
+                            spbill_create_ip,
+                            notify_url,
+                            out_trade_no,
+                            total_fee,
+                            openid: OPENID,
+                            trade_type: 'JSAPI', //交易类型，小程序取值为JSAPI
+                            time_stamp,
+                        }
+                        // 7.3 在微信支付服务端生成该订: unifiedOrder函数，其实就是发起了一次网络请求
+                        const {return_code,...restData} = await pay.payunifiedOrder(orderParam)
+                        // 7.4 请求结果
+                        let order_id = null
+                        if (return_code === 'SUCCESS' && restData.result_code === 'SUCCESS') {
+                            // 7.5 请求成功可以获得预支付id
+                            const {prepay_id,nonce_str} = restData
+                            // 7.6 生成微信支付签名，为后面在小程序端进行支付打下基础
+                            const sign = WXPayUtil.generateSignature({
+                                appId: APPID,
+                                nonceStr: nonce_str,
+                                package: `prepay_id=${prepay_id}`,
+                                signType: 'MD5',
+                                timeStamp: time_stamp
+                            }, KEY)
+                            // 7.7 在数据库生成订单记录
+                            const orderData = {
+                                out_trade_no,
+                                time_stamp,
+                                nonce_str,
+                                sign,
+                                sign_type,
+                                body,
+                                total_fee,
+                                prepay_id,
+                                status: 0, // 0表示刚创建订单
+                                _openid: OPENID,
+                            }
+                            const order = await orderCollection.add({data: orderData})
+                            order_id = order.id
+                        }
+                        return {
+                            code: return_code === 'SUCCESS' ? 0 : 1,
+                            data: {
+                                out_trade_no, time_stamp, order_id, ...restData
+                            }
+                        }
+                    // 7.2 订单查询
+                    case 'orderquery': {}
+                    // 7.3 进行微信支付及更新订单状态
+                    case 'payorder': {}
+                    // 7.4 关闭订单
+                    case 'closeorder': {}
+                    // 7.5 申请退款
+                    case 'refund': {}
+                    // 7.6 查询退款情况
+                    case 'queryrefund': {}
+                }
+            ```
+    
 3. taro 
     - 3.1 简介
         - 官网：<https://taro.aotu.io/>
@@ -138,4 +276,48 @@
     - 3.3 实战
         - 3.3.1 使⽤ taro-ui遇到的坑：在小程序端报 ` Error: Cannot find module './style/index.scss'` 的解决方法：<https://www.cnblogs.com/chenlw/p/13254815.html>
         - 3.3.2 使⽤ mobx 遇到的坑: `" 'mobx' does not contain an export named '_allowStateReadsEnd'.` 的解决方法：把`mobx-react`删了再重装一遍
+    - 3.4 为什么 taro 和 umi-app 跨端框架，渲染比原生小程序性能还要好？
+        - 小程序的 setData 每次都会重新渲染
+        - taro 和 uni-app 的 setData, 都会做 diff, 再 setData
+    - 3.5 Mobx
+    ```javascript
+    // 3.5.1 新建 todoStore
+    // src/store/todo.js
+    import { observable } from 'mobx'
+    const todoStore = observable({
+        todos: [],
+        addTodo(item) {
+            this.todos.push(item)
+        },
+    })
+    export dafault todoStore
+
+    // 3.5.2 添加 store 和 provider
+    // src/app.js
+    import { Provider } from '@tarojs/mobx'
+    import todoStore from '@/store/todoStore'
+
+    const store = {todoStore,}
+    // ...
+    <Provider store = {store}>
+        <Index/>
+    </Provider>
+
+    // 3.5.3 使用 mobx
+    // src/pages/index/index
+    import {observer, inject} from '@tarojs/mobx'
+    @inject(store)
+    @observer
+    export default class Index extends Component ({
+        handleClick = val => {
+            this.props.store.todoStore.addTodo(val)
+        }
+        const { todoStore } = this.props.store
+        render () {
+            return (
+                <button onClick={this.handleClick}></button>
+            )
+        }
+    })
+    ```
 
