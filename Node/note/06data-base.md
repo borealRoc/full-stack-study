@@ -22,15 +22,15 @@
     - 3.1 安装
     - 3.2 概念解析
 
-    |说明|SQL概念|MongoDB概念|Mongoose概念
-    |-|-|-|-|
-    |数据库|database|new MongoDB() 实例|Mongoose
-    |表|table|collection(集合)|模板（schema）+ 模型（Model）
-    |列(字段)|column|field|field
-    |行|row|document(文档)|instance(实例)
-    |索引|index|index|index
-    |主键|primary key|primary key(MongoDB自动将_id字段设置为主键)|primary key(Mongoose自动将_id字段设置为主键)
-    |表关联|table joins|不支持，只能嵌入|不支持
+    |说明|SQL概念|Sequlize概念|MongoDB概念|Mongoose概念
+    |-|-|-|-|-|
+    |数据库|database|new Sequlize()实例|new MongoDB() 实例|Mongoose
+    |表|table|模型(Modal)|collection(集合)|模板（schema）+ 模型（Model）
+    |列(字段)|column|modal.key|field|field
+    |行|row|modal[key].val|document(文档)|instance(实例)
+    |索引|index|index|index|index
+    |主键|primary key|可以自定义id|primary key(MongoDB自动将_id字段设置为主键)|primary key(Mongoose自动将_id字段设置为主键)
+    |表关联|table joins|支持|不支持，只能嵌入|不支持
 
     - 3.3 node原生驱动: `npm install mongodb -S`
     - 3.4 ODM-Mongoose: `npm install mongoose -S`
@@ -43,7 +43,7 @@
     (async () => {
         const mysql = require('mysql2/promise')
         const cfg = {}
-        const connect = await = mysql.createConnection(cfg)
+        const connect = await mysql.createConnection(cfg)
         // 建表、增删查改
         const sql_operator = await connect.execute(SQL_SENTENCE)
     })()
@@ -56,11 +56,11 @@
         const connect = new Sequlize(cfg)
         // 定义模型（创建表）、增删查改
         const Model = connect.define("model_name", {
-            field_1: {}
+            field_1: {},
             field_2: {}
         })
         const insert_op = await Model.create({field_1: 'field_1_val',field_2: 'field_2_val'})
-        const find_op= await Model.findOne({where: {field_1: 'field_1_val'}})
+        const find_op = await Model.findOne({where: {field_1: 'field_1_val'}})
         const update_op = await Model.update({field_2: 'field_22_val'}, {{where: {field_1: 'field_1_val'}})
         const delete_op = await Model.destroy({where: {field_1: 'field_1_val'}}) 
     })()

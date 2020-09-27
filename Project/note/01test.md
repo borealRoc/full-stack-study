@@ -7,13 +7,13 @@
         ```json
         // package.json
         {
-        "husky": {
-            "hooks": {
-            "pre-commit": "npm test",
-            "pre-push": "npm test",
-            "...": "..."
+            "husky": {
+                "hooks": {
+                    "pre-commit": "npm run test:unit",
+                    "pre-push": "npm run test:unit",
+                    "...": "..."
+                }
             }
-        }
         }
         ```
 ## 二、jest 语法
@@ -22,7 +22,7 @@
 3. expect：断言
 4. toBe：断言的期望结果
 ## 三、vue 自动化测试
-1. 在vue中，推荐使用Mocha+chai 或者gitjest
+1. 在vue中，推荐使用Mocha+chai 或者jest
 2. vue 自动化测试 —— 借助 `npm i @vue/test-utils -S` <https://vue-test-utils.vuejs.org/zh/>
     - 2.1 测试基本的mounted, created 和 初始 data 
     - 2.2 测试点击事件 `import { mount } from '@vue/test-utils'`
@@ -35,7 +35,7 @@
     "jest": {
         "collectCoverage": true,
         "collectCoverageFrom": [
-        "src/components/**/*.{js,vue}"
+            "src/components/**/*.{js,vue}"
         ]
     },
     ```

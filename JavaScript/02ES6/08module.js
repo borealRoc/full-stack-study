@@ -4,7 +4,7 @@
 // 1. CommonJS规范（同步加载模块）[Node]
 // 特点：CommonJS规范主要用于服务端编程，加载模块是同步的，这并不适合在浏览器环境
 // Demo如下 —— 
-// 导出模块
+// 1.1 导出模块
 //module1.js
 module.exports = {
     msg: 'module1',
@@ -17,7 +17,7 @@ module.exports = () => console.log('module2')
 //module3.js
 exports.add = (a, b) => a + b
 exports.arr = [1, 2]
-// 引入模块
+// 1.2 引入模块
 const module1 = requle('./module1')
 const module2 = requle('./module2')
 const module3 = requle('./module3')

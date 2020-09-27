@@ -48,10 +48,7 @@
         - 靠近服务端，代表服务端的利益
         - 客户端C想访问服务器S，S让C访问代理服务器P, C最终访问到P，但C不知道这是P，以为是S
         - 关系图：C ——> P <——> S
-7. 网络通讯过程：从输入url到渲染页面发生了什么
-    - 5.1 网络通讯阶段
-    - 5.2 页面渲染阶段
-8. 缓存
+7. 缓存
     - 强缓存：直接从本地副本比对读取，不去请求服务器，返回的状态码是 200
         - HTTP1.0时代：`expires: Thu, 03 Jan 2019 11:43:04 GMT`.它是一个时间戳，当客户端再次请求该资源的时候，会把客户端时间与该时间戳进行对比，如果大于该时间戳则已过期，否则直接使用该缓存资源
         - HTTP1.1时代：`Cache-Control: max-age = 20 //20秒后过期`。该字段是一个时间长度，单位秒，表示该资源过了多少秒后失效。当客户端请求资源的时候，发现该资源还在有效时间内则使用该缓存，它不依赖客户端时间。
@@ -69,8 +66,6 @@
             - 服务器需要通过和服务器内容的摘要进行比对确定是否过期
             - 过期时直接返回200并在body中放入更新内容
             - 如果未过期则直接返回304状态码即可
-    - 总结
-        - 
 ## 二、HTTP协议
 1. 特点
     - 1.1 无连接：服务器处理完客户端的请求，并收到客户端收到响应的应答后，即断开连接
@@ -181,14 +176,14 @@
         - Content-Language：指明资源所⽤的⾃然语⾔，eg: `Content-Language: da`
 6. GET 和 POST 的区别<https://segmentfault.com/a/1190000018129846>
     - 6.1 表面上：
-        -  get 使用URL传参, 而 post 将数据放在BODY中
+        -  get 使用URL传参, 即参数放在 HEAD 中而 post 将数据放在BODY中
         -  get 的URL会有长度上的限制，则 post 的数据则可以非常大
-        -  post 比 get 安全，因为数据在地址栏上不可见
+        -  post 比 get 安全，因为数据在地址栏上不可见  
         <img src="http.png"/>
     - 6.2 本质上
         - 6.2.1 get 和 post 与数据如何传递没有关系
             - 在HTTP协议中，使用哪个Method与应用层的数据如何传输是没有相互关系的
-            - get 数据放在 url，post 数据放在 body，只是HTML标准对HTTP协议的用法的约定
+            - get 数据放在 url，post 数据放在 body，只是浏览器对HTTP协议的用法的约定
         - 6.2.2 HTTP协议对 get 和 post 都没有对长度的限制
             - HTTP协议明确地指出了，HTTP头和Body都没有长度的要求。而对于URL长度上的限制，有两方面的原因造成
                 - 浏览器：浏览器对URL长度做限制
@@ -210,8 +205,8 @@
         - 开发环境：webpack的devServer的pxoxy属性可以设置代理
         - 线上环境：nginx
         - 借助express中间件`http-proxy-middleware`
-    - CORS（跨资源共享）
-        - 简单请求：`res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000" || "*")`
+    - CORS (Cross Origin Resource Share) - 跨域资源共享
+        - 简单请求（get/post/head）：`res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000" || "*")`
         - preflight请求：需要响应浏览器发出的options请求（预检请求），并根据情况设置响应头
         ```javascript
         res.writeHead(200, {
@@ -223,8 +218,8 @@
         - 携带cookie信息
             - 服务器设置：`res.setHeader("Access-Control-Allow-Credentials", "true")`
             - 客户端设置：`axios.defaults.withCredentials = true`
-        - postMessage
-        - webSocket协议跨域
+    - postMessage
+    - webSocket协议跨域
 ## 四、爬虫
 ## 五、Socket
 1. 服务端

@@ -37,8 +37,7 @@
                 // <h1>XSS Demo</h1>&lt;script&gt;alert("xss");&lt;/script&gt;
                 ```
         - 1.4.2 CSP(Content Security Policy) 内容安全策略
-            - 定义：CSP 本质上就是建立白名单，开发者明确告诉浏览器哪些外部资源可以加载和执
-            - 方法
+            - 定义：CSP 本质上就是建立白名单，开发者明确告诉浏览器哪些外部资源可以加载和执行
             ```javascript
             ctx.set('Content-Security-Policy', "default-src 'self'")
             // 只允许加载本站资源
@@ -71,7 +70,7 @@
 3. click jacking 点击劫持
     - 3.1 定义：点击劫持是一种视觉欺骗的攻击手段。攻击者将需要攻击的网站通过 iframe 嵌套的方式嵌入自己的网页中，并将 iframe 设置为透明，在页面中透出一个按钮诱导用户点击。即攻击者不盗取用户任何信息，只是诱导用户完成某个操作（比如点赞）
     - 3.2 防御手段
-        - 前端方面
+        - 3.2.1 前端方面
         ```html
         <head> 
             <style id="click-jack"> 
@@ -82,7 +81,7 @@
             <script>
             // self是当前窗口自身的引用，与window属性等价
             // top 返回顶层窗口，即浏览器窗口
-            if (self == top) { 
+            if (self === top) { 
                  var style = document.getElementById('click-jack') 
                  document.body.removeChild(style) 
             } else { 
@@ -92,7 +91,7 @@
             </script> 
         </body>
         ```
-        - 后端方面 X-FRAME-OPTIONS
+        - 3.2.2 后端方面 X-FRAME-OPTIONS
             - X-FRAME-OPTIONS 是一个 HTTP 响应头，在现代浏览器有一个很好的支持。这个 HTTP 响应头 就是为了防御用 iframe 嵌套的点击劫持攻击。
         ```javascript
         // DENY，表示页面不允许通过 iframe 的方式展示
@@ -163,7 +162,7 @@
 1. 密码强化  
 <img src="pass_safe.png">  
 
-2. 人机识别
+2. 人机识别  
 <img src="rj.png"> 
 
 3. HTTPS
@@ -183,8 +182,8 @@
     ```html
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';">
     ```
-        - <https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy>
-        - <https://juejin.im/post/5c6ad29ff265da2da00ea459>
+    - <https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy>
+    - <https://juejin.im/post/5c6ad29ff265da2da00ea459>
 5. 后端 CSP -- helmet 中间件
     - 借助 helmet 中间，开启所有安全策略，比如：
     ```javascript

@@ -37,7 +37,8 @@ function initRouter(app) {
                 await routes[key](app)
             })
         });
-    }); return router;
+    }); 
+    return router;
 }
 
 function initController(app) {

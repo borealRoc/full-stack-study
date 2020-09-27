@@ -22,11 +22,11 @@
     - 1.1 减少 DNS 查询
         - DNS预解析, 缓存 DNS 查询记录, 比如淘宝首页: `<link rel="dns-prefetch" href="//g.alicdn.com" />`
     - 1.2 减少HTTP请求
-        - 1.2.1 静态资源独立部署（CDN）（CDN也可以减少⽤户和服务器的距离）
+        - 1.2.1 静态资源独立部署（CDN）（也可以利用CDN来缩短⽤户和服务器的距离）
         - 1.2.2 静态资源合并（JS，CSS...）
         - 1.2.3 缓存
-            - HTTP 缓存（强缓存和协商缓存）
             - CDN 缓存
+            - HTTP 缓存（强缓存和协商缓存）
         - 1.2.4 本地存储
             - cookie, Local Storage, Session Storage
     - 1.3 请求过程的优化
@@ -44,17 +44,17 @@
         - 1.3.3 Cookie: 减少 Cookie 体积
 2. 渲染层面
     - 2.1 提高首屏渲染速度
-        - 同构: 首屏 SSR + 交互 CSR (SPA)
-        - 按需加载，懒加载，事件节流和防抖
+        - 2.1 同构: 首屏 SSR + 交互 CSR (SPA)
+        - 2.2 按需加载，懒加载，事件节流和防抖
             - 节流：隔⼀段时间只触发⼀次
             - 防抖: 完成后再统⼀发送请求
-        - HTML5 Web Works
+        - 2.3 HTML5 Web Works
             - web works 是运行在后台的Javascript，脱离于浏览器窗体，算是幕后⼯作，可以实现离线缓存
         - ⽩屏应对
             - 先展示骨架（比如antd的skeleton组件）
             - ⾃动化⽅案：page-skeleton-webpack-plugin
     - 2.2 CSS 性能方案
-        - CSS 放在`<header>`里
+        - CSS 样式文件引入放在`<header>`里
         - CSS 选择器优化
             - 选择器嵌套不超过三层
             - 不使用标签选择器
