@@ -8,7 +8,7 @@ const traverse = require("@babel/traverse").default
 const { transformFromAst } = require("@babel/core")
 
 module.exports = {
-    // 模块分析：读取入口代码，分析代码
+    // 模块分析：读取入口文件，分析代码
     getAst: filename => {
         const content = fs.readFileSync(filename, 'utf-8')
         console.log('content', content)

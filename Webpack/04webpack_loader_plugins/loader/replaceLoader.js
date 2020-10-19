@@ -1,4 +1,4 @@
-// 官方推荐处理loader,query的工具
+// 官方推荐处理loader query的工具
 const loaderUtils = require("loader-utils")
 
 module.exports = function (source) {

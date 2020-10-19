@@ -4,7 +4,7 @@
 3. 启动: `npx webpack` npx会在项目的node_modules里面查找webpack
 3. 零配置
     - 只定义入口，出口和模式
-    - 只能识别js文件
+    - 只能识别js和json文件
 # 核心概念
 1. 入口[entry]
     - 1.1 单入口：字符串 `entry: './src/index.js'`
@@ -25,7 +25,7 @@
     }
     ```
 3. 环境[mode]: 设置mode可以触发webpack内置的函数，达到优化效果
-    - 3.1 production：帮助模块压缩
+    - 3.1 production：帮助模块压缩, 处理副作用（JS摇树）
     - 3.2 development：有利于热更新的处理
     - 3.3 none：退出任何默认优化选项
 4. 模块[module]
@@ -88,16 +88,28 @@
 # 性能优化
 ## 一、优化开发体验 -- 打包构建速度
 ## 二、优化输出质量 -- 线上文件体积
-1. 缩小文件范围: 推荐用include
+1. 缩小loader文件范围: 推荐用include
     - include: `include: path.resolve(__dirname, "./src")`
     - exclude: `exclude: /node_modules/`
-2. 优化resolve.modules配置
+2. 优化resolve配置
     - Tips：在webpack中，查找绝对路径比查找相对路径快很多，所以能用绝对路径的地方就不要用相对路径!
     - 2.1 resolve.modules: 用于配置wepack去哪个目录下查找第三方模块 `modules: [path.resolve(__dirname, "./node_modules")]`
     - 2.1 resolve.alias: 通过别名将原导入路径映射成一个新的导入路径 `alias: {"react": path.resolve(__dirname, "./node_modules/react/umd/react.production.min.js"),}`
     - 2.1 resolve.extensions: 在导入语句没有后缀时，webpack会自动带上后缀，去尝试查找文件是否存在 `extensions: [".js"]`
+3. 配置 externals 让 webpack 不打包某些引用库
+    ```html
+    <!-- main.html -->
+    <!-- 我们希望在使⽤时，仍然可以通过 import 的⽅式去引⽤(如 import $ from 'jquery' )，并且希望 webpack 不会对其进⾏打包，此时就可以配置 externals  -->
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    ```
+    ```javascript
+    externals: {
+        //jquery通过script引⼊之后，全局中即有了 jQuery 变量
+        'jquer': jQuery
+    }
+    ```
 3. 使用静态资源路径publicPath(CDN)
-    - `output: {publicPath: '指定存放JS文件的CDN地址'} `
+    - `output: {publicPath: '存放JS文件的CDN地址'} `
 4. css文件的处理
     - 使用less或者sass当做css技术栈
     - 使用postcss为样式自动补齐浏览器前缀
@@ -132,7 +144,7 @@
 8. code splitting[代码分离]
     - 8.1 使用场景：代码分离是 webpack 中最引人注目的特性之一。此特性能够把代码分离到不同的 bundle 中，然后可以按需加载或并行加载这些文件。代码分离可以用于获取更小的 bundle，以及控制资源加载优先级，如果使用合理，会极大影响加载时间。
     - 8.2 方式, 常用的代码分离方法有三种
-        - (1) 入口起点：使用 entry 配置多入口，从而打包出出出口，手动地分离代码
+        - (1) 入口起点：使用 entry 配置多入口，从而打包出多出口，手动地分离代码
         - (2) 防止重复：使用 SplitChunksPlugin 去重和分离 chunk：`optimization: {splitChunks: {chunks: 'all'}}`
         - (3) 动态导入：使用ES6的inport()语法
         ```javascript
@@ -143,7 +155,9 @@
             })
         })
         ```
-        - (4) 预获取/预加载模块[prefetch和preload]
+        - (4) 通过魔法注释预获取/预加载模块[prefetch和preload]
+            - `/* webpackPrefetch: true*/`
+            - `/* webpackPreload: true*/`
             - 在声明 import 时，使用下面的内置指令，可以让 webpack 输出 "resource hint(资源提示)"，来告知浏览器
             - preload chunk 会在父 chunk 加载时，以并行方式开始加载。prefetch chunk 会在父 chunk 加载结束后开始加载
             - preload chunk 具有中等优先级，并立即下载。prefetch chunk 在浏览器闲置时下载
@@ -158,13 +172,48 @@
     - 8.3 打包分析：在package.json文件的打包命令后面加参数`--profile --json > stats.json`,比如：`"bunnle": "npx webpack --profile --json > stats.json"`
 9. DllPlugin插件打包第三类库优化构建性能
     - 项目中引入很多第三方库，这些库在很长的时间内，基本不会更新，打包的时候分开打包来提升打包速度，DllPlugin动态链接库插件， 其原理就是把依赖的基础模块抽离出来打包到dll文件中，当需要导入的模块存在于某个dll中时，这个模块不再被打包，而是去dll中获取。动态链接库，建议使用在开发模式下，它主要是用来优化构建速度的，线上推荐代码分割。
-    - DllPlugin：用于打包出一个个单独的动态链接库文件
-    - DllReferencePlugin：用于在主要的配置文件中引入DllPlugin插件打包好的动态链接库文件
+    - DllPlugin：用于打包出动态链接库文件（比如 react.mainfest.json和react.dll.js）
+    - DllReferencePlugin：webpack 构建时，使用DllReferencePlugin读取mainfest.json文件，看看是否有第三方依赖以及它们在node_modules中的映射文件
+    - add-asset-html-webpack-plugin：将我们打包后的 dll.js ⽂件注⼊到我们⽣成的 index.html 中
+    ```javascript
+    new AddAssetHtmlWebpackPlugin({
+        filepath: path.resolve(__dirname, '../dll/react.dll.js') // 对应的 dll ⽂件路径
+    }),
+    ```
+    - HardSourceWebpackPlugin: Webpack5中内置了dllplugin⼀样的优化效果
+    ```javascript
+    const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
+    const plugins = [
+        // 使⽤极其简单，想插件一样用
+        new HardSourceWebpackPlugin()
+    ]
+    ```
 10. 使用happypack并发执行任务
     - 运行在 Node 之上的Webpack是单线程的，Happy Pack 帮助Webpack将任务分解给多个子进程去并发执行，子进程处理完后再将结果发送给主进程。
     - `npm i happypack -D`
+11. 使⽤⼯具量化
+    - 11.1 `npm i speed-measure-webpack-plugin -D`:可以测量各个插件和 loader 所花费的时间
+    ```javascript
+    //webpack.config.js
+    const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+    const smp = new SpeedMeasurePlugin();
+    const config = {
+        //...webpack配置
+    }
+    module.exports = smp.wrap(config);
+    ```
+    - 11.2 `npm install webpack-bundle-analyzer -D` 分析webpack打包后的模块依赖关系
+    ```javascript
+    //webpack.config.js
+    const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+    module.exports = {
+        plugins: [
+            new BundleAnalyzerPlugin()
+        ]
+    }
+    ```
 # 原理
-1. 原理简析：实行一个self_require来实现自己的模块化，代码文件以对象传进来，key是路径，value是包裹的代码字符串【用eval执行】，并且代码内部的require，都被替换成了self_require
+1. 原理简析：实现一个self_require来实现自己的模块化，代码文件以对象传进来，key是路径，value是包裹的代码字符串【用eval执行】，并且代码内部的require，都被替换成了self_require
 2. 实现步骤
     - 2.1 模块分析：读取入口文件，分析代码[包括文件名，依赖模块，代码]
         - getAst：借助`npm i @babel/parser -D`得到入口文件的一个抽象语法树

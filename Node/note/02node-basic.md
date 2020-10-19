@@ -9,7 +9,7 @@
 3. fs: `fs.readFile(file, (err, data) => {})`
 4. http: `http.createServer((req, res) => {}).listen(3000)`
 5. stream: 流
-    - 文件流：`fs.createReadStream(file).pile().fs.createWriteStream(file)`
+    - 文件流：`fs.createReadStream(file).pile(fs.createWriteStream(file))`
     - http请求：`fs.createReadStream(req.url).pipe(res)`
     - 压缩
     ```javascript

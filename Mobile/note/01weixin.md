@@ -13,7 +13,7 @@
         timestamp, // 时间戳
         nonce, // 随机数 
         echostr // 随机字符串
-    } = quer
+    } = query
     ```
     - 将 token timestamp nonce 三个参数进行字典序排序并用sha1加密 
     ```javascript

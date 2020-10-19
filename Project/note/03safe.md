@@ -60,7 +60,8 @@
         - 2.4.1 Referer Check：后台通过 Referer Check检查请求的来源网址，如果不是用户的网址，则拒绝。（但是：Https不发送referer）
         ```javascript
         app.use(async (ctx, next) => { 
-            await next() const referer = ctx.request.header.referer 
+            await next() 
+            const referer = ctx.request.header.referer 
             console.log('Referer:', referer) 
         })
         ```
@@ -75,7 +76,7 @@
         <head> 
             <style id="click-jack"> 
             html { display: none !important; } 
-        </style> 
+            </style> 
         </head> 
         <body> 
             <script>

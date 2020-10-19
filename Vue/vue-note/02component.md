@@ -37,7 +37,7 @@
             - render：虚拟DOM的实现
             - h：createElement别名，返回虚拟DOM[VNode]
             - { props }： 传递给Component的参数
-            - $mount()： 把上面生成的VNode转化成真是DOM，并挂载到目标节点上，若不指定选择器，会执行转化过程，只是不挂载
+            - $mount()： 把上面生成的VNode转化成真实DOM，并挂载到目标节点上，若不指定选择器，会执行转化过程，只是不挂载
         - document.body.appendChild(vm.$el)： 手动挂载
             - vm.$el：真实dom
         - comp.remove：回收，销毁组件

@@ -226,10 +226,12 @@ module.exports = {
         splitChunks: {
             chunks: 'all', //默认是支持异步
             cacheGroups: {
+                // react和|react-dom 单独打包出一个包
                 react: {
                     test: /react|react-dom/,
                     name: 'react',
                 },
+                // lodash 单独打包出一个包
                 loadash: {
                     test: /lodash/,
                     name: 'lodash'

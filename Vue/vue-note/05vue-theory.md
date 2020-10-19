@@ -72,6 +72,10 @@
         - .github: 项目相关的说明文档
         - benchmarks: 基准,性能测试文件，Vue的跑分demo，比如大数据量的table或者渲染大量SVG
         - dist: 构建后输出的不同版本的Vue（UMD, CommonJS, ES 生产和开发包）
+            - runtime：仅包含运行时，不包含编译器
+            - common：cjs规范，用于webpack1
+            - esm：ES模块，用于webpack2+
+            - browser：直接用于浏览器
         - example: 用Vue写的一些Demo
         - flow: Vue使用Flow进行进行静态类型检查，这个flow文件夹是静态类型检查类型声明文件
         - script: 项目配置文件，结合webpack, rollup进行编译、测试、构建等操作
@@ -86,7 +90,7 @@
             - core: Vue核心代码，包括内置组件，全局API封装，Vue实例化，观察者，虚拟DOM...
                 - components: 组件相关属性, 主要是keep-alive
                 - global-api: 全局API，如Vue.use, Vue.extend, Vue.mixin...
-                - instance: Vue实例化相关的内容，如state, 生命周期，事件...
+                - instance: Vue构造函数，以及Vue实例化相关的内容，如state, 生命周期，事件...
                 - observer: 响应式，双向数据绑定
                 - util: 工具方法
                 - vdom：虚拟DOM的创建和打补丁
@@ -197,7 +201,7 @@
         * vm.$children: 当前实例的直接子组件
         * vm.$refs: 一个对象，持有注册过 ref attribute 的所有 DOM 元素和组件实例
         */ 
-        initLifecycle(vm) //$parent,$root,$children,$refs
+        initLifecycle(vm) //定义$parent,$root,$children,$refs
         initEvents(vm) // 处理父组件传递的监听器
         /**
         * vm.$slot: 访问被插槽分发的内容

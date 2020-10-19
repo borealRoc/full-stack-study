@@ -57,7 +57,7 @@ class MyVueRouter {
                 // h()写法
                 return h('a', { attrs: { href: '#' + this.to } }, this.$slots.default)
                 // JSX写法
-                // return <a href={this.to}>{this.$slots.default}</a>
+                // return <a href={"#" + this.to}>{this.$slots.default}</a>
             }
         })
         // hash改变 -> 通过onHashChange监听，从而赋值current -> current通过Vue具有响应性，它的变化会使得[my-router-view]重新执行render
