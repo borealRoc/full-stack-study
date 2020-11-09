@@ -1,2 +1,2 @@
-# full-stack-study
+# 全栈修炼
 
