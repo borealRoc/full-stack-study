@@ -92,7 +92,7 @@
         - Component不会比较当前和下个状态的props和state。因此，每当shouldComponentUpdate被调用时，组件默认的会重新渲染。优化 ——
         - shouldComponentUpdate判断是否更新：`shouldComponentUpdate(nextProps, nextState) { return !(nextProps === this.props && nextState === this.state)}`
         - 缺点：麻烦
-    - 7.2 PureComponent[V15.3~]
+    - 7.2   [V15.3~]
         - 当props或者state改变时，PureComponent将对props和state进行浅比较，如果一样，则shouldComponentUpdate返回false
         - 缺点：有使用限制
             - 确保数据类型是值类型

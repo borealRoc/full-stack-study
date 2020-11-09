@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Vue源码剖析</title>
+    <script src="../../dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="demo">
+        <h1>Vue组件化机制</h1>
+        <comp></comp>
+    </div>
+    <script>
+        Vue.component('comp', {
+            template: '<div>I am comp</div>'
+        })
+        // 创建实例
+        const app = new Vue({
+            el: '#demo'
+        });
+        // 观察自定义组件编译结果
+        console.log(app.$options.render);
+        
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Vue源码剖析</title>
+    <script src="../../dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="demo">
+        <h1>Vue<span>模板编译</span></h1>
+        <!-- 观察v-if、v-for的解析 -->
+        <p v-if="foo">{{foo}}</p>
+        <!-- 情况1：arr可能不需要渲染 -->
+        <!-- 情况2：选项中有影响显示的属性，建议做一个计算属性，过滤掉哪些不显示的 -->
+        <b v-for="s in arr" :key="s">{{s}}</b>
+        
+        <comp></comp>
+    </div>
+    <script>
+        Vue.component('comp', {
+            template: '<div>I am comp</div>'
+        })
+        // 创建实例
+        const app = new Vue({
+            el: '#demo',
+            data: { foo: 'foo', arr: [1, 2] },
+        });
+        // 输出render函数
+        console.log(app.$options.render);
+    </script>
+</body>
+
+</html>

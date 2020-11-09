@@ -59,15 +59,20 @@ const MyFormCreate = Comp => {
             // 返回单项校验所有rule校验后的结果
             return result
         }
-
         // 全部校验
-        validate = cb => {
+        validateFields = cb => {
             const results = Object.keys(this.options).map(field => this.validateFiled(field))
             // 如果所有表单校验通过，校验的结果才是成功
             const ret = results.every(r => r === true)
             cb(ret, this.state)
         }
 
+        myGetFieldsValue = () => {
+            return { ...this.state }
+        }
+        myGetFieldValue = field => {
+            return this.state[field]
+        }
         myGetFieldDecorator = (field, option, { label }) => {
             //保存当前输入项配置
             this.options[field] = option
@@ -93,7 +98,11 @@ const MyFormCreate = Comp => {
         }
 
         render() {
-            return <Comp myGetFieldDecorator={this.myGetFieldDecorator} validate={this.validate} />
+            return <Comp
+                myGetFieldDecorator={this.myGetFieldDecorator} 
+                myGetFieldsValue = {this.myGetFieldsValue}
+                myGetFieldValue = {this.myGetFieldValue}
+                validateFields={this.validateFields} />
         }
     }
 }
@@ -103,7 +112,7 @@ class MyAntdForm extends Component {
 
     onSubmit() {
         console.log('submit')
-        this.props.validate((isValid, data) => {
+        this.props.validateFields((isValid, data) => {
             if (isValid) {
                 console.log('登录成功', data)
                 // 后续登录逻辑
@@ -121,7 +130,7 @@ class MyAntdForm extends Component {
                     myGetFieldDecorator('user', { rules: [nameRule] }, { label: '姓名' })(<Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />)
                 }
                 {
-                    myGetFieldDecorator('pass', { rules: [passwordRule] }, { label: '密码' })(<Input type="password" prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password"/>)
+                    myGetFieldDecorator('pass', { rules: [passwordRule] }, { label: '密码' })(<Input type="password" prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password" />)
                 }
                 <Button onClick={() => this.onSubmit()}>提交</Button>
             </div>

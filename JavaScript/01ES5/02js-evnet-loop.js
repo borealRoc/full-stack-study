@@ -52,3 +52,31 @@ setTimeout(function() {
     })
 })
 // 在Node环境下，依次输出 1，7，6，8，2，4，3，5，9，11，10，12
+
+console.log('1');
+setTimeout(function() {
+    console.log('2');
+    new Promise(function(resolve) {
+        console.log('4');
+        resolve();
+    }).then(function() {
+        console.log('5')
+    })
+})
+new Promise(function(resolve) {
+    console.log('7');
+    resolve();
+}).then(function() {
+    console.log('8')
+})
+console.log(14)
+setTimeout(function() {
+    console.log('9');
+    new Promise(function(resolve) {
+        console.log('11');
+        resolve();
+    }).then(function() {
+        console.log('12')
+    })
+})
+// 浏览器环境下，依次输出 1, 7, 14, 8, 2, 4, 5, 9, 11, 12

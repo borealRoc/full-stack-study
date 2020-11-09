@@ -1,4 +1,5 @@
 import React, { Component, useContext } from 'react'
+// history来自react-router-dom
 import { createBrowserHistory } from "history"
 import matchPath from "./matchPath"
 
@@ -51,13 +52,32 @@ export function MyRoute(props) {
     // const { path, component: comp } = props
     // const matchCurrent = path === location.pathname
     // 路由匹配：借用matchPath进行路由匹配
-    const { component: comp } = props
+    const { component: comp, children, render } = props
+    // matchPath来自react-router-dom
     const match = matchPath(location.pathname, props)
     const matchCurrent = match && match.isExact
-    const compProps = { ...ctx, match }
+    // children, component, render 能接收到(history, location match)
+    const compProps = { ...ctx, match, location }
     return (
         <>
-            {matchCurrent && comp ? React.createElement(comp, compProps) : null}
+            {/* {matchCurrent && comp ? React.createElement(comp, compProps) : null} */}
+            {/* matchCurrent 渲染children, component, render 或者null */}
+            {/* 不matchCurrent children 或者 null */}
+            {
+                matchCurrent ?
+                    children ?
+                        typeof children === 'function' ?
+                            children(compProps)
+                            : children
+                        : comp ?
+                            React.createElement(comp, compProps)
+                            : render ?
+                                render(compProps)
+                                : null
+                    : typeof children === 'function' ?
+                        children(compProps)
+                        : null
+            }
         </>
     )
 }

@@ -33,7 +33,9 @@ module.exports = {
         path: "/foo",
         component: resolve(__dirname, "pages/admin.vue")
       });
-    }
+    },
+    // 全局配置
+    // middleware: ['auth']
   },
   /*
   ** Plugins to load before mounting the App
