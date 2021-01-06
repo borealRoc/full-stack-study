@@ -11,7 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "@umijs/preset-react": "^1.5.19",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "mockjs": "^1.1.0",
     "umi": "^3.2.10"
   },
