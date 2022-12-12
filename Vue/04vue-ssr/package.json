@@ -19,7 +19,7 @@
     "@vue/cli-plugin-vuex": "^4.3.0",
     "@vue/cli-service": "^4.3.0",
     "cross-env": "^7.0.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "lodash.merge": "^4.6.2",
     "vue-server-renderer": "^2.6.11",
     "vue-template-compiler": "^2.6.11",
